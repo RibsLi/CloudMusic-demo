@@ -1,15 +1,15 @@
 <template>
-<tab-bar></tab-bar>
+<main-tab-bar></main-tab-bar>
+<router-view></router-view>
 </template>
 
 <script>
-import TabBar from 'components/tabbar/TabBar'
-
+import MainTabBar from 'components/tabbar/MainTabBar'
 
 export default {
   name: "App",
   components: {
-    TabBar
+    MainTabBar
   }
 }
 </script>
