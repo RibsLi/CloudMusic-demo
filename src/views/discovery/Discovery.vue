@@ -1,0 +1,13 @@
+<template>
+  <div>我是发现音乐</div>
+</template>
+
+<script>
+export default {
+  name: "Discovery"
+}
+</script>
+
+<style scoped>
+
+</style>
