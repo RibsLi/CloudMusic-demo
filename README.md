@@ -1,4 +1,4 @@
-# cloudmusic-2
+# cloudmusic
 
 ## Project setup
 ```
