@@ -1,5 +1,5 @@
 <template>
-  <div>我是发现音乐</div>
+  <div class="discovery">我是发现音乐</div>
 </template>
 
 <script>
@@ -9,5 +9,7 @@ export default {
 </script>
 
 <style scoped>
-
+.discovery {
+  
+}
 </style>

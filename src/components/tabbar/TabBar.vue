@@ -1,7 +1,7 @@
 <template>
-<div class="tab-bar">
-  <slot></slot>
-</div>
+  <div class="tab-bar">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
@@ -17,7 +17,7 @@ export default {
   flex-direction: column;
   background-color: #f9f9f9;
   position: fixed;
-  top: 50px;
+  top: 52px;
   left: 0;
   bottom: 0;
   box-shadow: 1px 0 1px rgba(100, 100, 100, .1);

@@ -1,8 +1,6 @@
 <template>
-  <div class="tab-bar-item" @click="itemClick">
-    <div :class="{active: isActive}">
-      <slot name="item-text"></slot>
-    </div>
+  <div class="tab-bar-item" :class="{active: isActive}" @click="itemClick">
+    <slot name="item-text"></slot>
   </div>
 </template>
 
@@ -35,7 +33,7 @@ export default {
   /* flex: 1; */
   height: 60px;
   line-height: 60px;
-  /* padding: 0 20px; */
+  padding: 0 20px;
   text-align: center;
   font-size: 14px;
   cursor:pointer

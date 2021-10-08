@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 
 const Discovery = () => import('views/discovery/Discovery')
-const PlayLists = () => import('views/playlists/PlayLists')
+const PlayList = () => import('views/playList/PlayList')
 const Songs = () => import('views/songs/Songs')
 const MVS = () => import('views/mvs/MVS')
 
@@ -16,8 +16,8 @@ const routes = [
     component: Discovery
   },
   {
-    path: '/playlists',
-    component: PlayLists
+    path: '/playList',
+    component: PlayList
   },
   {
     path:'/songs',

@@ -1,20 +1,26 @@
 <template>
-<main-tab-bar></main-tab-bar>
-<router-view></router-view>
+  <top-bar></top-bar>
+  <main-tab-bar></main-tab-bar>
+  <router-view class="router-view"></router-view>
 </template>
 
 <script>
-import MainTabBar from 'components/tabbar/MainTabBar'
+import TopBar from 'components/topBar/TopBar'
+import MainTabBar from 'components/tabBar/MainTabBar'
 
 export default {
   name: "App",
   components: {
+    TopBar,
     MainTabBar
   }
 }
 </script>
-<style>
-@import "./assets/css/base.css";
 
+<style>
+.router-view {
+  position: relative;
+  left: 201px;
+}
 
 </style>
