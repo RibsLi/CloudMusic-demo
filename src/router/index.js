@@ -2,9 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 
 const Discovery = () => import('views/discovery/Discovery')
-const PlayList = () => import('views/playList/PlayList')
+const Recommend = () => import('views/recommend/Recommend')
 const Songs = () => import('views/songs/Songs')
 const MVS = () => import('views/mvs/MVS')
+const Leaderboard = () => import('views/leaderboard/Leaderboard')
+const Singer = () => import('views/singer/Singer')
+const MySongs = () => import('views/mySongs/MySongs')
+const MyCollect = () => import('views/myCollect/MyCollect')
 
 const routes = [
   {
@@ -16,8 +20,8 @@ const routes = [
     component: Discovery
   },
   {
-    path: '/playList',
-    component: PlayList
+    path: '/recommend',
+    component: Recommend
   },
   {
     path:'/songs',
@@ -26,6 +30,22 @@ const routes = [
   {
     path: '/mvs',
     component: MVS
+  },
+  {
+    path: '/leaderboard',
+    component: Leaderboard
+  },
+  {
+    path: '/singer',
+    component: Singer
+  },
+  {
+    path: '/mySongs',
+    component: MySongs
+  },
+  {
+    path: '/myCollect',
+    component: MyCollect
   }
 ]
 

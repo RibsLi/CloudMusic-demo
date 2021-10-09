@@ -37,14 +37,17 @@ export default {
 
 <style scoped>
 .top-bar {
+  z-index: 99;
+  position: fixed;
   display: flex;
   height: 50px;
   width: 100%;
   box-shadow: 0 1px 2px #ff0000;
-  /* background-color: blue; */
+  background-color: #f9f9f9;
 }
 .top-bar .logo {
   margin: auto 20px;
+  cursor:pointer;
 }
 .box-icon {
   margin: auto 0;
@@ -56,6 +59,7 @@ export default {
   background-color: #242424;
   margin: auto 10px;
   border-radius: 50%;
+  cursor:pointer;
 }
 .top-icon:hover {
   background-color: #ff0000;

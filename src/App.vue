@@ -19,8 +19,9 @@ export default {
 
 <style>
 .router-view {
-  position: relative;
+  position: absolute;
   left: 201px;
+  top: 52px;
 }
 
 </style>

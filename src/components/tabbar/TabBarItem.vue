@@ -39,11 +39,12 @@ export default {
   cursor:pointer
 }
 .tab-bar-item:hover {
-  background-color: #ecf5ff;
-  color: red;
+  background-color: #d6e8fc;
+  color: #ff0000;
 }
 .active {
-  color: red;
+  color: #ff0000;
   background-color: #ecf5ff;
+  border-left: 2px solid #ff0000;
 }
 </style>
