@@ -18,10 +18,10 @@ export default {
 </script>
 
 <style>
-.router-view {
+/* .router-view {
   position: absolute;
   left: 201px;
   top: 52px;
-}
+} */
 
 </style>

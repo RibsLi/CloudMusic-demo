@@ -1,6 +1,6 @@
 <template>
   <div class="discovery">
-    <banner :banners="banners"/>
+    <!-- <banner :banners="banners"/> -->
   </div>
 </template>
 
@@ -30,6 +30,9 @@ export default {
 
 <style scoped>
 .discovery {
-  
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  padding-left: 200px;
 }
 </style>
