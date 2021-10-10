@@ -1,6 +1,6 @@
 <template>
   <div class="discovery">
-    <!-- <banner :banners="banners"/> -->
+    <banner :banners="banners"/>
   </div>
 </template>
 

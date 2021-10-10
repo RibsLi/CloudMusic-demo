@@ -60,11 +60,11 @@ export default {
     next() {
       this.currentIndex == this.listLength ? (this.currentIndex = 0) : this.currentIndex++
     },
-    // setAutoPlay() {
-    //   this.timer = setInterval(() => {
-    //     this.next()
-    //   }, 3000)
-    // },
+    setAutoPlay() {
+      this.timer = setInterval(() => {
+        this.next()
+      }, 3000)
+    },
     stopAutoPlay() {
       clearInterval(this.timer)
     },
@@ -81,9 +81,9 @@ export default {
       }
     }
   },
-  // mounted() {
-  //   this.setAutoPlay()
-  // }
+  mounted() {
+    this.setAutoPlay()
+  }
 }
 </script>
 
