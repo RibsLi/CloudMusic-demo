@@ -11,7 +11,7 @@ export function request(config) {
     // console.log(config);
     return config
   },err => {
-    // console.log(err);
+    console.log(err);
   });
 
   //响应拦截
@@ -19,7 +19,7 @@ export function request(config) {
     // console.log(res);
     return res
   },err => {
-    // console.log(err);
+    console.log(err);
   });
 
   return instanca(config)

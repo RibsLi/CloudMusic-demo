@@ -6,3 +6,12 @@ export function getBanners() {
     url: '/banner'
   })
 }
+// 推荐歌单
+export function getRecommend(limit) {
+  return request({
+    url: "/personalized",
+    params: {
+      limit
+    }
+  })
+}

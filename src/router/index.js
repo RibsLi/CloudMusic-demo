@@ -1,57 +1,40 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from "vue-router";
 
-
-const Discovery = () => import('views/discovery/Discovery')
-const Recommend = () => import('views/recommend/Recommend')
-const Songs = () => import('views/songs/Songs')
-const MVS = () => import('views/mvs/MVS')
-const Leaderboard = () => import('views/leaderboard/Leaderboard')
-const Singer = () => import('views/singer/Singer')
-const MySongs = () => import('views/mySongs/MySongs')
-const MyCollect = () => import('views/myCollect/MyCollect')
+const Home = () => import("components/home/Home");
+const Discovery = () => import("views/discovery/Discovery");
+const Recommend = () => import("views/recommend/Recommend");
+const Songs = () => import("views/songs/Songs");
+const MVS = () => import("views/mvs/MVS");
+const Leaderboard = () => import("views/leaderboard/Leaderboard");
+const Singer = () => import("views/singer/Singer");
+const MySongs = () => import("views/mySongs/MySongs");
+const MyCollect = () => import("views/myCollect/MyCollect");
 
 const routes = [
   {
-    path: '',
-    redirect: '/discovery'
+    path: "",
+    redirect: '/home'
   },
   {
-    path: '/discovery',
-    component: Discovery
+    path: "/home",
+    component: Home,
+    children: [
+      { path: "", redirect: "/discovery" },
+      { path: "/discovery", component: Discovery },
+      { path: "/recommend", component: Recommend },
+      { path: "/songs", component: Songs },
+      { path: "/mvs", component: MVS },
+      { path: "/leaderboard", component: Leaderboard },
+      { path: "/singer", component: Singer },
+      { path: "/mySongs", component: MySongs },
+      { path: "/myCollect", component: MyCollect },
+    ],
   },
-  {
-    path: '/recommend',
-    component: Recommend
-  },
-  {
-    path:'/songs',
-    component: Songs
-  },
-  {
-    path: '/mvs',
-    component: MVS
-  },
-  {
-    path: '/leaderboard',
-    component: Leaderboard
-  },
-  {
-    path: '/singer',
-    component: Singer
-  },
-  {
-    path: '/mySongs',
-    component: MySongs
-  },
-  {
-    path: '/myCollect',
-    component: MyCollect
-  }
-]
+];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  history: createWebHashHistory(),
+  routes,
+});
 
-export default router
+export default router;
