@@ -2,28 +2,26 @@
   <div class="discovery">
     <banners :banners="banners"/>
     <recommend :recommends="recommends" />
-    <ul>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li>6</li>
-      <li>7</li>
-      <li>8</li>
-      <li>9</li>
-      <li>10</li>
-      <li>11</li>
-      <li>12</li>
-      <li>13</li>
-      <li>14</li>
-      <li>15</li>
-      <li>16</li>
-      <li>17</li>
-      <li>18</li>
-      <li>19</li>
-      <li>20</li>
-    </ul>
+    <aplayer/>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>10</div>
+
   </div>
 </template>
 
@@ -31,6 +29,7 @@
 import { getBanners, getRecommend } from "network/discovery";
 import Banners from "./children/Banners"
 import Recommend from "./children/Recommend";
+import Aplayer from 'components/aplayer/Aplayer.vue';
 
 export default {
   name: "Discovery",
@@ -43,14 +42,17 @@ export default {
   components: {
     Banners,
     Recommend,
+    Aplayer,
   },
   created() {
+    // 请求轮播数据
     getBanners().then((res) => {
       // console.log(res);
       this.banners = res.data.banners;
     });
+    // 请求推荐歌单
     getRecommend("16").then((res) => {
-      console.log(res);
+      // console.log(res);
       this.recommends = res.data.result;
     });
   },

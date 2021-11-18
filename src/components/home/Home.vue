@@ -174,7 +174,7 @@ export default {
   margin-right: 5px;
 }
 .el-main {
-  min-width: 1132px;
-  max-width: 1770px;
+  min-width: 890px;
+  max-width: 1856px;
 }
 </style>

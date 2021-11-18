@@ -9,6 +9,7 @@ const Leaderboard = () => import("views/leaderboard/Leaderboard");
 const Singer = () => import("views/singer/Singer");
 const MySongs = () => import("views/mySongs/MySongs");
 const MyCollect = () => import("views/myCollect/MyCollect");
+const Detail = () => import("components/detail/Detail")
 
 const routes = [
   {
@@ -28,6 +29,7 @@ const routes = [
       { path: "/singer", component: Singer },
       { path: "/mySongs", component: MySongs },
       { path: "/myCollect", component: MyCollect },
+      { path: "/detail", component: Detail },
     ],
   },
 ];
