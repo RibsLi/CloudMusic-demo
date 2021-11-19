@@ -8,6 +8,7 @@ import 'element-plus/dist/index.css'
 
 
 import "./assets/css/main.css";
+import "./assets/css/fonts/iconfont"
 
 
 

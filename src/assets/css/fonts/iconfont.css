@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1636975683654') format('truetype');
+  src: url('iconfont.ttf?t=1637246596399') format('truetype');
 }
 
 .iconfont {
@@ -253,6 +253,14 @@
 
 .icon-paixingbang:before {
   content: "\e64b";
+}
+
+.icon-xingbienv:before {
+  content: "\e605";
+}
+
+.icon-xingbienan:before {
+  content: "\e619";
 }
 
 .icon-geshou:before {

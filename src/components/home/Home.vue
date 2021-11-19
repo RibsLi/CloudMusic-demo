@@ -32,9 +32,16 @@
     <el-container>
       <el-aside :width="isToggle ? '64px' : '150px'">
         <div class="toggle" @click="toggleClick">
-          <i class="el-icon-arrow-left"></i>
-          <i class="el-icon-arrow-left"></i>
-          <i class="el-icon-arrow-left"></i>
+          <div v-show="!isToggle" class="is-toggle">
+            <i class="el-icon-arrow-left"></i>
+            <i class="el-icon-arrow-left"></i>
+            <i class="el-icon-arrow-left"></i>
+          </div>
+          <div v-show="isToggle" class="no-toggle">
+            <i class="el-icon-arrow-right"></i>
+            <i class="el-icon-arrow-right"></i>
+            <i class="el-icon-arrow-right"></i>
+          </div>
         </div>
         <el-menu
           active-text-color="#fff"
@@ -130,7 +137,7 @@ export default {
   align-items: center;
   height: 60px;
   width: 100%;
-  box-shadow: 0 1px 2px #ff0000;
+  box-shadow: 0 2px 2px #ff0000;
   background-color: #242424;
   .logo {
     margin: 0 22px;
@@ -155,7 +162,7 @@ export default {
   background-color: #3a3d44;
   .toggle {
     background-color: #67676b;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 30px;
     color: #fff;
     text-align: center;
@@ -176,5 +183,31 @@ export default {
 .el-main {
   min-width: 890px;
   max-width: 1856px;
+}
+.is-toggle i:nth-child(1) {
+  animation: animat 1s linear 0.3s infinite;
+}
+.is-toggle i:nth-child(2) {
+  animation: animat 1s linear 0.2s infinite;
+}
+.is-toggle i:nth-child(3) {
+  animation: animat 1s linear 0.1s infinite;
+}
+@keyframes animat {
+  0% {
+    color: #000;
+  }
+  100% {
+    color: #fff;
+  }
+}
+.no-toggle i:nth-child(1) {
+  animation: animat 1s linear 0.1s infinite;
+}
+.no-toggle i:nth-child(2) {
+  animation: animat 1s linear 0.2s infinite;
+}
+.no-toggle i:nth-child(3) {
+  animation: animat 1s linear 0.3s infinite;
 }
 </style>

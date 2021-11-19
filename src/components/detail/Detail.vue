@@ -1,112 +1,108 @@
 <template>
   <div class="detail">
-    <div class="detail-top">
-      <div><img :src="playlist.coverImgUrl" alt="" /></div>
-      <div class="detail-info">
-        <h3>{{ playlist.name }}</h3>
-        <div class="detail-time">
-          <img :src="creator.avatarUrl" alt="" />
-          <span class="user">{{ creator.nickname }}</span>
-          <span>{{ dateInfo(playlist.createTime) }} 创建</span>
-        </div>
-        <div class="btn-box">
-          <el-button-group>
-            <el-button
-              type="primary"
-              round
-              size="small"
-              icon="el-icon-video-play"
-              >播放全部</el-button
-            >
-            <el-button
-              type="primary"
-              round
-              size="small"
-              icon="el-icon-plus"
-            ></el-button>
-          </el-button-group>
-          <el-button round size="small" icon="el-icon-folder-add"
-            >收藏</el-button
-          >
-          <el-button round size="small" icon="el-icon-share">分享</el-button>
-          <el-button round size="small" icon="el-icon-download"
-            >下载全部</el-button
-          >
-        </div>
-        <div class="tag">
-          <div>
-            标签 ：
-            <span v-for="item in playlist.tags" :key="item">{{ item }} / </span>
-          </div>
-          <div>
-            <span class="song-count">歌曲 ：{{ playlist.trackCount }}</span>
-            <span>播放 ：{{ (playlist.playCount / 10000).toFixed() }}万</span>
-          </div>
-          <div>简介 ：{{playlist.description}}</div>
-        </div>
-      </div>
-    </div>
-
+    <!-- 详情头部 -->
+    <detail-header :playlist="playlist" :creator="creator" />
+    <!-- tabs标签页 -->
     <el-tabs v-model="activeName" @tab-click="tabClick">
-      <el-tab-pane label="歌曲列表" name="list">
-        <el-table
-          :data="tableData"
-          stripe
-          highlight-current-row
-          @row-dblclick="playMusic"
-          style="width: 100%"
-        >
-          <el-table-column
-            type="index"
-            label=" "
-            header-align="center"
-            align="center"
-          />
-          <el-table-column prop="" label="操作" width="70">
-            <i class="iconfont icon-shoucang"></i>
-            <i class="iconfont icon-xiazai"></i>
-          </el-table-column>
-          <el-table-column prop="name" label="标题" sortable />
-          <el-table-column prop="ar" label="歌手" sortable>
-            <template v-slot:default="scope">
-              <span v-for="item in scope.row.ar" :key="item">{{
-                item.name
-              }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="al.name" label="专辑" sortable />
-          <el-table-column prop="dt" label="时间" sortable width="100">
-            <template v-slot:default="scope">
-              {{ playTime(scope.row.dt) }}
-            </template>
-          </el-table-column>
-        </el-table>
+      <!-- 歌单列表 -->
+      <el-tab-pane :label="'歌曲列表' + '('+ tableData.length + ')'" name="list">
+        <table-data :tableData="tableData" />
       </el-tab-pane>
-      <el-tab-pane label="评论" name="comment">评论</el-tab-pane>
-      <el-tab-pane label="收藏者" name="collector">收藏者</el-tab-pane>
+      <!-- 评论 -->
+      <!-- <el-tab-pane :label="'评论 ' + '('+ comTotal + ')'" name="comment"> -->
+      <el-tab-pane label="评论" name="comment">
+        <!-- 输入框 -->
+        <el-input
+          maxlength="140"
+          show-word-limit
+          resize="none"
+          v-model="textarea"
+          :autosize="{ minRows: 3, maxRows: 3 }"
+          type="textarea"
+          placeholder="请输入内容"
+        />
+        <el-button round size="mini">评论</el-button>
+        <div class="clearfix"></div>
+        <!-- 精彩评论 -->
+        <comment :comments="hotComments" :title="hotComments.length ? '精彩评论 ' + '(' + hotComments.length + ')' : ''" v-show="comment.offset == 0" />
+        <!-- <comment :comments="hotComments" :title="hotComments.length ? '精彩评论' : ''" v-show="comment.offset == 0" /> -->
+        <!-- 最新评论 -->
+        <comment :comments="comments" :title="comments.length ? '最新评论 ' + '('+ comTotal + ')' : ''" />
+        <!-- <comment :comments="comments" title="最新评论" /> -->
+        <el-pagination
+          background
+          hide-on-single-page
+          :page-size="comment.limit"
+          layout="prev, pager, next"
+          :total="comTotal"
+          @current-change="comCurrentChange"
+        ></el-pagination>
+      </el-tab-pane>
+      <!-- 收藏 -->
+      <!-- <el-tab-pane :label="'收藏者 ' + '('+ subTotal + ')'" name="collector"> -->
+      <el-tab-pane label="收藏者" name="collector">
+        <collect :subscribers="subscribers" />
+        <el-pagination
+          background
+          hide-on-single-page
+          :page-size="comment.limit"
+          layout="prev, pager, next"
+          :total="subTotal"
+          @current-change="subCurrentChange"
+        ></el-pagination>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import { getPlaylistDetail, getSongDetail } from "network/detail";
-import { formatDate, formatDuration } from "common/utils";
+import {
+  getPlaylistDetail,
+  getSongDetail,
+  getComment,
+  getHotComment,
+  getSubscribers,
+} from "network/detail";
+import DetailHeader from "./childComps/DetailHeader";
+import TableData from "./childComps/TableData";
+import Comment from "./childComps/Comment";
+import Collect from "./childComps/Collect";
 
 export default {
   name: "Detail",
   data() {
     return {
+      textarea: "",
       id: "",
       playlist: {},
       creator: {},
-      trackIds: [],
       activeName: "list",
+      trackIds: [],
       tableData: [],
+      comment: {
+        id: this.$route.query.id,
+        type: 2,
+        limit: 20,
+        offset: 0,
+        parentCommentId: ''
+      },
+      comments: [],
+      hotComments: [],
+      subscribers: [],
+      comTotal: 0,
+      subTotal: 0,
     };
+  },
+  components: {
+    DetailHeader,
+    TableData,
+    Comment,
+    Collect,
   },
   created() {
     this.id = this.$route.query.id;
     this.getPlaylistDetail();
+    this.getHotComment();
   },
   methods: {
     // 获取歌单详情
@@ -121,73 +117,69 @@ export default {
           trackIds.push(item.id);
         });
         getSongDetail(trackIds).then((res) => {
-          console.log(res);
+          // console.log(res);
           this.tableData = res.data.songs;
         });
       });
     },
-    // 日期处理函数
-    dateInfo(date) {
-      const data = new Date(date);
-      return formatDate(data, "yyyy-MM-dd");
+    // 获取热门评论
+    getHotComment() {
+      getHotComment(this.comment).then((res) => {
+        // console.log(res);
+        this.hotComments = res.data.hotComments;
+      });
     },
-    // 歌曲时长处理函数
-    playTime(dt) {
-      return formatDuration(dt);
+    // 获取最新评论
+    getComment() {
+      getComment(this.comment).then((res) => {
+        // console.log(res);
+        this.comments = res.data.comments;
+        this.comTotal = res.data.total;
+      });
     },
-    // 获取单首音乐
-    playMusic() {
-      console.log('---');
+    // 获取收藏
+    getSubscribers() {
+      getSubscribers(this.comment).then((res) => {
+        // console.log(res);
+        this.subscribers = res.data.subscribers;
+        this.subTotal = res.data.total;
+      });
     },
-    tabClick() {},
+    // tabs标签点击切换事件
+    tabClick() {
+      if (this.activeName == "comment") {
+        this.getComment();
+      } else if (this.activeName == "collector") {
+        this.getSubscribers();
+      }
+    },
+    // 页码改变时执行的事件
+    comCurrentChange(newPage) {
+      this.comment.offset = (newPage - 1) * this.comment.limit;
+      this.getComment();
+    },
+    subCurrentChange(newPage) {
+      this.comment.offset = (newPage - 1) * this.comment.limit;
+      this.getSubscribers();
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.el-button-group {
-  margin-right: 10px;
+.el-button {
+  float: right;
+  margin: 10px 0;
 }
 .el-tabs {
   margin-top: 15px;
 }
-.iconfont {
-  margin: 0 3px;
-}
-.detail-top {
-  display: flex;
-  height: 200px;
-  overflow: hidden;
-}
-.detail-top img {
-  width: 200px;
-  height: 200px;
-  margin-right: 25px;
-  border-radius: 5px;
-}
-.detail-time {
-  font-size: 13px;
-  img {
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
-    vertical-align: middle;
-    margin: 10px 10px 7px 0;
-  }
-}
-.user {
-  margin-right: 10px;
-  color: #409eff;
-}
-.btn-box {
-  margin: 6px 0;
-}
-.tag {
-  line-height: 25px;
-  font-size: 14px;
-  color: rgb(94, 91, 91);
-  .song-count {
-    margin-right: 10px;
-  }
+.el-pagination {
+  position: relative;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-block;
+  margin-top: 20px;
 }
 </style>
