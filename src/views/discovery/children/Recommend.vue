@@ -3,7 +3,7 @@
     <songs-list>
       <template v-slot:top-left> 推荐歌单 </template>
       <template v-slot:top-more>
-        <el-button type="info" round>
+        <el-button type="info" round @click="moreClic">
           更多
           <i class="el-icon-arrow-right"></i>
         </el-button>
@@ -29,7 +29,11 @@ export default {
     SongsList,
     SongsListItem,
   },
-  methods: {},
+  methods: {
+    moreClic() {
+      this.$router.push('/recommends')
+    }
+  },
   computed: {
     // 播放次数
     playCount() {

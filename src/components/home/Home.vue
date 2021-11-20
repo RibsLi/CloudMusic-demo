@@ -64,7 +64,13 @@
         </el-menu>
       </el-aside>
       <el-main>
-        <router-view />
+        <!-- 暂有个小问题 -->
+        <!-- <router-view v-slot="{ Component }">
+          <keep-alive exclude="Detail">
+            <component :is="Component"></component>
+          </keep-alive>
+        </router-view> -->
+        <router-view/>
       </el-main>
     </el-container>
   </div>
@@ -78,7 +84,7 @@ export default {
       query: "",
       menu: [
         { title: "发现音乐", path: "/discovery" },
-        { title: "推荐歌单", path: "/recommend" },
+        { title: "推荐歌单", path: "/recommends" },
         { title: "最新音乐", path: "/songs" },
         { title: "最新MV", path: "/mvs" },
         { title: "排行榜单", path: "/leaderboard" },

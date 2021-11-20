@@ -32,6 +32,7 @@
         <el-pagination
           background
           hide-on-single-page
+          :current-page="comment.pagenum"
           :page-size="comment.limit"
           layout="prev, pager, next"
           :total="comTotal"
@@ -45,6 +46,7 @@
         <el-pagination
           background
           hide-on-single-page
+          :current-page="comment.pagenum"
           :page-size="comment.limit"
           layout="prev, pager, next"
           :total="subTotal"
@@ -84,7 +86,8 @@ export default {
         type: 2,
         limit: 20,
         offset: 0,
-        parentCommentId: ''
+        parentCommentId: '',
+        pagenum: 1
       },
       comments: [],
       hotComments: [],
@@ -148,17 +151,23 @@ export default {
     // tabs标签点击切换事件
     tabClick() {
       if (this.activeName == "comment") {
+        this.comment.pagenum = 1
+        this.comment.offset = 0
         this.getComment();
       } else if (this.activeName == "collector") {
+        this.comment.pagenum = 1
+        this.comment.offset = 0
         this.getSubscribers();
       }
     },
     // 页码改变时执行的事件
     comCurrentChange(newPage) {
+      this.comment.pagenum = newPage
       this.comment.offset = (newPage - 1) * this.comment.limit;
       this.getComment();
     },
     subCurrentChange(newPage) {
+      this.comment.pagenum = newPage
       this.comment.offset = (newPage - 1) * this.comment.limit;
       this.getSubscribers();
     },
@@ -173,13 +182,5 @@ export default {
 }
 .el-tabs {
   margin-top: 15px;
-}
-.el-pagination {
-  position: relative;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  display: inline-block;
-  margin-top: 20px;
 }
 </style>

@@ -21,7 +21,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 40px;
   line-height: 40px;
 }
 .top-left {

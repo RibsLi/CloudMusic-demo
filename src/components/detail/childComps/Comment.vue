@@ -40,7 +40,7 @@ export default {
     title: {
       type: String,
       default: ''
-    },
+    }
   },
   methods: {
     // 日期处理函数

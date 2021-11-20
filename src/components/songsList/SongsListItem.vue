@@ -1,6 +1,6 @@
 <template>
   <div class="slide-item" @click="itemClick">
-    <img :src="list.picUrl" alt="" />
+    <img :src="list.picUrl || list.coverImgUrl" alt="" />
     <div class="play-count">
       <span class="count">
         <i class="el-icon-headset"></i>
@@ -39,7 +39,7 @@ export default {
 <style lang="less" scoped>
 .slide-item {
   width: 200px;
-  margin: 5px 0;
+  margin: 5px 0 10px;
   position: relative;
 }
 span {
@@ -82,7 +82,8 @@ img {
   color: rgba(255, 255, 255, 0.5);
 }
 .slide-item:hover .play {
-  color: rgba(255, 255, 255, 0.8);
+  // color: rgba(255, 0, 0, 0.8);
+  color: #ff0000;
 }
 .name {
   overflow: hidden;

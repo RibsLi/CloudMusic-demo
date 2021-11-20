@@ -419,6 +419,13 @@
       "unicode_decimal": 58920
     },
     {
+      "icon_id": "215030",
+      "name": "咖啡",
+      "font_class": "kafei",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
       "icon_id": "368730",
       "name": "MV",
       "font_class": "mv",
@@ -443,8 +450,15 @@
       "icon_id": "1221226",
       "name": "性别男",
       "font_class": "xingbienan",
-      "unicode": "e619",
-      "unicode_decimal": 58905
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "1225323",
+      "name": "iconfont-风格",
+      "font_class": "iconfontfengge",
+      "unicode": "e684",
+      "unicode_decimal": 59012
     },
     {
       "icon_id": "2356827",
@@ -452,6 +466,41 @@
       "font_class": "geshou",
       "unicode": "e647",
       "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "7671120",
+      "name": "语种",
+      "font_class": "yuzhong",
+      "unicode": "e6d5",
+      "unicode_decimal": 59093
+    },
+    {
+      "icon_id": "9664477",
+      "name": "主题",
+      "font_class": "zhuti",
+      "unicode": "e525",
+      "unicode_decimal": 58661
+    },
+    {
+      "icon_id": "10123208",
+      "name": "情感分布",
+      "font_class": "qingganfenbu",
+      "unicode": "e6b1",
+      "unicode_decimal": 59057
+    },
+    {
+      "icon_id": "15779677",
+      "name": "皇冠",
+      "font_class": "huangguan",
+      "unicode": "e701",
+      "unicode_decimal": 59137
+    },
+    {
+      "icon_id": "18674078",
+      "name": "钢琴",
+      "font_class": "gangqin",
+      "unicode": "e654",
+      "unicode_decimal": 58964
     }
   ]
 }
