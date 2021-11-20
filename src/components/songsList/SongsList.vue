@@ -17,11 +17,16 @@ export default {
 </script>
 
 <style scoped>
+.slide {
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+}
 .top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   line-height: 40px;
+  margin-top: 10px;
 }
 .top-left {
   font-weight: 600;

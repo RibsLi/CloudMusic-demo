@@ -2,6 +2,8 @@
   <div class="discovery">
     <banners :banners="banners"/>
     <recommend :recommends="recommends" />
+    <personalized :perData="perData"/>
+    <newest :songData="songData"/>
     <aplayer/>
     <div>1</div>
     <div>1</div>
@@ -26,9 +28,11 @@
 </template>
 
 <script>
-import { getBanners, getRecommend } from "network/discovery";
-import Banners from "./children/Banners"
-import Recommend from "./children/Recommend";
+import { getBanners, getRecommend, getPersonalized, getTopSong } from "network/discovery";
+import Banners from "./childComps/Banners"
+import Recommend from "./childComps/Recommend";
+import Personalized from "./childComps/Personalized"
+import Newest from "./childComps/Newest"
 import Aplayer from 'components/aplayer/Aplayer.vue';
 
 export default {
@@ -37,11 +41,22 @@ export default {
     return {
       banners: [],
       recommends: [],
+      perParams: {
+        limit: 4,
+        offset: 0
+      },
+      perData: [],
+      songParams: {
+        type: 7
+      },
+      songData: []
     };
   },
   components: {
     Banners,
     Recommend,
+    Personalized,
+    Newest,
     Aplayer,
   },
   created() {
@@ -55,6 +70,17 @@ export default {
       // console.log(res);
       this.recommends = res.data.result;
     });
+    // 请求独家放送
+    getPersonalized(this.perParams).then(res => {
+      // console.log(res);
+      this.perData = res.data.result
+    });
+    // 请求最新音乐（新歌速递）
+    getTopSong(this.songParams).then(res => {
+      // console.log(res);
+      this.songData = res.data.data
+      this.songData.length = 24
+    })
   },
 };
 </script>

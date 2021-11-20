@@ -4,6 +4,7 @@
     stripe
     highlight-current-row
     @row-dblclick="playMusic"
+    size="mini"
     style="width: 100%"
   >
     <el-table-column

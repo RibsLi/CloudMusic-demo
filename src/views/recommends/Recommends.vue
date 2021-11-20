@@ -194,7 +194,7 @@ export default {
     // 获取歌单分类列表
     getCatlist() {
       getCatlist().then((res) => {
-        console.log(res);
+        // console.log(res);
         this.categories = res.data.categories;
         res.data.sub.forEach((item) => {
           if (item.category === 0) {
@@ -354,4 +354,9 @@ export default {
   // border: 1px solid #eee;
   color: #fff !important;
 }
+.slide {
+  margin-top: 0;
+  border-top: 0;
+}
+
 </style>

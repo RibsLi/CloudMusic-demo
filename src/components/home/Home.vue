@@ -85,7 +85,7 @@ export default {
       menu: [
         { title: "发现音乐", path: "/discovery" },
         { title: "推荐歌单", path: "/recommends" },
-        { title: "最新音乐", path: "/songs" },
+        { title: "最新音乐", path: "/newSongs" },
         { title: "最新MV", path: "/mvs" },
         { title: "排行榜单", path: "/leaderboard" },
         { title: "热门歌手", path: "/singer" },

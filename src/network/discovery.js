@@ -24,3 +24,24 @@ export function getPlaylistDetail(id) {
     }
   })
 }
+//独家放送数据
+export function getPersonalized(params) {
+  return request({
+    url: "/personalized/privatecontent/list",
+    params
+  })
+}
+// 最新音乐
+export function getTopSong(params) {
+  return request({
+    url: "/top/song",
+    params
+  })
+}
+// 新碟上架
+export function getAlbum(params) {
+  return request({
+    url: "/top/album",
+    params
+  })
+}

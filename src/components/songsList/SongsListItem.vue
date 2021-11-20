@@ -1,7 +1,7 @@
 <template>
-  <div class="slide-item" @click="itemClick">
-    <img :src="list.picUrl || list.coverImgUrl" alt="" />
-    <div class="play-count">
+  <div class="slide-item">
+    <img :src="list.picUrl || list.coverImgUrl" alt=""  @click="itemClick" />
+    <div class="play-count" v-if="list.playCount ? true : false">
       <span class="count">
         <i class="el-icon-headset"></i>
         {{ (list.playCount / 10000).toFixed(1) }}万
@@ -25,12 +25,25 @@ export default {
   },
   methods: {
     itemClick() {
-      this.$router.push({
-        path: "/detail",
-        query: {
-          id: this.list.id,
-        },
-      });
+      // 如果type=0前往歌单详情列表
+      // 如果type=5前往视频列表
+      if (this.list.type !== 5) {
+        this.$router.push({
+          path: "/detail",
+          query: {
+            id: this.list.id,
+          },
+        });
+      }
+      // else {
+      //   this.$router.push({
+      //     path: "/exclusive",
+      //     query: {
+      //       id: this.list.id,
+      //     },
+      //   });
+
+      // }
     }
   },
 };

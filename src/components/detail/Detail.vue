@@ -120,7 +120,7 @@ export default {
           trackIds.push(item.id);
         });
         getSongDetail(trackIds).then((res) => {
-          // console.log(res);
+          console.log(res);
           this.tableData = res.data.songs;
         });
       });
