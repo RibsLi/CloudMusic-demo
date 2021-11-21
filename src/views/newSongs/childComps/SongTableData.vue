@@ -5,6 +5,7 @@
     highlight-current-row
     size="mini"
     :show-header="false"
+    empty-text="Loading..."
     style="width: 100%"
   >
     <el-table-column

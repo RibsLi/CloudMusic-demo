@@ -4,13 +4,15 @@ const Home = () => import("components/home/Home");
 const Discovery = () => import("views/discovery/Discovery");
 const Recommends = () => import("views/recommends/Recommends");
 const NewSongs = () => import("views/newSongs/NewSongs");
-const MVS = () => import("views/mvs/MVS");
+const NewMV = () => import("views/newMV/NewMV");
 const Leaderboard = () => import("views/leaderboard/Leaderboard");
 const Singer = () => import("views/singer/Singer");
 const MySongs = () => import("views/mySongs/MySongs");
 const MyCollect = () => import("views/myCollect/MyCollect");
 const Detail = () => import("components/detail/Detail")
 const Exclusive = () => import("views/exclusive/Exclusive")
+const AllMV = () => import("views/allMV/AllMV")
+const TopMV = () => import("views/topMV/TopMV")
 
 
 const routes = [
@@ -26,13 +28,15 @@ const routes = [
       { path: "/discovery", component: Discovery },
       { path: "/recommends", component: Recommends },
       { path: "/newSongs", component: NewSongs },
-      { path: "/mvs", component: MVS },
+      { path: "/newMV", component: NewMV },
       { path: "/leaderboard", component: Leaderboard },
       { path: "/singer", component: Singer },
       { path: "/mySongs", component: MySongs },
       { path: "/myCollect", component: MyCollect },
       { path: "/detail", component: Detail },
       { path: "/exclusive", component: Exclusive },
+      { path: "/allMV", component: AllMV },
+      { path: "/topMV", component: TopMV },
     ],
   },
 ];

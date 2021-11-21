@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     moreClic() {
-
+      this.$router.push('/newSongs')
     }
   },
 }

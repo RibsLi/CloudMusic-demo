@@ -1,14 +1,19 @@
 <template>
   <div class="slide-item">
-    <img :src="list.picUrl || list.coverImgUrl" alt=""  @click="itemClick" />
+    <img :src="list.picUrl || list.coverImgUrl || list.cover" alt=""  @click="itemClick" />
     <div class="play-count" v-if="list.playCount ? true : false">
       <span class="count">
         <i class="el-icon-headset"></i>
-        {{ (list.playCount / 10000).toFixed(1) }}万
+        {{playCount}}
       </span>
     </div>
     <span class="iconfont icon-bofang1 play"></span>
     <div class="name">{{ list.name }}</div>
+    <div class="author">
+      <span v-for="item in list.artists" :key="item">
+        {{ item.name }}
+      </span>
+    </div>
   </div>
 </template>
 
@@ -21,6 +26,13 @@ export default {
       default() {
         return {};
       },
+    },
+  },
+  computed: {
+    playCount() {
+      const count = this.list.playCount;
+      if (count < 10000) return count;
+      return (count / 10000).toFixed(1) + "万";
     },
   },
   methods: {
@@ -104,7 +116,12 @@ img {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 16px;
+}
+.author {
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 5px;
 }
 </style>

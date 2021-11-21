@@ -45,3 +45,9 @@ export function getAlbum(params) {
     params
   })
 }
+// 推荐mv
+export function getRecommendMV() {
+  return request({
+    url: "/personalized/mv"
+  })
+}

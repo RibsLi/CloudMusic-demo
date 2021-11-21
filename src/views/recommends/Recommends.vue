@@ -358,5 +358,4 @@ export default {
   margin-top: 0;
   border-top: 0;
 }
-
 </style>

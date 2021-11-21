@@ -4,6 +4,7 @@
     <recommend :recommends="recommends" />
     <personalized :perData="perData"/>
     <newest :songData="songData"/>
+    <recommend-m-v :recMV="recMV"/>
     <aplayer/>
     <div>1</div>
     <div>1</div>
@@ -28,11 +29,12 @@
 </template>
 
 <script>
-import { getBanners, getRecommend, getPersonalized, getTopSong } from "network/discovery";
+import { getBanners, getRecommend, getPersonalized, getTopSong, getRecommendMV } from "network/discovery";
 import Banners from "./childComps/Banners"
 import Recommend from "./childComps/Recommend";
 import Personalized from "./childComps/Personalized"
 import Newest from "./childComps/Newest"
+import RecommendMV from "./childComps/RecommendMV"
 import Aplayer from 'components/aplayer/Aplayer.vue';
 
 export default {
@@ -49,7 +51,8 @@ export default {
       songParams: {
         type: 7
       },
-      songData: []
+      songData: [],
+      recMV: []
     };
   },
   components: {
@@ -58,6 +61,7 @@ export default {
     Personalized,
     Newest,
     Aplayer,
+    RecommendMV
   },
   created() {
     // 请求轮播数据
@@ -79,7 +83,12 @@ export default {
     getTopSong(this.songParams).then(res => {
       // console.log(res);
       this.songData = res.data.data
-      this.songData.length = 24
+      this.songData.length = 12
+    })
+    // 推荐mv
+    getRecommendMV().then(res => {
+      // console.log(res);
+      this.recMV = res.data.result
     })
   },
 };

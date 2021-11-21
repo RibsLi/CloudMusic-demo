@@ -5,6 +5,7 @@
     highlight-current-row
     @row-dblclick="playMusic"
     size="mini"
+    empty-text="Loading..."
     style="width: 100%"
   >
     <el-table-column

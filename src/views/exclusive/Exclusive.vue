@@ -43,7 +43,7 @@ export default {
   methods: {
     getPersonalized() {
       getPersonalized(this.perParams).then((res) => {
-      console.log(res);
+      // console.log(res);
       this.perData = res.data.result;
       // this.total = res.data
     });
@@ -57,8 +57,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .slide-item {
   width: 415px;
+}
+.slide {
+  margin-top: 0;
+  border-top: 0;
 }
 </style>
