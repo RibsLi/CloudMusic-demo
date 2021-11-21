@@ -6,25 +6,6 @@
     <newest :songData="songData"/>
     <recommend-m-v :recMV="recMV"/>
     <aplayer/>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>10</div>
-
   </div>
 </template>
 

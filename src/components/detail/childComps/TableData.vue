@@ -14,7 +14,7 @@
       header-align="center"
       align="center"
     />
-    <el-table-column prop="" label="操作" width="70">
+    <el-table-column prop="" label="操作" width="80">
       <i class="iconfont icon-shoucang"></i>
       <i class="iconfont icon-xiazai"></i>
     </el-table-column>
@@ -59,5 +59,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.iconfont {
+  margin: 0 5px;
+}
 </style>

@@ -75,6 +75,7 @@ img {
   height: 200px;
   border-radius: 10px;
   margin-bottom: 3px;
+  cursor: pointer;
 }
 .play-count {
   position: absolute;

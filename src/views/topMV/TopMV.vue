@@ -93,6 +93,10 @@ export default {
 .slide-item {
   width: 415px;
 }
+.slide {
+  margin-top: 0;
+  border-top: 0;
+}
 .cate-left {
   display: flex;
   font-size: 14px;
