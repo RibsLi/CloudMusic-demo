@@ -64,14 +64,14 @@ import {
   getComment,
   getHotComment,
   getSubscribers,
-} from "network/detail";
+} from "network/songdetail";
 import DetailHeader from "./childComps/DetailHeader";
 import TableData from "./childComps/TableData";
 import Comment from "./childComps/Comment";
 import Collect from "./childComps/Collect";
 
 export default {
-  name: "Detail",
+  name: "SongDetail",
   data() {
     return {
       textarea: "",

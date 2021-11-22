@@ -90,8 +90,8 @@ export default {
 .create-user {
   font-size: 13px;
   img {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 100%;
     vertical-align: middle;
     margin: 10px 10px 7px 0;

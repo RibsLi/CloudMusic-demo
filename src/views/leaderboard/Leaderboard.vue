@@ -9,7 +9,7 @@
 import Official from "./childComps/Official";
 import Global from "./childComps/Global"
 import { getToplist } from "network/leaderboard";
-import { getPlaylistDetail } from "network/detail";
+import { getPlaylistDetail } from "network/songdetail";
 
 export default {
   name: "Leaderboard",

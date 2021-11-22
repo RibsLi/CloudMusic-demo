@@ -9,10 +9,12 @@ const Leaderboard = () => import("views/leaderboard/Leaderboard");
 const Singer = () => import("views/singer/Singer");
 const MySongs = () => import("views/mySongs/MySongs");
 const MyCollect = () => import("views/myCollect/MyCollect");
-const Detail = () => import("components/detail/Detail")
+const SongDetail = () => import("components/songDetail/SongDetail")
 const Exclusive = () => import("views/exclusive/Exclusive")
 const AllMV = () => import("views/allMV/AllMV")
 const TopMV = () => import("views/topMV/TopMV")
+const SingerDetail = () => import("components/singerDetail/SingerDetail")
+const MVDetail = () => import("components/mvDetail/MVDetail")
 
 
 const routes = [
@@ -33,10 +35,12 @@ const routes = [
       { path: "/singer", component: Singer },
       { path: "/mySongs", component: MySongs },
       { path: "/myCollect", component: MyCollect },
-      { path: "/detail", component: Detail },
+      { path: "/songDetail", component: SongDetail },
       { path: "/exclusive", component: Exclusive },
       { path: "/allMV", component: AllMV },
       { path: "/topMV", component: TopMV },
+      { path: "/singerDetail", component: SingerDetail },
+      { path: "/mvDetail", component: MVDetail },
     ],
   },
 ];

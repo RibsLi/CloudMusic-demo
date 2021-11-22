@@ -1,6 +1,6 @@
 <template>
   <div class="slide-item">
-    <img :src="list.picUrl || list.coverImgUrl || list.cover" alt=""  @click="itemClick" />
+    <img :src="list.img1v1Url || list.picUrl || list.coverImgUrl || list.cover || list.imgurl" alt=""  @click="itemClick" />
     <div class="play-count" v-if="list.playCount ? true : false">
       <span class="count">
         <i class="el-icon-headset"></i>
@@ -39,23 +39,31 @@ export default {
     itemClick() {
       // 如果type=0前往歌单详情列表
       // 如果type=5前往视频列表
-      if (this.list.type !== 5) {
+      // console.log(this.list);
+      if (this.list.type == 5 || this.list.mark == 0 || this.list.subed == false) {
         this.$router.push({
-          path: "/detail",
+          path: "/mvDetail",
           query: {
             id: this.list.id,
           },
         });
       }
-      // else {
-      //   this.$router.push({
-      //     path: "/exclusive",
-      //     query: {
-      //       id: this.list.id,
-      //     },
-      //   });
-
-      // }
+      else if(this.list.albumSize) {
+        this.$router.push({
+          path: "/singerDetail",
+          query: {
+            id: this.list.id,
+          },
+        });
+      }
+      else {
+        this.$router.push({
+          path: "/songDetail",
+          query: {
+            id: this.list.id,
+          },
+        });
+      }
     }
   },
 };

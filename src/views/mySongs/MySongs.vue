@@ -1,5 +1,5 @@
 <template>
-  <div>我的收藏</div>
+  <div>我的歌单</div>
 </template>
 
 <script>

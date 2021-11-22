@@ -98,7 +98,7 @@ export default {
       getTopSong(this.songParams).then((res) => {
         // console.log(res);
         this.songData = res.data.data;
-        this.songData.length = 50;
+        this.songData.length = 30;
       });
     },
     // 请求新碟上架数据
@@ -106,7 +106,7 @@ export default {
       getAlbum(this.albumParams).then(res => {
         // console.log(res);
         this.albumData = res.data.monthData
-        this.albumData.length = 40
+        this.albumData.length = 24
       })
     },
   },

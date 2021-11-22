@@ -1,10 +1,12 @@
 <template>
-  <div>我的收藏</div>
+  <div class="mv">
+    我是mv详情页
+  </div>
 </template>
 
 <script>
 export default {
-  name: "MyCollect"
+  name: "MVDetail"
 }
 </script>
 

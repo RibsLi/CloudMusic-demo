@@ -59,7 +59,6 @@ export default {
         type: ["全部", "官方版", "原生", "现场版", "网易出品"],
         order: ["上升最快", "最热", "最新"],
       },
-      currentItem: "全部",
       mvParams: {
         area: "全部",
         type: "全部",

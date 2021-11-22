@@ -51,7 +51,7 @@ export default {
     // 查看全部点击事件
     allClick(id) {
       this.$router.push({
-        path: "/detail",
+        path: "/songDetail",
         query: {
           id,
         },
