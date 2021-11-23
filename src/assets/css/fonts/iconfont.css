@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1637344666287') format('truetype');
+  src: url('iconfont.ttf?t=1637628746898') format('truetype');
 }
 
 .iconfont {
@@ -273,6 +273,10 @@
 
 .icon-geshou:before {
   content: "\e647";
+}
+
+.icon-24gl-folderPlus:before {
+  content: "\eabe";
 }
 
 .icon-yuzhong:before {

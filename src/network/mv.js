@@ -28,3 +28,35 @@ export function getAllMV(params) {
     params
   })
 }
+// 获取mv的url地址
+export function getMVUrl(id) {
+  return request({
+    url: "/mv/url",
+    params: {
+      id
+    }
+  })
+}
+// 获取mv详情
+export function getMVDetail(mvid) {
+  return request({
+    url: "/mv/detail",
+    params: {
+      mvid
+    }
+  })
+}
+// 获取mv评论信息
+export function getComment(params) {
+  return request({
+    url: "/comment/mv",
+    params
+  })
+}
+// 获取mv热门评论
+export function getHotComment(params) {
+  return request({
+    url: "/comment/hot",
+    params
+  })
+}

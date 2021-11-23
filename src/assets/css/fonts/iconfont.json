@@ -468,6 +468,13 @@
       "unicode_decimal": 58951
     },
     {
+      "icon_id": "7594807",
+      "name": "24gl-folderPlus",
+      "font_class": "24gl-folderPlus",
+      "unicode": "eabe",
+      "unicode_decimal": 60094
+    },
+    {
       "icon_id": "7671120",
       "name": "语种",
       "font_class": "yuzhong",

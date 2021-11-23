@@ -10,23 +10,30 @@
         <!-- <album :albumList="albumList" :topSong="topSong"/> -->
       </el-tab-pane>
       <el-tab-pane label="MV" name="mv">
-        <songs-list>
-          <songs-list-item v-for="item in mvs" :key="item" :list="item" />
-        </songs-list>
+        <div v-if="mvs.length">
+          <songs-list>
+            <songs-list-item v-for="item in mvs" :key="item" :list="item" />
+          </songs-list>
+        </div>
+        <p v-else class="no-mv">没有相关MV</p>
       </el-tab-pane>
       <el-tab-pane label="歌手详情" name="detail">
-        <div class="desc" v-for="item in introduction" :key="item">
-          <h4>{{item.ti}}</h4>
-          <div class="desc-info">{{item.txt}}</div>
+        <div v-if="introduction.length">
+          <div class="desc" v-for="item in introduction" :key="item">
+            <h4>{{item.ti}}</h4>
+            <div class="desc-info">{{item.txt}}</div>
+          </div>
         </div>
+        <p v-else class="no-mv">暂无相关介绍</p>
       </el-tab-pane>
       <el-tab-pane label="相似歌手" name="similar">
-        <div class="simi-box">
+        <div class="simi-box" v-if="artists.length">
           <div class="simi-item" v-for="item in artists" :key="item">
             <img :src="item.picUrl" alt="" @click="itemClick(item.id)">
             <div class="item-name">{{item.name}}</div>
           </div>
         </div>
+        <p v-else class="no-mv">没有相关歌手</p>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -49,7 +56,8 @@ export default {
       topSong: [],
       mvs: [],
       introduction: [],
-      artists: []
+      artists: [],
+
     }
   },
   components: {
@@ -63,9 +71,9 @@ export default {
     this.id = this.$route.query.id;
     this.getArtistDetail()
     this.getAlbum()
-      this.getArtistMV()
-      this.getArtistDesc()
-      this.getSimiArtist()
+    this.getArtistMV()
+    this.getArtistDesc()
+    this.getSimiArtist()
   },
   methods: {
     // 获取歌手详情
@@ -95,7 +103,9 @@ export default {
       getArtistMV(this.id).then(res => {
         // console.log(res);
         this.mvs = res.data.mvs
-        this.mvs.length = 8
+        if (this.mvs.length) {
+          this.mvs.length = 8
+        }
       })
     },
     // 获取歌手描述
@@ -173,5 +183,9 @@ export default {
     border-radius: 5px;
     margin-bottom: 10px;
   }
+}
+.no-mv {
+  font-size: 14px;
+  color: #aaa;
 }
 </style>
