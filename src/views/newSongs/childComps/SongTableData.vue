@@ -16,18 +16,26 @@
     />
     <el-table-column prop="name" label="标题">
       <template v-slot:default="scope">
-        <img :src="scope.row.album.blurPicUrl" class="song-img" alt="" />
-        {{ scope.row.name }}
+        <span class="singer">
+          <img :src="scope.row.album.blurPicUrl" class="song-img" alt="" />
+          {{ scope.row.name }}
+        </span>
       </template>
     </el-table-column>
     <el-table-column prop="artists" label="歌手">
       <template v-slot:default="scope">
-        <span v-for="item in scope.row.artists" :key="item">{{
+        <span class="singer" v-for="item in scope.row.artists" :key="item" @click="singerClick(item.id)">{{
           item.name
         }}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="album.name" label="专辑" />
+    <el-table-column prop="album.name" label="专辑">
+      <template v-slot:default="scope">
+        <span class="singer">
+          {{ scope.row.album.name }}
+        </span>
+      </template>
+    </el-table-column>
     <el-table-column prop="duration" label="时间" width="100">
       <template v-slot:default="scope">
         {{ playTime(scope.row.duration) }}
@@ -53,11 +61,20 @@ export default {
     playTime(dt) {
       return formatDuration(dt);
     },
+    singerClick(id) {
+      // console.log(id);
+      this.$router.push({
+        path: "/singerDetail",
+        query: {
+          id
+        },
+      });
+    }
   },
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .song-img {
   width: 50px;
   height: 50px;
@@ -67,5 +84,11 @@ export default {
 }
 .el-table {
   margin-top: 15px;
+}
+.singer {
+  cursor: pointer;
+  &:hover {
+    color: #409eff;
+  }
 }
 </style>

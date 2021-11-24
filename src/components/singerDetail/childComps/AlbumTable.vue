@@ -10,8 +10,10 @@
   >
     <el-table-column prop="name" label="专辑名称">
       <template v-slot:default="scope">
-        <img :src="scope.row.picUrl" class="song-img" alt="" />
-        {{ scope.row.name }}
+        <div class="song-img">
+          <img :src="scope.row.picUrl" alt="" />
+          {{ scope.row.name }}
+        </div>
       </template>
     </el-table-column>
     <el-table-column prop="size" label="专辑数量">
@@ -19,7 +21,7 @@
         {{scope.row.size}} 首
       </template>
     </el-table-column>
-    <el-table-column prop="publishTime" label="发行时间" width="200">
+    <el-table-column prop="publishTime" label="发行时间" width="150">
       <template v-slot:default="scope">
         发行时间：{{dateInfo(scope.row.publishTime)}}
       </template>
@@ -49,12 +51,17 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .song-img {
-  width: 50px;
-  height: 50px;
-  vertical-align: middle;
-  border-radius: 5px;
-  margin-right: 8px;
+  display: inline-block;
+  cursor: pointer;
+  img {
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    border-radius: 5px;
+    margin-right: 8px;
+
+  }
 }
 </style>

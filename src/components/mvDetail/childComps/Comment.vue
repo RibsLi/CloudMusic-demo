@@ -5,14 +5,16 @@
       <img :src="item.user.avatarUrl" alt="" />
       <div class="user">
         <div>
-          <span style="color: #409eff">{{ item.user.nickname }}：</span>
+          <span class="user-one">{{ item.user.nickname }}：</span>
           {{ item.content }}
         </div>
         <!-- 楼层评论 -->
-        <!-- <div class="user-tow">
-          @{{item.beReplied[0].user.nickname}}
-          <span>{{item.beReplied[0].content}}</span>
-        </div> -->
+        <div class="user-tow">
+          <div v-for="item in item.beReplied" :key="item">
+            <span class="user-one">@{{item.user.nickname}}：</span>
+            <span>{{item.content}}</span>
+          </div>
+        </div>
         <div class="comment-time">
           <div>{{ dateInfo(item.time) }}</div>
           <div>
@@ -75,6 +77,13 @@ export default {
     .user {
       width: 100%;
       line-height: 25px;
+      .user-one {
+        color: #409eff;
+        cursor: pointer;
+        &:hover {
+          color: #ff0000;
+        }
+      }
       .user-tow {
         background-color: #eef0eb;
         border-radius: 5px;

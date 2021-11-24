@@ -44,6 +44,10 @@ export default {
   color: #409eff;
   .users {
     width: 400px;
+    cursor: pointer;
+    &:hover {
+      color: #ff0000;
+    }
     img {
       width: 100px;
       height: 100px;

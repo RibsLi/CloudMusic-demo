@@ -179,6 +179,13 @@ export default {
     SongsListItem,
   },
   created() {
+    // 接收歌单详情头部tag标签点击后跳转过来的事件
+    if (this.$route.query.cat) {
+     this.params.cat = this.$route.query.cat
+     this.activeName = this.$route.query.cat
+     this.$route.query.cat = ''
+    }
+    // this.params.cat = this.$route.query.cat;
     this.getHighquality();
     this.getCatlist();
     this.getTopPlayList();

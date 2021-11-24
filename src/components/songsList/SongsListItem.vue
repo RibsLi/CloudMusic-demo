@@ -10,8 +10,8 @@
     <span class="iconfont icon-bofang1 play"></span>
     <div class="name">{{ list.name }}</div>
     <div class="author">
-      <span v-for="item in list.artists" :key="item">
-        {{ item.name }}
+      <span class="singer" v-for="item in list.artists" :key="item" @click="singerClick(item.id)">
+        {{ item.name }} &nbsp;
       </span>
     </div>
   </div>
@@ -36,6 +36,15 @@ export default {
     },
   },
   methods: {
+    singerClick(id) {
+      // console.log(id);
+      this.$router.push({
+        path: "/singerDetail",
+        query: {
+          id
+        },
+      });
+    },
     itemClick() {
       // 如果type=0前往歌单详情列表
       // 如果type=5前往视频列表
@@ -132,5 +141,11 @@ img {
   font-size: 13px;
   color: #aaa;
   margin-top: 5px;
+}
+.singer {
+  cursor: pointer;
+  &:hover {
+    color: #409eff;
+  }
 }
 </style>

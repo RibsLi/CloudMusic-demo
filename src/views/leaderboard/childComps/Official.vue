@@ -10,7 +10,7 @@
       <div class="lea-right">
         <ul>
           <li v-for="(item, index) in topSong[index]" :key="index">
-            <span>
+            <span class="singer">
               <i class="index" :style="index < 3 ? 'color: #ff0000' : ''">{{
                 index + 1
               }}</i>
@@ -18,7 +18,7 @@
               <i class="alia">{{ item.alia[0] }}</i>
             </span>
             <span>
-              <span v-for="item in item.ar" :key="item">{{ item.name }}</span>
+              <span class="singer" v-for="item in item.ar" :key="item" @click="singerClick(item.id)">{{ item.name }} &nbsp;</span>
             </span>
           </li>
         </ul>
@@ -54,6 +54,15 @@ export default {
         path: "/songDetail",
         query: {
           id,
+        },
+      });
+    },
+    singerClick(id) {
+      // console.log(id);
+      this.$router.push({
+        path: "/singerDetail",
+        query: {
+          id
         },
       });
     },
@@ -131,6 +140,12 @@ export default {
         color: #ff0000;
       }
     }
+  }
+}
+.singer {
+  cursor: pointer;
+  &:hover {
+    color: #409eff;
   }
 }
 </style>

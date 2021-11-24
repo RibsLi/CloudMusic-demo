@@ -17,7 +17,7 @@
         <div class="item-info">
           <div class="title">{{item.name}}</div>
           <div class="author">
-            <span v-for="item in item.artists" :key="item">{{item.name}}</span>
+            <span v-for="item in item.artists" :key="item" @click="singerClick(item.id)">{{item.name}} &nbsp;</span>
           </div>
         </div>
       </div>
@@ -43,6 +43,15 @@ export default {
   methods: {
     moreClic() {
       this.$router.push('/newSongs')
+    },
+    singerClick(id) {
+      // console.log(id);
+      this.$router.push({
+        path: "/singerDetail",
+        query: {
+          id
+        },
+      });
     }
   },
 }
@@ -65,6 +74,7 @@ export default {
     align-items: center;
     margin: 5px 0 10px;
     border-radius: 5px;
+    cursor: pointer;
     &:hover {
       background-color: #ddd;
     }
@@ -81,6 +91,9 @@ export default {
     .author {
       font-size: 12px;
       color: #aaa;
+      span:hover {
+        color: #409eff;
+      }
     }
   }
 }

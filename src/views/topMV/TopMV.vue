@@ -2,8 +2,8 @@
   <div class="top-mv">
     <songs-list>
       <template v-slot:top-left>
-        MV排行榜 <i class="el-icon-arrow-right"></i
-      ></template>
+        MV排行榜 
+      </template>
       <template v-slot:top-more>
         <ul class="cate-left">
           <li

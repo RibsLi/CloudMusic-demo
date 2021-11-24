@@ -4,8 +4,10 @@
     <div class="detail-info">
       <h3>{{ playlist.name }}</h3>
       <div class="create-user">
-        <img :src="creator.avatarUrl" alt="" />
-        <span class="user">{{ creator.nickname }}</span>
+        <span class="user-left">
+          <img :src="creator.avatarUrl" alt="" />
+          <span class="user">{{ creator.nickname }}</span>
+        </span>
         <span>{{ dateInfo(playlist.createTime) }} 创建</span>
       </div>
       <div class="btn-box">
@@ -27,9 +29,9 @@
         >
       </div>
       <div class="tag">
-        <div>
+        <div class="tag-item">
           标签 ：
-          <span v-for="item in playlist.tags" :key="item">{{ item }} / </span>
+          <span v-for="item in playlist.tags" :key="item" @click="tagClick(item)">{{ item }} &nbsp; </span>
         </div>
         <div>
           <span class="song-count">歌曲 ：{{ playlist.trackCount }}</span>
@@ -65,6 +67,17 @@ export default {
       const data = new Date(date);
       return formatDate(data, "yyyy-MM-dd");
     },
+    tagClick(item) {
+      // this.$router.push('/recommends')
+      // console.log(item);
+      this.$router.push({
+        path: "/recommends",
+        query: {
+          cat: item
+        },
+      });
+      
+    }
   },
 };
 </script>
@@ -89,6 +102,9 @@ export default {
 }
 .create-user {
   font-size: 13px;
+  .user-left {
+    cursor: pointer;
+  }
   img {
     width: 35px;
     height: 35px;
@@ -110,6 +126,12 @@ export default {
   color: rgb(94, 91, 91);
   .song-count {
     margin-right: 10px;
+  }
+  .tag-item {
+    span {
+      color: #409eff;
+      cursor: pointer;
+    }
   }
 }
 </style>

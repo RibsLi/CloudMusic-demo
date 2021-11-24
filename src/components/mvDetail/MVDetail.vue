@@ -97,7 +97,7 @@ export default {
     // 获取mv热门评论
     getHotComment() {
       getHotComment(this.comParams).then(res => {
-        console.log(res);
+        // console.log(res);
         this.hotComments = res.data.hotComments
       })
     },
