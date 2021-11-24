@@ -5,7 +5,6 @@
     <personalized :perData="perData"/>
     <newest :songData="songData"/>
     <recommend-m-v :recMV="recMV"/>
-    <aplayer/>
   </div>
 </template>
 
@@ -16,7 +15,6 @@ import Recommend from "./childComps/Recommend";
 import Personalized from "./childComps/Personalized"
 import Newest from "./childComps/Newest"
 import RecommendMV from "./childComps/RecommendMV"
-import Aplayer from 'components/aplayer/Aplayer.vue';
 
 export default {
   name: "Discovery",
@@ -41,8 +39,8 @@ export default {
     Recommend,
     Personalized,
     Newest,
-    Aplayer,
-    RecommendMV
+    RecommendMV,
+    // Aplayer,
   },
   created() {
     // 请求轮播数据

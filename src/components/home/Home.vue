@@ -1,5 +1,79 @@
 <template>
-  <div class="home">
+  <el-container>
+    <el-header>
+      <div class="top-bar">
+        <div class="logo" @click="logoClick">
+          <img src="~assets/images/logo.png" alt="" />
+        </div>
+        <div class="box-icon">
+          <el-button
+            type="info"
+            size="small"
+            icon="el-icon-arrow-left"
+            circle
+            @click="backClick"
+          ></el-button>
+          <el-button
+            type="info"
+            size="small"
+            icon="el-icon-arrow-right"
+            circle
+            @click="goClick"
+          ></el-button>
+        </div>
+        <div class="search">
+          <el-input
+            size="small"
+            v-model="query"
+            placeholder="音乐/视频/电台/用户"
+            prefix-icon="iconfont icon-sousuo"
+          />
+        </div>
+      </div>
+    </el-header>
+    <el-container>
+      <el-aside :width="isToggle ? '64px' : '150px'">
+        <div class="toggle" @click="toggleClick">
+          <div v-show="!isToggle" class="is-toggle">
+            <i class="el-icon-arrow-left"></i>
+            <i class="el-icon-arrow-left"></i>
+            <i class="el-icon-arrow-left"></i>
+          </div>
+          <div v-show="isToggle" class="no-toggle">
+            <i class="el-icon-arrow-right"></i>
+            <i class="el-icon-arrow-right"></i>
+            <i class="el-icon-arrow-right"></i>
+          </div>
+        </div>
+        <el-menu
+          active-text-color="#fff"
+          background-color="#3a3d44"
+          text-color="#aaa"
+          :collapse="isToggle"
+          :collapse-transition="false"
+          router
+          :default-active="isActive"
+        >
+          <el-menu-item
+            :index="item.path"
+            v-for="(item, index) in menu"
+            :key="index"
+            @click="saveStateClick(item.path)"
+          >
+            <i class="iconfont" :class="icon[index]"></i>
+            <span>{{ item.title }}</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main>
+        <router-view />
+      </el-main>
+    </el-container>
+    <el-footer height="74px">
+      <aplayer/>
+    </el-footer>
+  </el-container>
+  <!-- <div class="home">
     <div class="top-bar">
       <div class="logo" @click="logoClick">
         <img src="~assets/images/logo.png" alt="" />
@@ -64,19 +138,14 @@
         </el-menu>
       </el-aside>
       <el-main>
-        <!-- 暂有个小问题 -->
-        <!-- <router-view v-slot="{ Component }">
-          <keep-alive exclude="Detail">
-            <component :is="Component"></component>
-          </keep-alive>
-        </router-view> -->
         <router-view/>
       </el-main>
     </el-container>
-  </div>
+  </div> -->
 </template>
 
 <script>
+import Aplayer from 'components/aplayer/Aplayer.vue';
 export default {
   name: "Home",
   data() {
@@ -105,6 +174,9 @@ export default {
       isToggle: false,
       isActive: "",
     };
+  },
+  components: {
+    Aplayer
   },
   created() {
     this.isActive = window.sessionStorage.getItem("activePath")
@@ -135,15 +207,19 @@ export default {
 <style lang="less" scoped>
 .el-container {
   height: 100vh;
-  padding-top: 62px;
+}
+.el-header {
+  padding: 0;
+  border-bottom: 2px solid #ff0000;
+}
+.el-footer {
+  padding: 0;
 }
 .top-bar {
-  position: fixed;
   display: flex;
   align-items: center;
-  height: 60px;
+  height: 100%;
   width: 100%;
-  box-shadow: 0 2px 2px #ff0000;
   background-color: #242424;
   .logo {
     margin: 0 22px;
@@ -189,6 +265,9 @@ export default {
 .el-main {
   min-width: 890px;
   max-width: 1856px;
+  // height: cale( 100% -93px);
+  height: 85vh;
+  overflow-y: scroll;
 }
 .is-toggle i:nth-child(1) {
   animation: animat 1s linear 0.3s infinite;

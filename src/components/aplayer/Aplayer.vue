@@ -10,9 +10,10 @@
       </div>
     </div>
     <div class="aplayer-center">
-      <audio controls>
+      <!-- <audio controls>
         <source :src="musicURL" type="audio/mpeg" />
-      </audio>
+      </audio> -->
+      <audio src="" controls autoplay></audio>
     </div>
     <div class="aplayer-right"></div>
   </div>
@@ -25,10 +26,10 @@ export default {
     musicURL: {
       type: Array,
       default() {
-        return []
-      }
-    }
-  }
+        return [];
+      },
+    },
+  },
 };
 </script>
 
@@ -38,10 +39,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0 15px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   background-color: #fff;
   height: 74px;
   box-shadow: 0 -1px 1px #aaa;
@@ -51,7 +48,6 @@ export default {
     align-items: center;
     width: 230px;
     height: 100%;
-    // background-color: #f00;
   }
   .aplayer-center {
     flex: 1;
@@ -59,7 +55,6 @@ export default {
     align-items: center;
     justify-content: center;
     height: 100%;
-    // background-color: #0ff;
     audio {
       width: 440px;
     }
