@@ -188,4 +188,7 @@ export default {
   font-size: 14px;
   color: #aaa;
 }
+.el-tabs {
+  margin-top: 15px;
+}
 </style>

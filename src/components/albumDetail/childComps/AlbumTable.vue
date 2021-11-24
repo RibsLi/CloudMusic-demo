@@ -1,10 +1,10 @@
 <template>
   <el-table
-    :data="songData"
+    :data="songs"
     stripe
     highlight-current-row
+    @row-dblclick="playMusic"
     size="mini"
-    :show-header="false"
     empty-text="Loading..."
     style="width: 100%"
   >
@@ -14,31 +14,33 @@
       header-align="center"
       align="center"
     />
+    <el-table-column prop="" label="操作" width="80">
+      <i class="iconfont icon-shoucang"></i>
+      <i class="iconfont icon-xiazai"></i>
+    </el-table-column>
     <el-table-column prop="name" label="标题">
       <template v-slot:default="scope">
-        <span class="singer">
-          <img :src="scope.row.album.blurPicUrl" class="song-img" alt="" />
-          {{ scope.row.name }}
-        </span>
+        <span class="singer">{{ scope.row.name}}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="artists" label="歌手">
+    <el-table-column prop="ar" label="歌手">
       <template v-slot:default="scope">
-        <span class="singer" v-for="item in scope.row.artists" :key="item" @click="singerClick(item.id)">{{
-          item.name
-        }} &nbsp;</span>
+        <span class="singer" v-for="item in scope.row.ar" :key="item" @click="singerClick(item.id)">{{ item.name }} &nbsp;</span>
       </template>
     </el-table-column>
-    <el-table-column prop="album.name" label="专辑">
+    <el-table-column prop="al.name" label="专辑">
       <template v-slot:default="scope">
-        <span class="singer" @click="albumClick(scope.row.album.id)">
-          {{ scope.row.album.name }}
-        </span>
+        <span class="singer">{{ scope.row.al.name}}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="duration" label="时间" width="100">
+    <el-table-column prop="dt" label="时间" width="80">
       <template v-slot:default="scope">
-        {{ playTime(scope.row.duration) }}
+        {{ playTime(scope.row.dt) }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="pop" label="热度" width="150">
+      <template v-slot:default="scope">
+        <el-progress :percentage="scope.row.pop" :show-text="false" />
       </template>
     </el-table-column>
   </el-table>
@@ -46,20 +48,25 @@
 
 <script>
 import { formatDuration } from "common/utils";
+
 export default {
-  name: "SongTableData",
+  name: "TableData",
   props: {
-    songData: {
+    songs: {
       type: Array,
       default() {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   methods: {
     // 歌曲时长处理函数
     playTime(dt) {
       return formatDuration(dt);
+    },
+    // 获取单首音乐
+    playMusic() {
+      console.log('---');
     },
     singerClick(id) {
       // console.log(id);
@@ -69,30 +76,15 @@ export default {
           id
         },
       });
-    },
-    albumClick(id) {
-      // console.log('---');
-      this.$router.push({
-        path: "/albumDetail",
-        query: {
-          id
-        },
-      })
     }
   },
 };
 </script>
 
 <style lang="less" scoped>
-.song-img {
-  width: 50px;
-  height: 50px;
-  vertical-align: middle;
-  border-radius: 5px;
-  margin-right: 8px;
-}
-.el-table {
-  margin-top: 15px;
+.iconfont {
+  margin: 0 5px;
+  cursor: pointer;
 }
 .singer {
   cursor: pointer;

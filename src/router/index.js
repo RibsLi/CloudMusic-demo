@@ -15,6 +15,7 @@ const AllMV = () => import("views/allMV/AllMV")
 const TopMV = () => import("views/topMV/TopMV")
 const SingerDetail = () => import("components/singerDetail/SingerDetail")
 const MVDetail = () => import("components/mvDetail/MVDetail")
+const AlbumDetail = () => import("components/albumDetail/AlbumDetail")
 
 
 const routes = [
@@ -41,6 +42,7 @@ const routes = [
       { path: "/topMV", component: TopMV },
       { path: "/singerDetail", component: SingerDetail },
       { path: "/mvDetail", component: MVDetail },
+      { path: "/albumDetail", component: AlbumDetail },
     ],
   },
 ];

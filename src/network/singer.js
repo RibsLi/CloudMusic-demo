@@ -61,3 +61,10 @@ export function getSimiArtist(id) {
     }
   })
 }
+// 获取专辑评论
+export function getAlbumComment(params) {
+  return request({
+    url: "/comment/album",
+    params
+  })
+}

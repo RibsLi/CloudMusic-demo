@@ -65,6 +65,14 @@ export default {
           },
         });
       }
+      else if(this.list.type == 'Single') {
+        this.$router.push({
+          path: "/albumDetail",
+          query: {
+            id: this.list.id,
+          },
+        });
+      }
       else {
         this.$router.push({
           path: "/songDetail",

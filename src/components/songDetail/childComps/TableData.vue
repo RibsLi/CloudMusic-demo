@@ -30,7 +30,7 @@
     </el-table-column>
     <el-table-column prop="al.name" label="专辑" sortable>
       <template v-slot:default="scope">
-        <span class="singer">{{ scope.row.al.name}}</span>
+        <span class="singer" @click="albumClick(scope.row.al.id)">{{ scope.row.al.name}}</span>
       </template>
     </el-table-column>
     <el-table-column prop="dt" label="时间" sortable width="100">
@@ -71,6 +71,15 @@ export default {
           id
         },
       });
+    },
+    albumClick(id) {
+      // console.log('---');
+      this.$router.push({
+        path: "/albumDetail",
+        query: {
+          id
+        },
+      })
     }
   },
 };

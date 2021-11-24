@@ -10,7 +10,7 @@
   >
     <el-table-column prop="name" label="专辑名称">
       <template v-slot:default="scope">
-        <div class="song-img">
+        <div class="song-img" @click="albumClick(scope.row.id)">
           <img :src="scope.row.picUrl" alt="" />
           {{ scope.row.name }}
         </div>
@@ -47,6 +47,15 @@ export default {
       const data = new Date(date);
       return formatDate(data, "yyyy-MM-dd");
     },
+    albumClick(id) {
+      // console.log('---');
+      this.$router.push({
+        path: "/albumDetail",
+        query: {
+          id
+        },
+      })
+    }
   },
 };
 </script>
