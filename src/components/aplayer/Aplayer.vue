@@ -14,7 +14,11 @@
     <div class="aplayer-center">
       <audio :src="songURL" id="audio" autoplay></audio>
       <div class="audio-icons">
-        <span class="iconfont icon-liebiao"></span>
+        <span @click="playTypeClick">
+          <span class="iconfont icon-liebiaoxunhuan" v-show="playType==0"></span>
+          <span class="iconfont icon-danquxunhuan" v-show="playType==1"></span>
+          <span class="iconfont icon-suijibofang" v-show="playType==2"></span>
+        </span>
         <span class="iconfont icon-shangyishoushangyige" @click="prev"></span>
         <span class="iconfont icon-bofang1" v-show="!playing" @click="play"></span>
         <span class="iconfont icon-zanting" v-show="playing" @click="play"></span>
@@ -97,12 +101,13 @@ export default {
       drawer: false,
       audio: '',
       playing: false, // 播放状态
-      songURL: '',
-      songId: '',
-      songDetail: {},
-      tableData: [],
-      picUrl: '',
-      index: 0
+      songURL: '', //音乐url
+      songId: '', //音乐id
+      songDetail: {}, //音乐详情
+      tableData: [], //音乐列表数据
+      picUrl: '', //音乐图片
+      index: 0, //当前音乐的index
+      playType: 0, //播放类型: 0-列表循环，1-单曲循环，2-随机播放
     }
   },
   created() {
@@ -218,6 +223,10 @@ export default {
           this.playing = true
         }
       }
+    },
+    // 播放类型切换
+    playTypeClick() {
+      this.playType = this.playType+1 > 2 ? 0 : this.playType+1;
     }
   },
 };
