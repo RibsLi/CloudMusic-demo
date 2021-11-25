@@ -15,6 +15,20 @@ export function getSongDetail(...id) {
     url: `/song/detail?ids=${id}`
   })
 }
+// 获取音乐url
+// export function getSongURL(...id) {
+//   return request({
+//     url: `/song/url?id=${id}`
+//   })
+// }
+export function getSongURL(id) {
+  return request({
+    url: "/song/url",
+    params: {
+      id
+    }
+  })
+}
 //获取热门评论
 export function getHotComment(params) {
   return request({

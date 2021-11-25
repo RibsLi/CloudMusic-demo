@@ -7,7 +7,7 @@
         {{playCount}}
       </span>
     </div>
-    <span class="iconfont icon-bofang1 play"></span>
+    <span class="iconfont icon-bofang1 play" @click="playMusic"></span>
     <div class="name">{{ list.name }}</div>
     <div class="author">
       <span class="singer" v-for="item in list.artists" :key="item" @click="singerClick(item.id)">
@@ -36,6 +36,9 @@ export default {
     },
   },
   methods: {
+    playMusic() {
+      console.log('--');
+    },
     singerClick(id) {
       // console.log(id);
       this.$router.push({

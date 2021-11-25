@@ -32,7 +32,7 @@ export default {
   methods: {
     moreClic() {
       this.$router.push('/recommends')
-    }
+    },
   },
   computed: {
     // 播放次数

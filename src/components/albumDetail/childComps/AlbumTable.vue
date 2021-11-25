@@ -18,17 +18,17 @@
       <i class="iconfont icon-shoucang"></i>
       <i class="iconfont icon-xiazai"></i>
     </el-table-column>
-    <el-table-column prop="name" label="标题">
+    <el-table-column prop="name" label="标题" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer">{{ scope.row.name}}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="ar" label="歌手">
+    <el-table-column prop="ar" label="歌手" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer" v-for="item in scope.row.ar" :key="item" @click="singerClick(item.id)">{{ item.name }} &nbsp;</span>
       </template>
     </el-table-column>
-    <el-table-column prop="al.name" label="专辑">
+    <el-table-column prop="al.name" label="专辑" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer">{{ scope.row.al.name}}</span>
       </template>

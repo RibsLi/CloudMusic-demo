@@ -8,7 +8,7 @@
     empty-text="Loading..."
     style="width: 100%"
   >
-    <el-table-column prop="name" label="专辑名称">
+    <el-table-column prop="name" label="专辑名称" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <div class="song-img" @click="albumClick(scope.row.id)">
           <img :src="scope.row.picUrl" alt="" />

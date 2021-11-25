@@ -12,7 +12,7 @@
       </div>
       <div class="btn-box">
         <el-button-group>
-          <el-button type="primary" round size="small" icon="el-icon-video-play"
+          <el-button type="primary" round size="small" icon="el-icon-video-play" @click="playMusic"
             >播放全部</el-button
           >
           <el-button
@@ -76,8 +76,10 @@ export default {
           cat: item
         },
       });
-      
-    }
+    },
+    playMusic() {
+      this.$emit('songsClick')
+    },
   },
 };
 </script>

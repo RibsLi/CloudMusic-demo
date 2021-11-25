@@ -14,7 +14,7 @@
       header-align="center"
       align="center"
     />
-    <el-table-column prop="name" label="标题">
+    <el-table-column prop="name" label="标题" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer">
           <img :src="scope.row.album.blurPicUrl" class="song-img" alt="" />
@@ -22,14 +22,14 @@
         </span>
       </template>
     </el-table-column>
-    <el-table-column prop="artists" label="歌手">
+    <el-table-column prop="artists" label="歌手" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer" v-for="item in scope.row.artists" :key="item" @click="singerClick(item.id)">{{
           item.name
         }} &nbsp;</span>
       </template>
     </el-table-column>
-    <el-table-column prop="album.name" label="专辑">
+    <el-table-column prop="album.name" label="专辑" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer" @click="albumClick(scope.row.album.id)">
           {{ scope.row.album.name }}

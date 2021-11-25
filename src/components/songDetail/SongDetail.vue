@@ -1,12 +1,12 @@
 <template>
   <div class="detail">
     <!-- 详情头部 -->
-    <detail-header :playlist="playlist" :creator="creator" />
+    <detail-header :playlist="playlist" :creator="creator" @songsClick="songsClick" />
     <!-- tabs标签页 -->
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 歌单列表 -->
       <el-tab-pane :label="'歌曲列表' + '('+ tableData.length + ')'" name="list">
-        <table-data :tableData="tableData" />
+        <table-data :tableData="tableData" @songsClick="songsClick"/>
       </el-tab-pane>
       <!-- 评论 -->
       <!-- <el-tab-pane :label="'评论 ' + '('+ comTotal + ')'" name="comment"> -->
@@ -64,6 +64,7 @@ import {
   getComment,
   getHotComment,
   getSubscribers,
+  // getSongURL
 } from "network/songdetail";
 import DetailHeader from "./childComps/DetailHeader";
 import TableData from "./childComps/TableData";
@@ -94,6 +95,7 @@ export default {
       subscribers: [],
       comTotal: 0,
       subTotal: 0,
+      songsUrl: []
     };
   },
   components: {
@@ -115,11 +117,11 @@ export default {
         this.playlist = res.data.playlist;
         this.creator = res.data.playlist.creator;
         // 循环遍历获取所有id请求所有歌曲
-        const trackIds = [];
+        // const trackIds = [];
         res.data.playlist.trackIds.forEach((item) => {
-          trackIds.push(item.id);
+          this.trackIds.push(item.id);
         });
-        getSongDetail(trackIds).then((res) => {
+        getSongDetail(this.trackIds).then((res) => {
           // console.log(res);
           this.tableData = res.data.songs;
         });
@@ -171,6 +173,11 @@ export default {
       this.comment.offset = (newPage - 1) * this.comment.limit;
       this.getSubscribers();
     },
+    // 获取音乐url
+    songsClick() {
+      this.$store.commit("addSongId", this.trackIds)
+      this.$store.commit("addSongDetail", this.tableData)
+    }
   },
 };
 </script>

@@ -69,7 +69,7 @@
         <router-view />
       </el-main>
     </el-container>
-    <el-footer height="74px">
+    <el-footer height="70px">
       <aplayer/>
     </el-footer>
   </el-container>

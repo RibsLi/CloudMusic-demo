@@ -6,7 +6,10 @@ import getters from "./getters";
 
 export default createStore({
   state: {
-    musicList: []
+    songId: ['1891469546'],
+    songDetail: [
+      {name: '删了吧', ar: [{name: '烟(许佳豪)'}], dt: '204955', al: {picUrl: 'https://p2.music.126.net/nNg4YjkcK1AwCX1FrN8VOQ==/109951166578333625.jpg'}}
+    ]
   },
   mutations,
   actions,

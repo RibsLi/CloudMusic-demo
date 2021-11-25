@@ -18,17 +18,17 @@
       <i class="iconfont icon-shoucang"></i>
       <i class="iconfont icon-xiazai"></i>
     </el-table-column>
-    <el-table-column prop="name" label="标题" sortable>
+    <el-table-column prop="name" label="标题" sortable :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer">{{ scope.row.name}}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="ar" label="歌手" sortable>
+    <el-table-column prop="ar" label="歌手" sortable :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer" v-for="item in scope.row.ar" :key="item" @click="singerClick(item.id)">{{ item.name }} &nbsp;</span>
       </template>
     </el-table-column>
-    <el-table-column prop="al.name" label="专辑" sortable>
+    <el-table-column prop="al.name" label="专辑" sortable :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer" @click="albumClick(scope.row.al.id)">{{ scope.row.al.name}}</span>
       </template>
@@ -59,9 +59,9 @@ export default {
     playTime(dt) {
       return formatDuration(dt);
     },
-    // 获取单首音乐
+    // 表格双击播放
     playMusic() {
-      console.log('---');
+      this.$emit('songsClick')
     },
     singerClick(id) {
       // console.log(id);
