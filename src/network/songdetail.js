@@ -29,6 +29,15 @@ export function getSongURL(id) {
     }
   })
 }
+// 获取歌词
+export function getLyric(id) {
+  return request({
+    url: "/lyric",
+    params: {
+      id
+    }
+  })
+}
 //获取热门评论
 export function getHotComment(params) {
   return request({

@@ -46,10 +46,10 @@ export function debounce (func, delay = 50) {
 // 格式化播放时间
 export function formatDuration (duration) {
   // 分钟：向下取整，转为字符，不足两位前边补零
-  const minute = Math.floor(duration / 1000 / 60)
+  const minute = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60))
     .toString()
     .padStart(2, '0')
-  const second = Math.floor(duration % 60)
+  const second = Math.floor((duration % (1000 * 60)) / 1000)
     .toString()
     .padStart(2, '0')
   return minute + ':' + second
