@@ -6,7 +6,7 @@
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 歌单列表 -->
       <el-tab-pane :label="'歌曲列表' + '('+ tableData.length + ')'" name="list">
-        <table-data :tableData="tableData" @songsClick="songsClick"/>
+        <table-data :tableData="tableData" @songsClick="songsClick" @songClick="songClick"/>
       </el-tab-pane>
       <!-- 评论 -->
       <!-- <el-tab-pane :label="'评论 ' + '('+ comTotal + ')'" name="comment"> -->
@@ -95,7 +95,7 @@ export default {
       subscribers: [],
       comTotal: 0,
       subTotal: 0,
-      songsUrl: []
+      songsUrl: [],
     };
   },
   components: {
@@ -177,6 +177,16 @@ export default {
     songsClick() {
       this.$store.commit("addSongId", this.trackIds)
       this.$store.commit("addSongDetail", this.tableData)
+    },
+    //获取单首音乐
+    songClick(id) {
+      const ids = []
+      ids.push(id)
+      this.$store.commit("addSongId", ids)
+      getSongDetail(id).then(res => {
+        // console.log(res);
+        this.$store.commit("addSongDetail", res.data.songs)
+      })
     }
   },
 };

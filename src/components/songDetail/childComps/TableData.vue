@@ -59,9 +59,12 @@ export default {
     playTime(dt) {
       return formatDuration(dt);
     },
-    // 表格双击播放
-    playMusic() {
-      this.$emit('songsClick')
+    // 表格双击传入改行id
+    playMusic(row) {
+      // console.log(row);
+      // console.log(row.id);
+      // this.$emit('songsClick')
+      this.$emit('songClick', row.id)
     },
     singerClick(id) {
       // console.log(id);

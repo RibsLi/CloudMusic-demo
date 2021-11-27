@@ -42,8 +42,6 @@
         <span class="iconfont icon-xiayigexiayishou" @click="next"></span>
         <span class="iconfont icon-yinle" @click="imgClick"></span>
       </div>
-
-
       <div class="progress">
         <div>{{ timeToString(currentTime) }}</div>
         <div id="pro-bar">
@@ -115,8 +113,10 @@
         </el-table>
       </el-drawer>
     </div>
-    <el-drawer v-model="drawerLyric" :with-header="false" direction="ttb" size="92.3%">
+    <el-drawer v-model="drawerLyric" :with-header="false" direction="btt" size="100%">
       <div class="lyric-box">
+        <img :src="picUrl" alt="" class="header-bg">
+        <span class="el-icon-close header-close" @click="drawerLyric=false"></span>
         <div class="lyric-header">
           <div class="header-ar">{{ songDetail.name }}</div>
           <div class="header-singer">
@@ -132,7 +132,9 @@
             <img src="~assets/images/play_needle.png" alt="" class="img-bg2" :class="{active1: !playing}">
           </div>
           <div class="lyric-text">
-            <p v-for="item in lyric" :key="item">{{item}}</p>
+            <el-scrollbar :noresize="false">
+              <p :id="'s'+lyTime[index]" v-for="(item, index) in lyric" :key="index">{{item}}</p>
+            </el-scrollbar>
           </div>
         </div>
       </div>
@@ -162,6 +164,8 @@ export default {
       songId: "", //音乐id
       songURL: "", //音乐url
       lyric: '', //歌词
+      lyTime: '', //歌词时间
+      i: 0,
       songDetail: {}, //音乐详情
       tableData: [], //音乐列表数据
       picUrl: "", //音乐图片
@@ -197,16 +201,26 @@ export default {
     // 获取歌词
     getLyric() {
       getLyric(this.songId).then(res => {
-        console.log(res);
+        // console.log(res);
         const a = res.data.lrc.lyric.split('[')
           // console.log(a);
           const lyric = []
+          const lyTime = []
         a.forEach(item => {
           const b = item.split(']')[1]
+          // console.log(b);
           lyric.push(b)
-          // console.log(b[1]);
+          // 歌词时间处理
+          const c = item.split(']')[0].split('.')
+          // console.log(c);
+          const d = c[0].split(':')
+          // console.log(d);
+          const e = d[0] * 60 + parseInt(d[1])
+          // console.log(lyTime);
+          lyTime.push(e)
         });
         this.lyric = lyric
+        this.lyTime = lyTime
       })
     },
     // 歌曲时长处理函数
@@ -321,7 +335,13 @@ export default {
       // 当前的运动时间 / 总时间 = 当前的运动点 / 进度条总长 
       // 当前时间
       this.currentTime = this.audio.currentTime;
-      // console.log(this.currentTime);
+      // 歌词联动效果
+      const cur = parseInt(this.currentTime)
+      if (document.getElementById('s' + cur)) {
+        document.getElementById('s' + this.i).setAttribute("style","color: #F8F8FF; transform: scale(1);")
+        this.i = cur
+        document.getElementById('s' + cur).setAttribute("style","color: #8A2BE2; transform: scale(1.3);")
+      }
       // 歌曲总时间
       const totalTime = this.audio.duration;
       if (this.currentTime == totalTime) {
@@ -507,16 +527,42 @@ export default {
 }
 .lyric-box {
   // background: linear-gradient(to top, #d0b691, #8b9ead);
-  background: linear-gradient(to top, #eee, #fff);
+  background: linear-gradient(to top, #8b9ead, #fff);
   height: 100%;
   padding-top: 10px;
+  .header-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    filter: blur(8px);
+    transform: scale(1.1);
+  }
+  .header-close {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    font-size: 30px;
+    color: #F8F8FF;
+    z-index: 9;
+    cursor: pointer;
+    transition: transform .3s linear;
+    &:hover {
+      transform: rotate(90deg);
+      color: #F00;
+    }
+  }
 }
 .lyric-header {
   text-align: center;
+  filter: blur(0);
   .header-ar {
     font-size: 25px;
     font-weight: 500;
-    color: #25221d;
   }
   .header-singer {
     margin: 10px;
@@ -555,18 +601,26 @@ export default {
       top: -160px;
       left: 90px;
       border-radius: 0;
+      transition: transform 0.5s;
+      transform-origin: left top;
     }
   }
   .lyric-text {
     width: 400px;
-    height: 500px;
-    // background-color: #f00;
+    height: 520px;
     margin-left: 150px;
     text-align: center;
-    overflow-y: scroll;
     font-size: 14px;
-    line-height: 30px;
-    color: rgb(61, 60, 60);
+    line-height: 40px;
+    border-radius: 5px;
+    box-shadow: 0 0 200px 5px rgba(0, 0, 0, .2);
+    color: #F8F8FF;
+    background-color: rgba(0, 0, 0, .3);
+    position: relative;
+    .activetext {
+      color: #f00;
+      transform: scale(1.2);
+    }
   }
 }
 @keyframes animat {
@@ -578,6 +632,5 @@ export default {
 }
 .active1 {
   transform: rotate(-20deg);
-  transform-origin: left top;
 }
 </style>

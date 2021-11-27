@@ -20,6 +20,7 @@
             round
             size="small"
             icon="el-icon-plus"
+            @click="playMusic"
           ></el-button>
         </el-button-group>
         <el-button round size="small" icon="el-icon-folder-add">收藏</el-button>
