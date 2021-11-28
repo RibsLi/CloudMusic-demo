@@ -46,8 +46,8 @@
         <div>{{ timeToString(currentTime) }}</div>
         <div id="pro-bar">
           <div id="bar-line">
-            <div id="bar-dot"></div>
           </div>
+          <div id="bar-dot"></div>
         </div>
         <div>{{ playTime(songDetail.dt) }}</div>
       </div>
@@ -360,7 +360,7 @@ export default {
       const proX = (this.currentTime / totalTime) * totalX
       // console.log(proX);
       // 滑块的margin-left值
-      document.getElementById("bar-dot").style.marginLeft = ~~(proX) + 'px'
+      // // document.getElementById("bar-dot").style.marginLeft = ~~(proX) + 'px'
       // 当前进度的背景
       document.getElementById("bar-line").style.width = ~~(proX) + 'px'
       // 滑块的拖拽
@@ -376,8 +376,9 @@ export default {
           // 拖拽距离
           const dotX = mouseX - barX
           // console.log(dotX);
-          document.getElementById("bar-dot").style.marginLeft = dotX + 'px'
+          // // document.getElementById("bar-dot").style.marginLeft = dotX + 'px'
           document.getElementById("bar-line").style.width = dotX + 'px'
+          document.getElementById("bar-line").style.maxWidth = totalX + 'px'
           this.audio.currentTime = (dotX / totalX) * totalTime
           // console.log(totalTime);
           // console.log(this.currentTime);
@@ -430,6 +431,7 @@ export default {
       margin-top: 3px;
       #pro-bar {
         // flex: 1;
+        display: flex;
         width: 60%;
         margin: 0 10px;
         margin-top: 2px;
@@ -440,7 +442,7 @@ export default {
           background-color: #ccc;
         }
         #bar-line {
-          width: 10px;
+          width: 1px;
           height: 3px;
           border-radius: 3px;
           background-color: #409eff;
