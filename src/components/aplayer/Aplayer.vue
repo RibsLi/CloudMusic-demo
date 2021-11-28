@@ -45,8 +45,7 @@
       <div class="progress">
         <div>{{ timeToString(currentTime) }}</div>
         <div id="pro-bar">
-          <div id="bar-line">
-          </div>
+          <div id="bar-line"></div>
           <div id="bar-dot"></div>
         </div>
         <div>{{ playTime(songDetail.dt) }}</div>
@@ -315,6 +314,10 @@ export default {
     },
     // // 下一首
     next() {
+      // 判断是否是随机播放
+      if (this.playType == 2) {
+        this.index = Math.floor(Math.random() * this.$store.state.songDetail.length)
+      }
       if (this.$store.state.songDetail.length) {
         this.index++;
         this.timer = setInterval(this.progress, 1000);
@@ -349,9 +352,23 @@ export default {
       }
       // 歌曲总时间
       const totalTime = this.audio.duration;
+      switch (this.playType) {
+        case 1:
+          this.audio.loop = true
+          break;
+        default:
+          this.audio.loop = false
+          break;
+      }
       if (this.currentTime == totalTime) {
         this.next()
       }
+      // if (this.currentTime == totalTime) {
+      //   if (this.playType == 1) {
+      //     this.audio.loop = true
+      //   }
+      //   this.next()
+      // }
       // console.log(totalTime);
       // 获取进度条总长 - 小滑块的宽度
       const totalX = document.getElementById("pro-bar").offsetWidth - 10
@@ -367,9 +384,9 @@ export default {
       // 根据当前的运动点求当前的运动时间
       // 获取滑块的拖拽距离：鼠标的x坐标 - 进度条左偏移值
       document.getElementById("bar-dot").onmousedown = () => {
-        document.onmousemove = (x) => {
+        document.onmousemove = (e) => {
           this.audio.pause();
-          const mouseX = x.clientX - 10
+          const mouseX = e.clientX - 10
           // console.log(mouseX);
           const barX = document.getElementById("pro-bar").offsetLeft + 230 + 10
           // console.log(barX);
@@ -388,6 +405,12 @@ export default {
           this.onmousedown = null
           this.onmousemove = null
         }
+      }
+      document.getElementById("pro-bar").onmousedown = (e) => {
+        const proX = e.clientX
+        const barX = document.getElementById("pro-bar").offsetLeft + 230 + 20
+        document.getElementById("bar-line").style.width = proX - barX + 'px'
+        this.audio.currentTime = ((proX - barX) / totalX) * totalTime
       }
     },
   },
@@ -436,13 +459,13 @@ export default {
         margin: 0 10px;
         margin-top: 2px;
         border-radius: 3px;
-        background-color: #aaa;
+        background-color: #ccc;
         cursor: pointer;
         &:hover {
-          background-color: #ccc;
+          background-color: #aaa;
         }
         #bar-line {
-          width: 1px;
+          width: 0px;
           height: 3px;
           border-radius: 3px;
           background-color: #409eff;
