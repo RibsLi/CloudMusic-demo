@@ -10,7 +10,7 @@
       </template>
     </songs-list>
     <div class="newest-list">
-      <div class="newest-item" v-for="item in songData" :key="item">
+      <div class="newest-item" v-for="item in songData" :key="item" @dblclick="dblclick(item.id)">
         <div class="item-img">
           <img :src="item.album.blurPicUrl" alt="">
         </div>
@@ -52,6 +52,9 @@ export default {
           id
         },
       });
+    },
+    dblclick(id) {
+      this.$emit('songClick', id)
     }
   },
 }

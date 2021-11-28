@@ -7,7 +7,7 @@ export default {
     state.songDetail.push(...payload)
   },
   remove(state) {
-    state.songId = []
+    // state.songId = []
     state.songDetail = []
   },
   // addSong(state, payload) {

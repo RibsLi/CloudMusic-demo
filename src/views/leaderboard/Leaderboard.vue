@@ -1,6 +1,6 @@
 <template>
   <div class="leaderboard">
-    <official :toplist="toplist" :topSong="topSong" />
+    <official :toplist="toplist" :topSong="topSong" @songsClick="songsClick"  @songClick="songClick" />
     <global :global="global"/>
   </div>
 </template>
@@ -9,7 +9,7 @@
 import Official from "./childComps/Official";
 import Global from "./childComps/Global"
 import { getToplist } from "network/leaderboard";
-import { getPlaylistDetail } from "network/songdetail";
+import { getPlaylistDetail, getSongDetail } from "network/songdetail";
 
 export default {
   name: "Leaderboard",
@@ -17,7 +17,8 @@ export default {
     return {
       toplist: [],
       topSong: [],
-      global: []
+      global: [],
+      tableData: []
     };
   },
   components: {
@@ -47,6 +48,19 @@ export default {
         });
       });
     },
+    songsClick(id) {
+      getPlaylistDetail(id).then((res) => {
+        // console.log(res);
+        this.tableData = res.data.playlist.tracks
+      })
+      this.$store.commit("addSongDetail", this.tableData)
+    },
+    songClick(id) {
+      getSongDetail(id).then(res => {
+        // console.log(res);
+        this.$store.commit("addSongDetail", res.data.songs)
+      })
+    }
   },
 };
 </script>

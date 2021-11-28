@@ -3,13 +3,14 @@
     <banners :banners="banners"/>
     <recommend :recommends="recommends" />
     <personalized :perData="perData"/>
-    <newest :songData="songData"/>
+    <newest :songData="songData" @songClick="songClick"/>
     <recommend-m-v :recMV="recMV"/>
   </div>
 </template>
 
 <script>
 import { getBanners, getRecommend, getPersonalized, getTopSong, getRecommendMV } from "network/discovery";
+import { getSongDetail } from "network/songdetail";
 import Banners from "./childComps/Banners"
 import Recommend from "./childComps/Recommend";
 import Personalized from "./childComps/Personalized"
@@ -69,6 +70,14 @@ export default {
       // console.log(res);
       this.recMV = res.data.result
     })
+  },
+  methods: {
+    songClick(id) {
+      getSongDetail(id).then(res => {
+        // console.log(res);
+        this.$store.commit("addSongDetail", res.data.songs)
+      })
+    }
   },
 };
 </script>

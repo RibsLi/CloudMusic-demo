@@ -5,11 +5,11 @@
       <div class="lea-left">
         <img :src="item.coverImgUrl" alt="" @click="allClick(item.id)" />
         <span class="updata">{{ item.updateFrequency }}</span>
-        <span class="iconfont icon-bofang1 play"></span>
+        <span class="iconfont icon-bofang1 play" @click="playMusic(item.id)"></span>
       </div>
       <div class="lea-right">
         <ul>
-          <li v-for="(item, index) in topSong[index]" :key="index">
+          <li v-for="(item, index) in topSong[index]" :key="index" @dblclick="dblclick(item.id)">
             <span class="singer">
               <i class="index" :style="index < 3 ? 'color: #ff0000' : ''">{{
                 index + 1
@@ -66,6 +66,12 @@ export default {
         },
       });
     },
+    playMusic(id) {
+      this.$emit('songsClick', id)
+    },
+    dblclick(id) {
+      this.$emit('songClick', id)
+    }
   },
 };
 </script>
@@ -107,6 +113,7 @@ export default {
       transform: translate(-50%, -50%);
       font-size: 50px;
       color: #ff0000;
+      cursor: pointer;
     }
   }
   .lea-right {
