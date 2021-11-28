@@ -5,7 +5,7 @@
       <h3>{{ album.name }}</h3>
       <div class="btn-box">
         <el-button-group>
-          <el-button type="primary" round size="small" icon="el-icon-video-play"
+          <el-button type="primary" round size="small" icon="el-icon-video-play" @click="playMusic"
             >播放全部</el-button
           >
           <el-button
@@ -13,6 +13,7 @@
             round
             size="small"
             icon="el-icon-plus"
+            @click="playMusic"
           ></el-button>
         </el-button-group>
         <el-button round size="small" icon="el-icon-folder-add">收藏</el-button>
@@ -62,8 +63,10 @@ export default {
           cat: item
         },
       });
-      
-    }
+    },
+    playMusic() {
+      this.$emit('songsClick')
+    },
   },
 };
 </script>

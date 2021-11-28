@@ -6,7 +6,7 @@
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 歌单列表 -->
       <el-tab-pane :label="'歌曲列表' + '('+ tableData.length + ')'" name="list">
-        <table-data :tableData="tableData" @songsClick="songsClick" @songClick="songClick"/>
+        <table-data :tableData="tableData" @songClick="songClick"/>
       </el-tab-pane>
       <!-- 评论 -->
       <!-- <el-tab-pane :label="'评论 ' + '('+ comTotal + ')'" name="comment"> -->
@@ -173,16 +173,17 @@ export default {
       this.comment.offset = (newPage - 1) * this.comment.limit;
       this.getSubscribers();
     },
-    // 获取音乐url
     songsClick() {
-      this.$store.commit("addSongId", this.trackIds)
+      // this.$store.commit("addSongId", this.trackIds)
       this.$store.commit("addSongDetail", this.tableData)
+      // this.$store.dispatch("addSong")
     },
     //获取单首音乐
     songClick(id) {
-      const ids = []
-      ids.push(id)
-      this.$store.commit("addSongId", ids)
+      // this.$store.dispatch("addSong", id)
+      // const ids = []
+      // ids.push(id)
+      // this.$store.commit("addSongId", ids)
       getSongDetail(id).then(res => {
         // console.log(res);
         this.$store.commit("addSongDetail", res.data.songs)

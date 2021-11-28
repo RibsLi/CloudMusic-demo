@@ -1,36 +1,28 @@
+import { getPlaylistDetail, getSongDetail } from "network/songdetail";
+
 export default {
-  addSongId(context, payload) {
-    return new Promise((resolve, reject) => {
-      let oldId = context.state.songId.find(function(item) {
-        return item.id == payload.id
-      });
-      if (!oldId) {
-        context.commit("addSongId", payload);
-        resolve();
-        reject()
-      }
-      // else {
-      //   payload.count = 1;
-      //   context.commit("addToCart", payload);
-      //   resolve();
-      // }
-    })
+  addSong(context, payload) {
+    // const obj = {}
+    let trackIds = []
+    let tableData = []
+    // 获取歌单详情
+    if(payload.length > 1) {
+      getPlaylistDetail(payload).then(res => {
+        // console.log(res);
+        res.data.playlist.trackIds.forEach(item => {
+          trackIds.push(item.id)
+        })
+        getSongDetail(trackIds).then(res => {
+          tableData = res.data.songs;
+        })
+      })
+    } else {
+      getSongDetail(payload).then(res => {
+        console.log(res);
+        tableData.push(...res.data.songs);
+      })
+    }
+    console.log(tableData);
+    context.commit("addSong", tableData)
   },
-  addSongDetail(context, payload) {
-    return new Promise((resolve, reject) => {
-      let oldDetail = context.state.songId.find(function(item) {
-        return item.id === payload.id;
-      });
-      if (!oldDetail) {
-        context.commit("addSongDetail", oldDetail);
-        resolve();
-        reject()
-      }
-      // else {
-      //   payload.count = 1;
-      //   context.commit("addToCart", payload);
-      //   resolve();
-      // }
-    })
-  }
 };

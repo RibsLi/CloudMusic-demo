@@ -7,6 +7,7 @@
     :show-header="false"
     empty-text="Loading..."
     style="width: 100%"
+    @row-dblclick="playMusic"
   >
     <el-table-column
       type="index"
@@ -78,7 +79,14 @@ export default {
           id
         },
       })
-    }
+    },
+    playMusic(row) {
+      // console.log(row);
+      // console.log(row.id);
+      // this.$emit('songsClick')
+      // console.log(row);
+      this.$emit('songClick', row.id)
+    },
   },
 };
 </script>

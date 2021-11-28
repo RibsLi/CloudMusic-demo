@@ -7,6 +7,7 @@
     :show-header="false"
     empty-text="Loading..."
     style="width: 100%"
+    @row-dblclick="playMusic"
   >
     <el-table-column prop="name" label="专辑名称" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
@@ -49,6 +50,15 @@ export default {
     },
     albumClick(id) {
       // console.log('---');
+      this.$router.push({
+        path: "/albumDetail",
+        query: {
+          id
+        },
+      })
+    },
+    playMusic(row) {
+      const id = row.id
       this.$router.push({
         path: "/albumDetail",
         query: {

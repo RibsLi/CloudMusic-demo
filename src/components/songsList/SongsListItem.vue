@@ -1,13 +1,13 @@
 <template>
   <div class="slide-item">
-    <img :src="list.img1v1Url || list.picUrl || list.coverImgUrl || list.cover || list.imgurl" alt=""  @click="itemClick" />
+    <img :src="imgUrl" alt=""  @click="itemClick" />
     <div class="play-count" v-if="list.playCount ? true : false">
       <span class="count">
         <i class="el-icon-headset"></i>
         {{playCount}}
       </span>
     </div>
-    <span class="iconfont icon-bofang1 play" @click="playMusic"></span>
+    <span class="iconfont icon-bofang1 play" v-if="!isShow" @click="playMusic"></span>
     <div class="name">{{ list.name }}</div>
     <div class="author">
       <span class="singer" v-for="item in list.artists" :key="item" @click="singerClick(item.id)">
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { getPlaylistDetail, getSongDetail } from "network/songdetail";
+import { getAlbumContent } from "network/singer"
 export default {
   name: "SongsListItem",
   props: {
@@ -28,16 +30,68 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      trackIds: [],
+      tableData: [],
+      albumIds: [],
+      albumData: []
+    }
+  },
   computed: {
     playCount() {
       const count = this.list.playCount;
       if (count < 10000) return count;
       return (count / 10000).toFixed(1) + "万";
     },
+    imgUrl() {
+      return this.list.img1v1Url || this.list.picUrl || this.list.coverImgUrl || this.list.cover || this.list.imgurl
+    },
+    isShow() {
+      return this.list.type == 5 || this.list.mark == 0 || this.list.subed == false
+    }
   },
   methods: {
+    // 获取歌单详情
+    getPlaylistDetail() {
+      getPlaylistDetail(this.list.id).then((res) => {
+        // console.log(res);
+        res.data.playlist.trackIds.forEach((item) => {
+          this.trackIds.push(item.id);
+        });
+        getSongDetail(this.trackIds).then((res) => {
+          // console.log(res);
+          this.tableData = res.data.songs;
+        });
+      });
+    },
+    // 获取专辑内容
+    getAlbumContent() {
+      getAlbumContent(this.list.id).then(res => {
+        // console.log(res);
+        res.data.songs.forEach((item) => {
+          this.albumIds.push(item.id);
+        });
+        getSongDetail(this.albumIds).then((res) => {
+          // console.log(res);
+          this.albumData.push(...res.data.songs);
+        });
+      })
+    },
     playMusic() {
-      console.log('--');
+      if (this.list.type == 'Single' || this.list.type == '专辑') {
+        // console.log(this.list);
+        this.getAlbumContent()
+        this.$store.commit("addSongDetail", this.albumData)
+        // console.log(this.albumData);
+        // console.log(this.$store.state.songDetail);
+      }
+      else if (!this.isShow) {
+        this.getPlaylistDetail()
+        // this.$store.commit("addSongId", this.trackIds)
+        this.$store.commit("addSongDetail", this.tableData)
+        // console.log(this.$store.state.songId);
+      }
     },
     singerClick(id) {
       // console.log(id);
@@ -52,7 +106,7 @@ export default {
       // 如果type=0前往歌单详情列表
       // 如果type=5前往视频列表
       // console.log(this.list);
-      if (this.list.type == 5 || this.list.mark == 0 || this.list.subed == false) {
+      if (this.isShow) {
         this.$router.push({
           path: "/mvDetail",
           query: {
@@ -68,7 +122,7 @@ export default {
           },
         });
       }
-      else if(this.list.type == 'Single') {
+      else if(this.list.type == 'Single' || this.list.type == '专辑') {
         this.$router.push({
           path: "/albumDetail",
           query: {
@@ -134,6 +188,7 @@ img {
   right: 10px;
   font-size: 30px;
   color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
 }
 .slide-item:hover .play {
   // color: rgba(255, 0, 0, 0.8);

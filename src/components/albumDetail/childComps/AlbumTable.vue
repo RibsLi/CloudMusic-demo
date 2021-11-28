@@ -64,10 +64,6 @@ export default {
     playTime(dt) {
       return formatDuration(dt);
     },
-    // 获取单首音乐
-    playMusic() {
-      console.log('---');
-    },
     singerClick(id) {
       // console.log(id);
       this.$router.push({
@@ -76,7 +72,10 @@ export default {
           id
         },
       });
-    }
+    },
+    playMusic(row) {
+      this.$emit('songClick', row.id)
+    },
   },
 };
 </script>

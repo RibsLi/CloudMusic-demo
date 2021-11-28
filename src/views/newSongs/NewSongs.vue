@@ -23,7 +23,7 @@
         </li>
       </ul>
       <div class="cate-right">
-        <el-button type="primary" size="mini" round icon="el-icon-video-play"
+        <el-button type="primary" size="mini" round icon="el-icon-video-play" @click="playMusic"
           >播放全部</el-button
         >
         <el-button size="mini" round icon="el-icon-folder-add"
@@ -31,7 +31,7 @@
         >
       </div>
     </div>
-    <song-table-data :songData="songData" v-if="tabIndex==0" />
+    <song-table-data :songData="songData" v-if="tabIndex==0" @songClick="songClick" />
     <album :albumData="albumData" v-else/>
   </div>
 </template>
@@ -40,6 +40,7 @@
 import SongTableData from "./childComps/SongTableData";
 import Album from "./childComps/Album"
 import { getTopSong, getAlbum } from "network/discovery";
+import { getSongDetail } from "network/songdetail";
 export default {
   name: "NewSongs",
   data() {
@@ -67,7 +68,9 @@ export default {
         area: 'ZH',
       },
       albumData: [],
-      isShow: false
+      isShow: false,
+      trackIds: [],
+      tableData: []
     };
   },
   components: {
@@ -99,15 +102,32 @@ export default {
         // console.log(res);
         this.songData = res.data.data;
         this.songData.length = 30;
+        this.songData.forEach((item) => {
+          this.trackIds.push(item.id);
+        });
+        getSongDetail(this.trackIds).then((res) => {
+          // console.log(res);
+          this.tableData = res.data.songs;
+        });
       });
     },
     // 请求新碟上架数据
     getAlbum() {
       getAlbum(this.albumParams).then(res => {
-        // console.log(res);
+        console.log(res);
         this.albumData = res.data.monthData
         this.albumData.length = 24
       })
+    },
+    //获取单首音乐
+    songClick(id) {
+      getSongDetail(id).then(res => {
+        // console.log(res);
+        this.$store.commit("addSongDetail", res.data.songs)
+      })
+    },
+    playMusic() {
+      this.$store.commit("addSongDetail", this.tableData)
     },
   },
 };

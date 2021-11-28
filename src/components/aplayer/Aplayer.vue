@@ -58,7 +58,7 @@
         <div class="drawer-header">
           <h3>当前播放</h3>
           <div class="header-info">
-            <div>总 {{ $store.state.songId.length }} 首</div>
+            <div>总 {{ $store.state.songDetail.length }} 首</div>
             <div>
               <span><i class="el-icon-folder-add"></i>收藏全部</span>
               <span @click="removeClick">清空列表</span>
@@ -131,7 +131,7 @@
             <img src="~assets/images/play_disc.png" alt="" class="img-bg1" @click="imgbgClick">
             <img src="~assets/images/play_needle.png" alt="" class="img-bg2" :class="{active1: !playing}">
           </div>
-          <div class="lyric-text">
+          <div class="lyric-text" v-if="isShow">
             <el-scrollbar :noresize="false">
               <p :id="'s'+lyTime[index]" v-for="(item, index) in lyric" :key="index">{{item}}</p>
             </el-scrollbar>
@@ -166,6 +166,7 @@ export default {
       lyric: '', //歌词
       lyTime: '', //歌词时间
       i: 0,
+      isShow: false,
       songDetail: {}, //音乐详情
       tableData: [], //音乐列表数据
       picUrl: "", //音乐图片
@@ -173,11 +174,12 @@ export default {
       playType: 0, //播放类型: 0-列表循环，1-单曲循环，2-随机播放
       currentTime: "00:00", // 当前播放时间
       //totalTime: "00:00", // 总播放时间
-      //timer: "", //定时器
+      timer: "", //定时器
     };
   },
   created() {
-    this.songId = this.$store.state.songId[0];
+    // this.songId = this.$store.state.songId[0];
+    this.songId = this.$store.state.songDetail[0].id;
     this.getSongURL();
     this.getLyric()
     this.songDetail = this.$store.state.songDetail[0];
@@ -202,6 +204,9 @@ export default {
     getLyric() {
       getLyric(this.songId).then(res => {
         // console.log(res);
+        // 决定歌词盒子是否显示
+        this.isShow = res.data.lrc.lyric.indexOf("[00:00.000]") !== -1
+        // console.log(this.isShow);
         const a = res.data.lrc.lyric.split('[')
           // console.log(a);
           const lyric = []
@@ -293,13 +298,13 @@ export default {
     },
     // 上一首
     prev() {
-      if (this.$store.state.songId.length) {
+      if (this.$store.state.songDetail.length) {
         this.index--;
         this.timer = setInterval(this.progress, 1000);
         if (this.index < 0) {
-          this.index = this.$store.state.songId.length - 1;
+          this.index = this.$store.state.songDetail.length - 1;
         }
-        this.songId = this.$store.state.songId[this.index];
+        this.songId = this.$store.state.songDetail[this.index].id;
         this.getSongURL();
         this.getLyric()
         this.songDetail = this.$store.state.songDetail[this.index];
@@ -310,13 +315,13 @@ export default {
     },
     // // 下一首
     next() {
-      if (this.$store.state.songId.length) {
+      if (this.$store.state.songDetail.length) {
         this.index++;
         this.timer = setInterval(this.progress, 1000);
-        if (this.index == this.$store.state.songId.length) {
+        if (this.index == this.$store.state.songDetail.length) {
           this.index = 0;
         }
-        this.songId = this.$store.state.songId[this.index];
+        this.songId = this.$store.state.songDetail[this.index].id;
         this.getSongURL();
         this.getLyric()
         this.songDetail = this.$store.state.songDetail[this.index];
@@ -575,6 +580,7 @@ export default {
   margin-top: 30px;
   .mid-img {
     position: relative;
+    margin-top: 60px;
     &:hover .img-bg0 {
       transform: scale(1.1);
     }
@@ -608,7 +614,7 @@ export default {
   .lyric-text {
     width: 400px;
     height: 520px;
-    margin-left: 150px;
+    margin-left: 200px;
     text-align: center;
     font-size: 14px;
     line-height: 40px;

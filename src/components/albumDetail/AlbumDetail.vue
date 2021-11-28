@@ -1,12 +1,12 @@
 <template>
   <div class="album-detail">
     <!-- 详情头部 -->
-    <detail-header :album="album" :artist="artist" />
+    <detail-header :album="album" :artist="artist" @songsClick="songsClick" />
     <!-- tabs标签页 -->
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 歌单列表 -->
       <el-tab-pane label="歌曲列表" name="list">
-        <album-table :songs="songs"/>
+        <album-table :songs="songs" @songClick="songClick"/>
       </el-tab-pane>
       <el-tab-pane label="评论" name="comment">
         <!-- 输入框 -->
@@ -51,7 +51,7 @@ import DetailHeader from "./childComps/DetailHeader";
 import AlbumTable from "./childComps/AlbumTable";
 import Comment from "./childComps/Comment";
 import { getAlbumContent, getAlbumComment } from "network/singer"
-import { getHotComment } from "network/songdetail";
+import { getHotComment, getSongDetail } from "network/songdetail";
 export default {
   name: "AlbumDetail",
   data() {
@@ -120,6 +120,16 @@ export default {
       this.comment.offset = (newPage - 1) * this.comment.limit;
       this.getAlbumComment();
     },
+    songsClick() {
+      this.$store.commit("addSongDetail", this.songs)
+    },
+    //获取单首音乐
+    songClick(id) {
+      getSongDetail(id).then(res => {
+        // console.log(res);
+        this.$store.commit("addSongDetail", res.data.songs)
+      })
+    }
   },
 }
 </script>
