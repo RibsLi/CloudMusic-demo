@@ -114,7 +114,7 @@ export default {
     // 请求新碟上架数据
     getAlbum() {
       getAlbum(this.albumParams).then(res => {
-        console.log(res);
+        // console.log(res);
         this.albumData = res.data.monthData
         this.albumData.length = 24
       })

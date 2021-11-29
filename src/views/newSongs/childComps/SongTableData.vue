@@ -17,7 +17,7 @@
     />
     <el-table-column prop="name" label="标题" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
-        <span class="singer">
+        <span class="singer" @click="songClick(scope.row.id)">
           <img :src="scope.row.album.blurPicUrl" class="song-img" alt="" />
           {{ scope.row.name }}
         </span>
@@ -86,6 +86,9 @@ export default {
       // this.$emit('songsClick')
       // console.log(row);
       this.$emit('songClick', row.id)
+    },
+    songClick(id) {
+      this.$emit('songClick', id)
     },
   },
 };

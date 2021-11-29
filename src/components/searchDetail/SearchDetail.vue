@@ -106,7 +106,7 @@ export default {
       // 请求搜索歌手
       if (this.activeName == 'singer') {
         getSearch(this.$store.state.keywords, this.limit, this.type = 100, this.offset).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.code === 200) {
             this.artists = res.data.result.artists
             this.artistCount = res.data.result.artistCount
@@ -133,7 +133,7 @@ export default {
       } else if (this.activeName == 'playlists') {
         // 请求搜索歌单
         getSearch(this.$store.state.keywords, this.limit, this.type = 1000, this.offset).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.code === 200) {
             this.playlists = res.data.result.playlists
             this.playlistCount = res.data.result.playlistCount

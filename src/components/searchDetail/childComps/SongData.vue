@@ -19,7 +19,7 @@
     </el-table-column>
     <el-table-column prop="name" label="标题" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
-        <span class="singer">{{ scope.row.name}}</span>
+        <span class="singer" @click="songClick(scope.row.id)">{{ scope.row.name}}</span>
       </template>
     </el-table-column>
     <el-table-column prop="ar" label="歌手" :show-overflow-tooltip="true">
@@ -69,6 +69,9 @@ export default {
       // console.log(row.id);
       // this.$emit('songsClick')
       this.$emit('songClick', row.id)
+    },
+    songClick(id) {
+      this.$emit('songClick', id)
     },
     singerClick(id) {
       // console.log(id);

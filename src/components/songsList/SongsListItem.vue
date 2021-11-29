@@ -48,7 +48,7 @@ export default {
       return this.list.img1v1Url || this.list.picUrl || this.list.coverImgUrl || this.list.cover || this.list.imgurl
     },
     isShow() {
-      return this.list.type == 5 || this.list.mark == 0 || this.list.subed == false || !this.list.albumSize
+      return this.list.type == 5 || this.list.mark == 0 || this.list.subed == false
     }
   },
   methods: {
@@ -79,7 +79,15 @@ export default {
       })
     },
     playMusic() {
-      if (this.list.type == 'Single' || this.list.type == '专辑') {
+      if(this.list.albumSize) {
+        this.$router.push({
+          path: "/singerDetail",
+          query: {
+            id: this.list.id,
+          },
+        });
+      }
+      else if (this.list.type == 'Single' || this.list.type == '专辑') {
         // console.log(this.list);
         this.getAlbumContent()
         this.$store.commit("addSongDetail", this.albumData)
@@ -105,7 +113,7 @@ export default {
     itemClick() {
       // 如果type=0前往歌单详情列表
       // 如果type=5前往视频列表
-      console.log(this.list);
+      // console.log(this.list);
       if (this.isShow) {
         this.$router.push({
           path: "/mvDetail",

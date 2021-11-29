@@ -10,7 +10,7 @@
       <div class="lea-right">
         <ul>
           <li v-for="(item, index) in topSong[index]" :key="index" @dblclick="dblclick(item.id)">
-            <span class="singer">
+            <span class="singer" @click="dblclick(item.id)">
               <i class="index" :style="index < 3 ? 'color: #ff0000' : ''">{{
                 index + 1
               }}</i>
