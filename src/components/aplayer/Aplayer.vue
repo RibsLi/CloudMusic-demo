@@ -379,7 +379,7 @@ export default {
       // 获取滑块的拖拽距离：鼠标的x坐标 - 进度条左偏移值
       document.getElementById("bar-dot").onmousedown = () => {
         document.onmousemove = (e) => {
-          this.audio.pause();
+          // this.audio.pause();
           const mouseX = e.clientX - 10
           // console.log(mouseX);
           const barX = document.getElementById("pro-bar").offsetLeft + 230 + 10
@@ -395,7 +395,7 @@ export default {
           // console.log(this.currentTime);
         }
         document.onmouseup = function() {
-          document.getElementById("audio").play();
+          // document.getElementById("audio").play();
           this.onmousedown = null
           this.onmousemove = null
         }

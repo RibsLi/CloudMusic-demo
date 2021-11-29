@@ -43,6 +43,46 @@
               </div>
             </el-scrollbar>
           </div>
+          <div class="input-query" v-show="isSuggest">
+            <el-scrollbar>
+              <h4>搜 <span style="color: #409eff"> {{keywords}} </span> 相关的结果</h4>
+              <div v-show="songs">
+                <div class="sug-title"><span class="iconfont icon-yinle"></span> 单曲</div>
+                <ul class="sug-ul">
+                  <li v-for="item in songs" :key="item" @click="songClick(item.id)">
+                    {{item.name}}
+                    <i>{{item.alias[0]}}</i>
+                     - 
+                    <span v-for="item in item.artists" :key="item">{{item.name}} &nbsp;</span>
+                  </li>
+                </ul>
+              </div>
+              <div v-show="artists">
+                <div class="sug-title"><span class="iconfont icon-geshou"></span> 歌手</div>
+                <ul class="sug-ul">
+                  <li v-for="item in artists" :key="item" @click="singerClick(item.id)">
+                    {{item.name}}
+                  </li>
+                </ul>
+              </div>
+              <div v-show="albums">
+                <div class="sug-title"><span class="iconfont icon-zhuanji"></span> 专辑</div>
+                <ul class="sug-ul">
+                  <li v-for="item in albums" :key="item" @click="albumClick(item.id)">
+                    {{item.name}} - {{item.artist.name}}
+                  </li>
+                </ul>
+              </div>
+              <div v-show="playlists">
+                <div class="sug-title"><span class="iconfont icon-dingdan"></span> 歌单</div>
+                <ul class="sug-ul">
+                  <li v-for="item in playlists" :key="item" @click="playlistClick(item.id)">
+                    {{item.name}}
+                  </li>
+                </ul>
+              </div>
+            </el-scrollbar>
+          </div>
         </div>
       </div>
     </el-header>
@@ -92,7 +132,11 @@
 
 <script>
 import Aplayer from "components/aplayer/Aplayer.vue";
-import { getSearch, getDefSearch, getHotSearch } from "network/search";
+import { getSearch, getDefSearch, getHotSearch, getSuggest } from "network/search";
+import {
+  // getPlaylistDetail,
+  getSongDetail
+} from "network/songdetail";
 export default {
   name: "Home",
   data() {
@@ -126,8 +170,19 @@ export default {
       hotSearch: [],
       realkeyword: "",
       isQuery: false,
+      isSuggest: false,
       serachData: [],
-      artistsData: []
+      artistsData: [],
+      result: [
+        {name: '单曲', data: []},
+        {name: '歌手', data: []},
+        {name: '专辑', data: []},
+        {name: '歌单', data: []}
+      ],
+      albums: null,
+      artists: null,
+      playlists: null,
+      songs: null
     };
   },
   components: {
@@ -135,6 +190,9 @@ export default {
   },
   watch: {
     keywords(val) {
+      this.isQuery = false
+      this.isSuggest = true
+      this.getSuggest()
       this.$store.commit('serachData', this.serachData)
       this.$store.commit('keywords', val)
       // console.log(this.$store.state.keywords);
@@ -196,13 +254,16 @@ export default {
     showQuery() {
       if (this.keywords) {
         this.isQuery = false
+        this.isSuggest = true
       } else {
         this.isQuery = true
+        this.isSuggest = false
       }
     },
     noQuery() {
       setTimeout(() => {
         this.isQuery = false
+        this.isSuggest = false
       }, 200);
     },
     // 热搜列表点击事件
@@ -210,6 +271,54 @@ export default {
       this.keywords = item.searchWord
       this.searchClick()
       this.isQuery = false
+    },
+    // 搜索建议
+    getSuggest() {
+      getSuggest(this.keywords).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          this.albums = res.data.result.albums
+          this.artists = res.data.result.artists
+          this.playlists = res.data.result.playlists
+          this.songs = res.data.result.songs
+        }
+      })
+    },
+    //获取单首音乐
+    songClick(id) {
+      getSongDetail(id).then(res => {
+        // console.log(res);
+        this.$store.commit("addSongDetail", res.data.songs)
+      })
+    },
+    // 歌手跳转
+    singerClick(id) {
+      // console.log(id);
+      this.$router.push({
+        path: "/singerDetail",
+        query: {
+          id
+        },
+      });
+    },
+    // 专辑跳转
+    albumClick(id) {
+      // console.log('---');
+      this.$router.push({
+        path: "/albumDetail",
+        query: {
+          id
+        },
+      })
+    },
+    // 歌单跳转
+    playlistClick(id) {
+      this.$router.push({
+        path: "/songDetail",
+        query: {
+          id
+        },
+      });
     }
   },
 };
@@ -271,7 +380,8 @@ export default {
         .query-index {
           margin-left: 20px;
         }
-        .box-right {margin: 5px 10px 5px 20px;
+        .box-right {
+          margin: 5px 10px 5px 20px;
           .searchWord {
             font-weight: 500;
             color: #000;
@@ -283,13 +393,38 @@ export default {
             }
           }
           .content {
+            width: 300px;
             font-size: 12px;
             white-space: nowrap;
-            text-overflow: ellipsis;
             overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       }
+    }
+  }
+}
+.sug-title {
+  line-height: 30px;
+  background-color: #eee;
+  color: rgb(80, 77, 77);
+  padding-left: 20px;
+  span {
+    margin-right: 10px;
+  }
+}
+.sug-ul {
+  li {
+    padding-left: 35px;
+    line-height: 30px;
+    color: rgb(80, 77, 77);
+    cursor: pointer;
+    &:hover {
+      background-color: #eee;
+    }
+    i {
+      font-size: 12px;
+      color: #aaa;
     }
   }
 }

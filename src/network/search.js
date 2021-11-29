@@ -24,3 +24,12 @@ export function getHotSearch() {
     url: "/search/hot/detail"
   })
 }
+// 搜索建议
+export function getSuggest(keywords) {
+  return request({
+    url: "/search/suggest",
+    params: {
+      keywords
+    }
+  })
+}
