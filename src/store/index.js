@@ -16,6 +16,8 @@ export default createStore({
         al: {picUrl: 'https://p2.music.126.net/nNg4YjkcK1AwCX1FrN8VOQ==/109951166578333625.jpg'}
       }
     ],
+    serachData: [],
+    keywords: {}
   },
   mutations,
   actions,

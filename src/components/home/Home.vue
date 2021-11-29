@@ -24,10 +24,25 @@
         <div class="search">
           <el-input
             size="small"
-            v-model="query"
-            placeholder="音乐/视频/电台/用户"
+            v-model="keywords"
+            :placeholder="realkeyword"
             prefix-icon="iconfont icon-sousuo"
+            @change="searchClick"
+            @focus="showQuery"
+            @blur="noQuery"
           />
+          <div class="input-query" v-show="isQuery">
+            <el-scrollbar>
+              <h4>热搜榜</h4>
+              <div class="query-box" v-for="(item, index) in hotSearch" :key="index" @click="hotSearchClick(item)">
+                <div class="query-index" :style="index < 3 ? 'color: #ff0000' : ''">{{index+1}}</div>
+                <div class="box-right">
+                  <div class="searchWord">{{item.searchWord}}<span>{{item.score}}</span></div>
+                  <div class="content">{{item.content}}</div>
+                </div>
+              </div>
+            </el-scrollbar>
+          </div>
         </div>
       </div>
     </el-header>
@@ -70,87 +85,22 @@
       </el-main>
     </el-container>
     <el-footer height="70px">
-      <aplayer/>
+      <aplayer />
     </el-footer>
   </el-container>
-  <!-- <div class="home">
-    <div class="top-bar">
-      <div class="logo" @click="logoClick">
-        <img src="~assets/images/logo.png" alt="" />
-      </div>
-      <div class="box-icon">
-        <el-button
-          type="info"
-          size="small"
-          icon="el-icon-arrow-left"
-          circle
-          @click="backClick"
-        ></el-button>
-        <el-button
-          type="info"
-          size="small"
-          icon="el-icon-arrow-right"
-          circle
-          @click="goClick"
-        ></el-button>
-      </div>
-      <div class="search">
-        <el-input
-          size="small"
-          v-model="query"
-          placeholder="音乐/视频/电台/用户"
-          prefix-icon="iconfont icon-sousuo"
-        />
-      </div>
-    </div>
-    <el-container>
-      <el-aside :width="isToggle ? '64px' : '150px'">
-        <div class="toggle" @click="toggleClick">
-          <div v-show="!isToggle" class="is-toggle">
-            <i class="el-icon-arrow-left"></i>
-            <i class="el-icon-arrow-left"></i>
-            <i class="el-icon-arrow-left"></i>
-          </div>
-          <div v-show="isToggle" class="no-toggle">
-            <i class="el-icon-arrow-right"></i>
-            <i class="el-icon-arrow-right"></i>
-            <i class="el-icon-arrow-right"></i>
-          </div>
-        </div>
-        <el-menu
-          active-text-color="#fff"
-          background-color="#3a3d44"
-          text-color="#aaa"
-          :collapse="isToggle"
-          :collapse-transition="false"
-          router
-          :default-active="isActive"
-        >
-          <el-menu-item
-            :index="item.path"
-            v-for="(item, index) in menu"
-            :key="index"
-            @click="saveStateClick(item.path)"
-          >
-            <i class="iconfont" :class="icon[index]"></i>
-            <span>{{ item.title }}</span>
-          </el-menu-item>
-        </el-menu>
-      </el-aside>
-      <el-main>
-        <router-view/>
-      </el-main>
-    </el-container>
-  </div> -->
 </template>
 
 <script>
-import Aplayer from 'components/aplayer/Aplayer.vue';
+import Aplayer from "components/aplayer/Aplayer.vue";
+import { getSearch, getDefSearch, getHotSearch } from "network/search";
 export default {
   name: "Home",
   data() {
     return {
-      query: "",
+      keywords: "",
+      limit: 100,
+      type: 1,
+      offset: 0,
       menu: [
         { title: "发现音乐", path: "/discovery" },
         { title: "推荐歌单", path: "/recommends" },
@@ -173,15 +123,29 @@ export default {
       ],
       isToggle: false,
       isActive: "",
+      hotSearch: [],
+      realkeyword: "",
+      isQuery: false,
+      serachData: [],
+      artistsData: []
     };
   },
   components: {
-    Aplayer
+    Aplayer,
+  },
+  watch: {
+    keywords(val) {
+      this.$store.commit('serachData', this.serachData)
+      this.$store.commit('keywords', val)
+      // console.log(this.$store.state.keywords);
+    }
   },
   created() {
     this.isActive = window.sessionStorage.getItem("activePath")
       ? window.sessionStorage.getItem("activePath")
       : "/discovery";
+    this.getDefSearch();
+    this.getHotSearch();
   },
   methods: {
     // 折叠菜单栏
@@ -200,6 +164,53 @@ export default {
     saveStateClick(activePath) {
       window.sessionStorage.setItem("activePath", activePath);
     },
+    // 搜索
+    searchClick() {
+      this.isQuery = false
+      if (this.keywords) {
+        getSearch(this.keywords, this.limit, this.type, this.offset).then((res) => {
+          // console.log(res);
+          if (res.data.code === 200) {
+            this.serachData = res.data.result.songs
+            this.$store.commit('serachData', res.data.result.songs)
+            this.$router.push('/searchDetail')
+          }
+        });
+      }
+    },
+    // 默认搜索关键词
+    getDefSearch() {
+      getDefSearch().then((res) => {
+        // console.log(res);
+        this.realkeyword = res.data.data.realkeyword;
+      });
+    },
+    // 请求热搜列表
+    getHotSearch() {
+      getHotSearch().then((res) => {
+        // console.log(res);
+        this.hotSearch = res.data.data;
+      });
+    },
+    // 热搜列表的展示
+    showQuery() {
+      if (this.keywords) {
+        this.isQuery = false
+      } else {
+        this.isQuery = true
+      }
+    },
+    noQuery() {
+      setTimeout(() => {
+        this.isQuery = false
+      }, 200);
+    },
+    // 热搜列表点击事件
+    hotSearchClick(item) {
+      this.keywords = item.searchWord
+      this.searchClick()
+      this.isQuery = false
+    }
   },
 };
 </script>
@@ -230,12 +241,61 @@ export default {
   }
   .search {
     margin: auto 30px;
-    width: 400px;
+    width: 300px;
+    position: relative;
+    .input-query {
+      position: absolute;
+      top: 34px;
+      left: 0;
+      z-index: 9;
+      width: 350px;
+      height: 400px;
+      font-size: 14px;
+      border-radius: 5px;
+      box-shadow: 0 0 2px #eee;
+      background-color: #fff;
+      color: #aaa;
+      h4 {
+        line-height: 40px;
+        margin-left: 20px;
+      }
+      .query-box {
+        display: flex;
+        align-items: center;
+        line-height: 20px;
+        margin: 10px 0;
+        cursor: pointer;
+        &:hover {
+          background-color: #eee;
+        }
+        .query-index {
+          margin-left: 20px;
+        }
+        .box-right {margin: 5px 10px 5px 20px;
+          .searchWord {
+            font-weight: 500;
+            color: #000;
+            span {
+              color: #aaa;
+              font-weight: normal;
+              margin-left: 10px;
+              font-size: 12px;
+            }
+          }
+          .content {
+            font-size: 12px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+        }
+      }
+    }
   }
 }
-.el-input {
-  --el-input-border-radius: 20px;
-}
+// .el-input {
+// --el-input-border-radius: 5px;
+// }
 .el-button {
   font-size: 16px;
 }

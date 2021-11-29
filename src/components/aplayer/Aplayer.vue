@@ -164,7 +164,7 @@ export default {
       songURL: "", //音乐url
       lyric: '', //歌词
       lyTime: '', //歌词时间
-      i: 0,
+      i: 0.0,
       isShow: false,
       songDetail: {}, //音乐详情
       tableData: [], //音乐列表数据
@@ -360,15 +360,9 @@ export default {
           this.audio.loop = false
           break;
       }
-      if (this.currentTime == totalTime) {
+      if (this.currentTime == totalTime && this.playType !== 1) {
         this.next()
       }
-      // if (this.currentTime == totalTime) {
-      //   if (this.playType == 1) {
-      //     this.audio.loop = true
-      //   }
-      //   this.next()
-      // }
       // console.log(totalTime);
       // 获取进度条总长 - 小滑块的宽度
       const totalX = document.getElementById("pro-bar").offsetWidth - 10
