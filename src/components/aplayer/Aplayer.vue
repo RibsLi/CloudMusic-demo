@@ -53,7 +53,7 @@
     </div>
     <div class="aplayer-right">
       <span class="iconfont icon-bofangliebiao" @click="drawer = true"></span>
-      <el-drawer v-model="drawer" :show-close="false" :with-header="false">
+      <el-drawer v-model="drawer" :show-close="false" :with-header="false" size="500px">
         <div class="drawer-header">
           <h3>当前播放</h3>
           <div class="header-info">
@@ -64,52 +64,17 @@
             </div>
           </div>
         </div>
-        <el-table
-          :data="tableData"
-          stripe
-          highlight-current-row
-          size="mini"
-          height="90vh"
-          style="width: 100%"
-          ref="table"
-        >
-          <el-table-column
-            prop="name"
-            label="歌曲"
-            :show-overflow-tooltip="true"
-          >
-            <template v-slot:default="scope">
-              <span class="singer">{{ scope.row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="ar" label="歌手" :show-overflow-tooltip="true">
-            <template v-slot:default="scope">
-              <span
-                class="singer"
-                v-for="item in scope.row.ar"
-                :key="item"
-                @click="singerClick(item.id)"
-                >{{ item.name }} &nbsp;</span
-              >
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="al.name"
-            label="专辑"
-            :show-overflow-tooltip="true"
-          >
-            <template v-slot:default="scope">
-              <span class="singer" @click="albumClick(scope.row.al.id)">{{
-                scope.row.al.name
-              }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="dt" label="时间" width="75px">
-            <template v-slot:default="scope">
-              {{ playTime(scope.row.dt) }}
-            </template>
-          </el-table-column>
-        </el-table>
+        <el-scrollbar height="90vh">
+          <ul>
+            <li class="songs-list" :class="{activelist: index == i}" v-for="(item, i) in tableData" :key="i" @dblclick="playMusic(i)">
+              <span class="songs-name">{{item.name}}</span>
+              <span class="songs-singer">
+                <span v-for="item in item.ar" :key="item" @click="singerClick(item.id)">{{item.name}} &nbsp;</span>
+              </span>
+              <span class="songs-time">{{playTime(item.dt)}}</span>
+            </li>
+          </ul>
+        </el-scrollbar>
       </el-drawer>
     </div>
     <el-drawer v-model="drawerLyric" :with-header="false" direction="btt" size="100%">
@@ -194,7 +159,7 @@ export default {
   computed: {
     nextPlay() {
       return this.$store.state.songDetail.length
-    }
+    },
   },
   watch: {
     nextPlay(newSong, oldSong) {
@@ -203,7 +168,17 @@ export default {
       // console.log(oldSong);
       const n = newSong - oldSong
       if (n == 1) {
-        this.next()
+        this.index = newSong - 1
+        this.songId = this.$store.state.songDetail[newSong - 1].id;
+        this.getSongURL();
+        this.getLyric()
+        this.songDetail = this.$store.state.songDetail[newSong - 1];
+        this.picUrl = this.$store.state.songDetail[newSong - 1].al.picUrl;
+        setTimeout(() => {
+          this.audio.play();
+        }, 300);
+        this.playing = true;
+        // this.next()
       } else {
         this.index = -1
         this.next()
@@ -300,6 +275,22 @@ export default {
     imgbgClick() {
       this.play()
     },
+    // 双击播放列表播放当前歌曲
+    playMusic(index) {
+      this.index = index
+      this.songId = this.$store.state.songDetail[index].id;
+      this.getSongURL();
+      this.getLyric()
+      this.songDetail = this.$store.state.songDetail[index];
+      this.picUrl = this.$store.state.songDetail[index].al.picUrl;
+      setTimeout(() => {
+        this.audio.play();
+      }, 300);
+      this.playing = true;
+      // console.log('---');
+      // console.log(row.index);
+      // console.log(row);
+    },
     // 播放暂停
     play() {
       if (this.playing) {
@@ -309,7 +300,9 @@ export default {
         clearInterval(this.timer);
       } else {
         this.playing = true;
-        this.audio.play();
+        setTimeout(() => {
+          this.audio.play();
+        }, 300);
         // 定时器监听当前时间
         this.timer = setInterval(this.progress, 1000);
       }
@@ -327,7 +320,9 @@ export default {
         this.getLyric()
         this.songDetail = this.$store.state.songDetail[this.index];
         this.picUrl = this.$store.state.songDetail[this.index].al.picUrl;
-        this.audio.play();
+        setTimeout(() => {
+          this.audio.play();
+        }, 300);
         this.playing = true;
       }
     },
@@ -348,7 +343,9 @@ export default {
         this.getLyric()
         this.songDetail = this.$store.state.songDetail[this.index];
         this.picUrl = this.$store.state.songDetail[this.index].al.picUrl;
-        this.audio.play();
+        setTimeout(() => {
+          this.audio.play();
+        }, 300);
         this.playing = true;
       }
     },
@@ -562,11 +559,49 @@ export default {
     }
   }
 }
-.singer {
+.songs-list {
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
   cursor: pointer;
-  &:hover {
-    color: #409eff;
+  white-space: nowrap;
+  overflow: hidden;
+  &:nth-child(2n-1) {
+    background-color: #F5F5F5;
   }
+  &:hover {
+    background-color: #eee;
+  }
+  span {
+    display: inline-block;
+  }
+  .songs-name {
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .songs-singer {
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 15px;
+    span:hover {
+      color: #8A2BE2;
+    }
+  }
+  .songs-time {
+    width: 55px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.activelist {
+  background-color: #409eff !important;
+  color: #E6E6FA !important;
 }
 .lyric-box {
   // background: linear-gradient(to top, #d0b691, #8b9ead);

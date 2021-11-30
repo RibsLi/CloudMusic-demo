@@ -75,6 +75,23 @@ export default {
     this.getArtistDesc()
     this.getSimiArtist()
   },
+  computed: {
+    getId() {
+      return this.$route.query.id
+    }
+  },
+  watch: {
+    getId(newid) {
+      if (this.$route.path == '/singerDetail') {
+        this.id = newid
+        this.getArtistDetail()
+        this.getAlbum()
+        this.getArtistMV()
+        this.getArtistDesc()
+        this.getSimiArtist()
+      }
+    }
+  },
   methods: {
     // 获取歌手详情
     getArtistDetail() {
