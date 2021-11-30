@@ -18,8 +18,16 @@ export function getQrCreate(key, qrimg) {
     }
   })
 }
-
-
+// 二维码检测扫码状态接口
+export function getCheck(key) {
+  return request({
+    url: "/login/qr/check",
+    method: "post",
+    data: {
+      key
+    }
+  })
+}
 // 邮箱登录
 export function login(email, password) {
   return request({

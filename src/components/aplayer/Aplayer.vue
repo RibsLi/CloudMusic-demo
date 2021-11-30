@@ -191,6 +191,25 @@ export default {
   updated() {
     this.tableData = this.$store.state.songDetail;
   },
+  computed: {
+    nextPlay() {
+      return this.$store.state.songDetail.length
+    }
+  },
+  watch: {
+    nextPlay(newSong, oldSong) {
+      // console.log(this.$store.state.songDetail);
+      // console.log(newSong);
+      // console.log(oldSong);
+      const n = newSong - oldSong
+      if (n == 1) {
+        this.next()
+      } else {
+        this.index = -1
+        this.next()
+      }
+    }
+  },
   methods: {
     // 获取音乐url
     getSongURL() {

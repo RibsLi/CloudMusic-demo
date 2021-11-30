@@ -121,7 +121,7 @@ export default {
       this.getAlbumComment();
     },
     songsClick() {
-      this.$store.commit("addSongDetail", this.songs)
+      this.$store.commit("subSongDetail", this.songs)
     },
     //获取单首音乐
     songClick(id) {

@@ -6,6 +6,9 @@ export default {
     // console.log(payload);
     state.songDetail.push(...payload)
   },
+  subSongDetail(state, payload) {
+    state.songDetail = payload
+  },
   remove(state) {
     // state.songId = []
     state.songDetail = []

@@ -127,7 +127,7 @@ export default {
       })
     },
     playMusic() {
-      this.$store.commit("addSongDetail", this.tableData)
+      this.$store.commit("subSongDetail", this.tableData)
     },
   },
 };

@@ -98,8 +98,15 @@ export default {
     SongsListItem,
     Playlists
   },
-  created() {
-
+  computed: {
+    keyword() {
+      return this.$store.state.keywords
+    }
+  },
+  watch: {
+    keyword() {
+      this.tabClick()
+    }
   },
   methods: {
     tabClick() {

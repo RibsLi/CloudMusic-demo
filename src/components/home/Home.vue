@@ -141,7 +141,7 @@ import Aplayer from "components/aplayer/Aplayer.vue";
 import InputDetail from "components/input/InputDetail";
 // import Login from "components/login/Login"
 import QrcodeVue from 'qrcode.vue'
-import { getQrKey, getQrCreate } from "network/login";
+import { getQrKey, getQrCreate, getCheck } from "network/login";
 export default {
   name: "Home",
   data() {
@@ -182,6 +182,7 @@ export default {
       isAccount: false,
       isMobile: true,
       isEmail: false,
+      cookie: '',
       // 验证规则
       rules: {
         mobile: [
@@ -242,6 +243,9 @@ export default {
       setTimeout(() => {
         this.getQrCreate();
       }, 500);
+      setTimeout(() => {
+        this.getCheck()
+      }, 10000);
     },
     // 获取二维码key
     getQrKey() {
@@ -258,6 +262,17 @@ export default {
         // console.log(res);
         this.qrurl = res.data.data.qrurl;
       });
+    },
+    // 二维码扫码状态
+    // 800 为二维码过期,801 为等待扫码,802 为待确认,803 为授权登录成功(803 状态码下会返回 cookies)
+    getCheck() {
+      getCheck(this.unikey).then(res => {
+        console.log(res);
+        if (res.data.code === 803) {
+          this.cookie = res.data.cookie
+          window.sessionStorage.setItem("cookie", res.data.cookie);
+        }
+      })
     },
     submitForm() {
       // this.$refs.loginForm.validate((valid) => {

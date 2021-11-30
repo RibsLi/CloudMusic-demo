@@ -51,9 +51,9 @@ export default {
     songsClick(id) {
       getPlaylistDetail(id).then((res) => {
         // console.log(res);
-        this.tableData = res.data.playlist.tracks
+        // this.tableData = res.data.playlist.tracks
+        this.$store.commit("subSongDetail", res.data.playlist.tracks)
       })
-      this.$store.commit("addSongDetail", this.tableData)
     },
     songClick(id) {
       getSongDetail(id).then(res => {

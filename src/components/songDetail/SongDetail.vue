@@ -175,7 +175,7 @@ export default {
     },
     songsClick() {
       // this.$store.commit("addSongId", this.trackIds)
-      this.$store.commit("addSongDetail", this.tableData)
+      this.$store.commit("subSongDetail", this.tableData)
       // this.$store.dispatch("addSong")
     },
     //获取单首音乐

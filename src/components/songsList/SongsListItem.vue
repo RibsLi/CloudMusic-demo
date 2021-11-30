@@ -89,16 +89,36 @@ export default {
       }
       else if (this.list.type == 'Single' || this.list.type == '专辑') {
         // console.log(this.list);
-        this.getAlbumContent()
-        this.$store.commit("addSongDetail", this.albumData)
-        // console.log(this.albumData);
-        // console.log(this.$store.state.songDetail);
+        // this.getAlbumContent()
+        // this.$store.commit("addSongDetail", this.albumData)
+
+        getAlbumContent(this.list.id).then(res => {
+          // console.log(res);
+          const albumIds = []
+          res.data.songs.forEach((item) => {
+            albumIds.push(item.id);
+          });
+          getSongDetail(albumIds).then((res) => {
+            // console.log(res);
+            this.$store.commit("subSongDetail", res.data.songs)
+          });
+        })
       }
       else if (!this.isShow) {
-        this.getPlaylistDetail()
-        // this.$store.commit("addSongId", this.trackIds)
-        this.$store.commit("addSongDetail", this.tableData)
-        // console.log(this.$store.state.songId);
+        // this.getPlaylistDetail()
+        // this.$store.commit("addSongDetail", this.tableData)
+
+        getPlaylistDetail(this.list.id).then((res) => {
+          // console.log(res);
+          const trackIds = []
+          res.data.playlist.trackIds.forEach((item) => {
+            trackIds.push(item.id);
+          });
+          getSongDetail(trackIds).then((res) => {
+            // console.log(res);
+            this.$store.commit("subSongDetail", res.data.songs)
+          });
+        });
       }
     },
     singerClick(id) {
