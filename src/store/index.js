@@ -9,18 +9,28 @@ export default createStore({
     // songId: ['1891469546'],
     songDetail: [
       {
-        id: '1891469546',
-        name: '删了吧',
-        ar: [{name: '烟(许佳豪)'}],
-        dt: '204955',
-        al: {picUrl: 'https://p2.music.126.net/nNg4YjkcK1AwCX1FrN8VOQ==/109951166578333625.jpg'}
-      }
+        id: "448596416",
+        name: "At The Edge",
+        ar: [
+          {
+            id: 12138261,
+            name: "千坂",
+          },
+        ],
+        dt: "200644",
+        al: {
+          id: 35072236,
+          name: "At The Edge",
+          picUrl:
+            "https://p2.music.126.net/j0kTkSQDEn3MksdJ3S3BSQ==/109951163825143640.jpg",
+        },
+      },
     ],
     serachData: [],
-    keywords: {}
+    keywords: {},
   },
   mutations,
   actions,
   getters,
-  modules: {}
+  modules: {},
 });

@@ -3,7 +3,7 @@
     <div class="aplayer-left">
       <div class="left-img">
         <img :src="picUrl" alt="" />
-        <span class="iconfont icon-jiantou img-icon"  @click="imgClick"></span>
+        <span class="iconfont icon-jiantou img-icon" @click="imgClick"></span>
       </div>
       <div class="left-detail">
         <div>{{ songDetail.name }}</div>
@@ -53,7 +53,12 @@
     </div>
     <div class="aplayer-right">
       <span class="iconfont icon-bofangliebiao" @click="drawer = true"></span>
-      <el-drawer v-model="drawer" :show-close="false" :with-header="false" size="500px">
+      <el-drawer
+        v-model="drawer"
+        :show-close="false"
+        :with-header="false"
+        size="500px"
+      >
         <div class="drawer-header">
           <h3>当前播放</h3>
           <div class="header-info">
@@ -66,38 +71,78 @@
         </div>
         <el-scrollbar height="90vh">
           <ul>
-            <li class="songs-list" :class="{activelist: index == i}" v-for="(item, i) in tableData" :key="i" @dblclick="playMusic(i)">
-              <span class="songs-name">{{item.name}}</span>
+            <li
+              class="songs-list"
+              :class="{ activelist: index == i }"
+              v-for="(item, i) in tableData"
+              :key="i"
+              @dblclick="playMusic(i)"
+            >
+              <span class="songs-name">{{ item.name }}</span>
               <span class="songs-singer">
-                <span v-for="item in item.ar" :key="item" @click="singerClick(item.id)">{{item.name}} &nbsp;</span>
+                <span
+                  v-for="item in item.ar"
+                  :key="item"
+                  @click="singerClick(item.id)"
+                  >{{ item.name }} &nbsp;</span
+                >
               </span>
-              <span class="songs-time">{{playTime(item.dt)}}</span>
+              <span class="songs-time">{{ playTime(item.dt) }}</span>
             </li>
           </ul>
         </el-scrollbar>
       </el-drawer>
     </div>
-    <el-drawer v-model="drawerLyric" :with-header="false" direction="btt" size="100%">
+    <el-drawer
+      v-model="drawerLyric"
+      :with-header="false"
+      direction="btt"
+      size="100%"
+    >
       <div class="lyric-box">
-        <img :src="picUrl" alt="" class="header-bg">
-        <span class="el-icon-close header-close" @click="drawerLyric=false"></span>
+        <img :src="picUrl" alt="" class="header-bg" />
+        <span
+          class="el-icon-close header-close"
+          @click="drawerLyric = false"
+        ></span>
         <div class="lyric-header">
           <div class="header-ar">{{ songDetail.name }}</div>
           <div class="header-singer">
             <span v-for="item in songDetail.ar" :key="item"
-            >{{ item.name }} &nbsp;</span
-          >
+              >{{ item.name }} &nbsp;</span
+            >
           </div>
         </div>
         <div class="lyric-middle">
           <div class="mid-img">
-            <img :src="picUrl" alt="" class="img-bg0" :class="{active0: playing}">
-            <img src="~assets/images/play_disc.png" alt="" class="img-bg1" @click="imgbgClick">
-            <img src="~assets/images/play_needle.png" alt="" class="img-bg2" :class="{active1: !playing}">
+            <img
+              :src="picUrl"
+              alt=""
+              class="img-bg0"
+              :class="{ active0: playing }"
+            />
+            <img
+              src="~assets/images/play_disc.png"
+              alt=""
+              class="img-bg1"
+              @click="imgbgClick"
+            />
+            <img
+              src="~assets/images/play_needle.png"
+              alt=""
+              class="img-bg2"
+              :class="{ active1: !playing }"
+            />
           </div>
           <div class="lyric-text" v-if="isShow">
-            <el-scrollbar :noresize="false">
-              <p :id="'s'+lyTime[index]" v-for="(item, index) in lyric" :key="index">{{item}}</p>
+            <el-scrollbar>
+              <p
+                :id="'s' + lyTime[index]"
+                v-for="(item, index) in lyric"
+                :key="index"
+              >
+                {{ item }}
+              </p>
             </el-scrollbar>
           </div>
         </div>
@@ -127,8 +172,8 @@ export default {
       playing: false, // 播放状态
       songId: "", //音乐id
       songURL: "", //音乐url
-      lyric: '', //歌词
-      lyTime: '', //歌词时间
+      lyric: "", //歌词
+      lyTime: "", //歌词时间
       i: 0.0,
       isShow: false,
       songDetail: {}, //音乐详情
@@ -145,7 +190,7 @@ export default {
     // this.songId = this.$store.state.songId[0];
     this.songId = this.$store.state.songDetail[0].id;
     this.getSongURL();
-    this.getLyric()
+    this.getLyric();
     this.songDetail = this.$store.state.songDetail[0];
     this.tableData = this.$store.state.songDetail;
     this.picUrl = this.$store.state.songDetail[0].al.picUrl;
@@ -158,7 +203,7 @@ export default {
   },
   computed: {
     nextPlay() {
-      return this.$store.state.songDetail.length
+      return this.$store.state.songDetail.length;
     },
   },
   watch: {
@@ -166,12 +211,12 @@ export default {
       // console.log(this.$store.state.songDetail);
       // console.log(newSong);
       // console.log(oldSong);
-      const n = newSong - oldSong
+      const n = newSong - oldSong;
       if (n == 1) {
-        this.index = newSong - 1
+        this.index = newSong - 1;
         this.songId = this.$store.state.songDetail[newSong - 1].id;
         this.getSongURL();
-        this.getLyric()
+        this.getLyric();
         this.songDetail = this.$store.state.songDetail[newSong - 1];
         this.picUrl = this.$store.state.songDetail[newSong - 1].al.picUrl;
         setTimeout(() => {
@@ -180,11 +225,11 @@ export default {
         this.playing = true;
         // this.next()
       } else {
-        this.index = -1
-        this.next()
+        this.index = -1;
+        this.next();
       }
       this.timer = setInterval(this.progress, 1000);
-    }
+    },
   },
   methods: {
     // 获取音乐url
@@ -196,31 +241,31 @@ export default {
     },
     // 获取歌词
     getLyric() {
-      getLyric(this.songId).then(res => {
+      getLyric(this.songId).then((res) => {
         // console.log(res);
         // 决定歌词盒子是否显示
-        this.isShow = res.data.lrc.lyric.indexOf("[00:00.000]") !== -1
+        this.isShow = res.data.lrc.lyric.indexOf("[00:00.000]") !== -1;
         // console.log(this.isShow);
-        const a = res.data.lrc.lyric.split('[')
-          // console.log(a);
-          const lyric = []
-          const lyTime = []
-        a.forEach(item => {
-          const b = item.split(']')[1]
+        const a = res.data.lrc.lyric.split("[");
+        // console.log(a);
+        const lyric = [];
+        const lyTime = [];
+        a.forEach((item) => {
+          const b = item.split("]")[1];
           // console.log(b);
-          lyric.push(b)
+          lyric.push(b);
           // 歌词时间处理
-          const c = item.split(']')[0].split('.')
+          const c = item.split("]")[0].split(".");
           // console.log(c);
-          const d = c[0].split(':')
+          const d = c[0].split(":");
           // console.log(d);
-          const e = d[0] * 60 + parseInt(d[1])
+          const e = d[0] * 60 + parseInt(d[1]);
           // console.log(lyTime);
-          lyTime.push(e)
+          lyTime.push(e);
         });
-        this.lyric = lyric
-        this.lyTime = lyTime
-      })
+        this.lyric = lyric;
+        this.lyTime = lyTime;
+      });
     },
     // 歌曲时长处理函数
     playTime(dt) {
@@ -271,17 +316,17 @@ export default {
       this.tableData = [];
     },
     imgClick() {
-      this.drawerLyric = true
+      this.drawerLyric = true;
     },
     imgbgClick() {
-      this.play()
+      this.play();
     },
     // 双击播放列表播放当前歌曲
     playMusic(index) {
-      this.index = index
+      this.index = index;
       this.songId = this.$store.state.songDetail[index].id;
       this.getSongURL();
-      this.getLyric()
+      this.getLyric();
       this.songDetail = this.$store.state.songDetail[index];
       this.picUrl = this.$store.state.songDetail[index].al.picUrl;
       setTimeout(() => {
@@ -289,8 +334,6 @@ export default {
       }, 300);
       this.playing = true;
       // console.log('---');
-      // console.log(row.index);
-      // console.log(row);
     },
     // 播放暂停
     play() {
@@ -318,7 +361,7 @@ export default {
         }
         this.songId = this.$store.state.songDetail[this.index].id;
         this.getSongURL();
-        this.getLyric()
+        this.getLyric();
         this.songDetail = this.$store.state.songDetail[this.index];
         this.picUrl = this.$store.state.songDetail[this.index].al.picUrl;
         setTimeout(() => {
@@ -331,7 +374,9 @@ export default {
     next() {
       // 判断是否是随机播放
       if (this.playType == 2) {
-        this.index = Math.floor(Math.random() * this.$store.state.songDetail.length)
+        this.index = Math.floor(
+          Math.random() * this.$store.state.songDetail.length
+        );
       }
       if (this.$store.state.songDetail.length) {
         this.index++;
@@ -341,7 +386,7 @@ export default {
         }
         this.songId = this.$store.state.songDetail[this.index].id;
         this.getSongURL();
-        this.getLyric()
+        this.getLyric();
         this.songDetail = this.$store.state.songDetail[this.index];
         this.picUrl = this.$store.state.songDetail[this.index].al.picUrl;
         setTimeout(() => {
@@ -357,72 +402,76 @@ export default {
     // 进度条
     progress() {
       // 根据当前的运动时间求运动点：
-      // 当前的运动时间 / 总时间 = 当前的运动点 / 进度条总长 
+      // 当前的运动时间 / 总时间 = 当前的运动点 / 进度条总长
       // 当前时间
       this.currentTime = this.audio.currentTime;
       // 歌词联动效果
-      const cur = parseInt(this.currentTime)
-      if (document.getElementById('s' + cur)) {
-        document.getElementById('s' + this.i).setAttribute("style","color: #F8F8FF; transform: scale(1);")
-        this.i = cur
-        document.getElementById('s' + cur).setAttribute("style","color: #8A2BE2; transform: scale(1.3);")
+      const cur = parseInt(this.currentTime);
+      if (document.getElementById("s" + cur)) {
+        document
+          .getElementById("s" + this.i)
+          .setAttribute("style", "color: #F8F8FF; transform: scale(1);");
+        this.i = cur;
+        document
+          .getElementById("s" + cur)
+          .setAttribute("style", "color: #8A2BE2; transform: scale(1.3);");
       }
       // 歌曲总时间
       const totalTime = this.audio.duration;
       switch (this.playType) {
         case 1:
-          this.audio.loop = true
+          this.audio.loop = true;
           break;
         default:
-          this.audio.loop = false
+          this.audio.loop = false;
           break;
       }
       if (this.currentTime == totalTime && this.playType !== 1) {
-        this.next()
+        this.next();
       }
       // console.log(totalTime);
       // 获取进度条总长 - 小滑块的宽度
-      const totalX = document.getElementById("pro-bar").offsetWidth - 10
+      const totalX = document.getElementById("pro-bar").offsetWidth - 10;
       // console.log(totalX);
       // 获取当前进度
-      const proX = (this.currentTime / totalTime) * totalX
+      const proX = (this.currentTime / totalTime) * totalX;
       // console.log(proX);
       // 滑块的margin-left值
       // // document.getElementById("bar-dot").style.marginLeft = ~~(proX) + 'px'
       // 当前进度的背景
-      document.getElementById("bar-line").style.width = ~~(proX) + 'px'
+      document.getElementById("bar-line").style.width = ~~proX + "px";
       // 滑块的拖拽
       // 根据当前的运动点求当前的运动时间
       // 获取滑块的拖拽距离：鼠标的x坐标 - 进度条左偏移值
       document.getElementById("bar-dot").onmousedown = () => {
         document.onmousemove = (e) => {
           // this.audio.pause();
-          const mouseX = e.clientX - 10
+          const mouseX = e.clientX - 10;
           // console.log(mouseX);
-          const barX = document.getElementById("pro-bar").offsetLeft + 230 + 10
+          const barX = document.getElementById("pro-bar").offsetLeft + 230 + 10;
           // console.log(barX);
           // 拖拽距离
-          const dotX = mouseX - barX
+          const dotX = mouseX - barX;
           // console.log(dotX);
           // // document.getElementById("bar-dot").style.marginLeft = dotX + 'px'
-          document.getElementById("bar-line").style.width = dotX + 'px'
-          document.getElementById("bar-line").style.maxWidth = totalX + 'px'
-          this.audio.currentTime = (dotX / totalX) * totalTime
+          document.getElementById("bar-line").style.width = dotX + "px";
+          document.getElementById("bar-line").style.maxWidth = totalX + "px";
+          this.audio.currentTime = (dotX / totalX) * totalTime;
           // console.log(totalTime);
           // console.log(this.currentTime);
-        }
-        document.onmouseup = function() {
+        };
+        document.onmouseup = function () {
           // document.getElementById("audio").play();
-          this.onmousedown = null
-          this.onmousemove = null
-        }
-      }
+          this.onmousedown = null;
+          this.onmousemove = null;
+        };
+      };
       document.getElementById("pro-bar").onmousedown = (e) => {
-        const proX = e.clientX
-        const barX = document.getElementById("pro-bar").offsetLeft + 230 + 20
-        document.getElementById("bar-line").style.width = proX - barX + 'px'
-        this.audio.currentTime = ((proX - barX) / totalX) * totalTime
-      }
+        const proX = e.clientX;
+        const barX = document.getElementById("pro-bar").offsetLeft + 230 + 20;
+        document.getElementById("bar-line").style.width = proX - barX + "px";
+        this.audio.currentTime = ((proX - barX) / totalX) * totalTime;
+      };
     },
   },
 };
@@ -504,11 +553,11 @@ export default {
     }
   }
   img {
-   width: 50px;
-   height: 50px;
-   margin-right: 10px;
-   border-radius: 5px;
- }
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
   .img-icon {
     display: none;
     position: absolute;
@@ -520,7 +569,7 @@ export default {
     text-align: center;
     line-height: 50px;
     color: #fff;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.3);
   }
 }
 .aplayer-left,
@@ -629,7 +678,7 @@ export default {
     color: #F8F8FF;
     z-index: 9;
     cursor: pointer;
-    transition: transform .3s linear;
+    transition: transform 0.3s linear;
     &:hover {
       transform: rotate(90deg);
       color: #F00;
@@ -671,8 +720,8 @@ export default {
       left: -50px;
       width: 350px;
       height: 350px;
-      outline:13px solid #E6E6FA;
-      outline-offset:-5px;
+      outline: 13px solid #E6E6FA;
+      outline-offset: -5px;
     }
     .img-bg2 {
       position: absolute;
@@ -693,9 +742,9 @@ export default {
     font-size: 14px;
     line-height: 40px;
     border-radius: 5px;
-    box-shadow: 0 0 200px 5px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 200px 5px rgba(0, 0, 0, 0.2);
     color: #F8F8FF;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.3);
     position: relative;
     .activetext {
       color: #f00;
@@ -704,8 +753,12 @@ export default {
   }
 }
 @keyframes animat {
-  0% {transform: rotate(0);}
-  100% {transform: rotate(360deg);}
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .active0 {
   animation: animat 5s linear infinite;
