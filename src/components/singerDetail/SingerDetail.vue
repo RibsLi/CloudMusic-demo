@@ -199,6 +199,7 @@ export default {
     vertical-align: middle;
     border-radius: 5px;
     margin-bottom: 10px;
+    cursor: pointer;
   }
 }
 .no-mv {

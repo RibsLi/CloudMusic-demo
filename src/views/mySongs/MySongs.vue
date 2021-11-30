@@ -1,5 +1,5 @@
 <template>
-  <div>我的歌单</div>
+  <div class="my-songs">我的歌单</div>
 </template>
 
 <script>
@@ -8,6 +8,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 
 </style>

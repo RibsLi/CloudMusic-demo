@@ -57,12 +57,12 @@ export default {
       ],
       songParams: {
         type: 7,
-        limit: 50,
+        limit: 30,
         offset: 0,
       },
       songData: [],
       albumParams: {
-        limit: 20,
+        limit: 24,
         offset: 0,
         type: 'new',
         area: 'ZH',
