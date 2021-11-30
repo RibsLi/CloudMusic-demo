@@ -183,6 +183,7 @@ export default {
         this.index = -1
         this.next()
       }
+      this.timer = setInterval(this.progress, 1000);
     }
   },
   methods: {

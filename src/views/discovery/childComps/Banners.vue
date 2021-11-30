@@ -6,7 +6,7 @@
           {{ item.typeTitle }}
         </span>
         <a :href="item.url" target="_blank">
-          <img :src="item.imageUrl" alt="" />
+          <img :src="item.imageUrl" alt="" @click="imgClick(item)"/>
         </a>
       </el-carousel-item>
     </el-carousel>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { getSongDetail } from "network/songdetail";
 export default {
   name: "Banners",
   props: {
@@ -23,6 +24,33 @@ export default {
         return [];
       },
     },
+  },
+  methods: {
+    imgClick(item) {
+      // console.log('---');
+      if (item.typeTitle == '歌单') {
+        this.$router.push({
+          path: "/songDetail",
+          query: {
+            id: item.targetId,
+          },
+        });
+      }
+      else if (item.typeTitle == '新碟首发' && item.targetId !== 0) {
+        this.$router.push({
+          path: "/albumDetail",
+          query: {
+            id: item.targetId,
+          },
+        });
+      }
+      else if(item.typeTitle == '热门单曲' || item.typeTitle == '新歌首发') {
+        getSongDetail(item.targetId).then(res => {
+          // console.log(res);
+          this.$store.commit("addSongDetail", res.data.songs)
+        })
+      }
+    }
   },
 };
 </script>
