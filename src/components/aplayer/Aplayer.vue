@@ -3,7 +3,10 @@
     <div class="aplayer-left">
       <div class="left-img">
         <img :src="picUrl" alt="" />
-        <span class="iconfont icon-jiantou img-icon" @click="imgClick"></span>
+        <span @click="imgClick">
+          <span class="iconfont icon-jiantou img-icon" v-show="!isLyc"></span>
+          <span class="iconfont icon-arrow_down img-icon" v-show="isLyc"></span>
+        </span>
       </div>
       <div class="left-detail">
         <div>{{ songDetail.name }}</div>
@@ -93,18 +96,10 @@
         </el-scrollbar>
       </el-drawer>
     </div>
-    <el-drawer
-      v-model="drawerLyric"
-      :with-header="false"
-      direction="btt"
-      size="100%"
-    >
+    <div class="lyc-bg" v-show="isLyc">
       <div class="lyric-box">
         <img :src="picUrl" alt="" class="header-bg" />
-        <span
-          class="el-icon-close header-close"
-          @click="drawerLyric = false"
-        ></span>
+        <span class="el-icon-close header-close" @click="isLyc = false"></span>
         <div class="lyric-header">
           <div class="header-ar">{{ songDetail.name }}</div>
           <div class="header-singer">
@@ -134,20 +129,14 @@
               :class="{ active1: !playing }"
             />
           </div>
-          <div class="lyric-text" v-if="isShow">
-            <el-scrollbar>
-              <p
-                :id="'s' + lyTime[index]"
-                v-for="(item, index) in lyric"
-                :key="index"
-              >
-                {{ item }}
-              </p>
-            </el-scrollbar>
+          <div id="lyric-text">
+            <p :id="item.time" v-for="(item, index) in lyric" :key="index.id">
+              {{ item.lyc }}
+            </p>
           </div>
         </div>
       </div>
-    </el-drawer>
+    </div>
   </div>
 </template>
 
@@ -167,22 +156,20 @@ export default {
   data() {
     return {
       drawer: false,
-      drawerLyric: false,
+      isLyc: false,
       audio: "",
       playing: false, // 播放状态
       songId: "", //音乐id
       songURL: "", //音乐url
-      lyric: "", //歌词
+      lyric: [], //歌词
       lyTime: "", //歌词时间
-      i: 0.0,
-      isShow: false,
+      i: 0,
       songDetail: {}, //音乐详情
       tableData: [], //音乐列表数据
       picUrl: "", //音乐图片
       index: 0, //当前音乐的index
       playType: 0, //播放类型: 0-列表循环，1-单曲循环，2-随机播放
       currentTime: "00:00", // 当前播放时间
-      //totalTime: "00:00", // 总播放时间
       timer: "", //定时器
     };
   },
@@ -243,28 +230,22 @@ export default {
     getLyric() {
       getLyric(this.songId).then((res) => {
         // console.log(res);
-        // 决定歌词盒子是否显示
-        this.isShow = res.data.lrc.lyric.indexOf("[00:00.000]") !== -1;
-        // console.log(this.isShow);
-        const a = res.data.lrc.lyric.split("[");
-        // console.log(a);
         const lyric = [];
-        const lyTime = [];
-        a.forEach((item) => {
-          const b = item.split("]")[1];
-          // console.log(b);
-          lyric.push(b);
-          // 歌词时间处理
-          const c = item.split("]")[0].split(".");
-          // console.log(c);
-          const d = c[0].split(":");
-          // console.log(d);
-          const e = d[0] * 60 + parseInt(d[1]);
-          // console.log(lyTime);
-          lyTime.push(e);
+        const lycArr = res.data.lrc.lyric.split("\n"); //拆分为数组
+        lycArr.forEach((item) => {
+          const con = item.split("]");
+          const lyc = con[1];
+          // console.log(lyc);
+          const t1 = con[0].split("[")[1];
+          const t2 = (t1 || "").split(":");
+          const time = t2[0] * 60 + parseInt(t2[1]);
+          // console.log(time);
+          lyric.push({
+            time,
+            lyc,
+          });
         });
         this.lyric = lyric;
-        this.lyTime = lyTime;
       });
     },
     // 歌曲时长处理函数
@@ -316,7 +297,8 @@ export default {
       this.tableData = [];
     },
     imgClick() {
-      this.drawerLyric = true;
+      // this.drawerLyric = true;
+      this.isLyc = !this.isLyc;
     },
     imgbgClick() {
       this.play();
@@ -407,14 +389,28 @@ export default {
       this.currentTime = this.audio.currentTime;
       // 歌词联动效果
       const cur = parseInt(this.currentTime);
-      if (document.getElementById("s" + cur)) {
+      if (document.getElementById(cur)) {
+        if (document.getElementById(cur).offsetTop > 240) {
+          document.getElementById("lyric-text").scrollTop =
+            document.getElementById(cur).offsetTop - 240;
+        }
+        // document
+        //   .getElementById(this.i)
+        //   .setAttribute("style", "color: #F8F8FF; transform: scale(1);");
+        // this.i = cur;
         document
-          .getElementById("s" + this.i)
-          .setAttribute("style", "color: #F8F8FF; transform: scale(1);");
-        this.i = cur;
-        document
-          .getElementById("s" + cur)
-          .setAttribute("style", "color: #8A2BE2; transform: scale(1.3);");
+          .getElementById(cur)
+          .setAttribute(
+            "style",
+            "color: #8A2BE2; transform: scale(1.3);transition: transform .5s linear;"
+          );
+        this.audio.addEventListener("ended", function () {
+          document
+            .getElementById(cur)
+            .setAttribute("style", "color: #F8F8FF; transform: scale(1);");
+          document.getElementById("lyric-text").scrollTop =
+            0 - document.getElementById(cur).offsetTop;
+        });
       }
       // 歌曲总时间
       const totalTime = this.audio.duration;
@@ -426,9 +422,7 @@ export default {
           this.audio.loop = false;
           break;
       }
-      if (this.currentTime == totalTime && this.playType !== 1) {
-        this.next();
-      }
+      this.audio.addEventListener("ended", this.next);
       // console.log(totalTime);
       // 获取进度条总长 - 小滑块的宽度
       const totalX = document.getElementById("pro-bar").offsetWidth - 10;
@@ -653,6 +647,16 @@ export default {
   background-color: #409eff !important;
   color: #E6E6FA !important;
 }
+.lyc-bg {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  z-index: 99;
+  overflow: hidden;
+}
 .lyric-box {
   // background: linear-gradient(to top, #d0b691, #8b9ead);
   background: linear-gradient(to top, #8b9ead, #fff);
@@ -688,6 +692,7 @@ export default {
 .lyric-header {
   text-align: center;
   filter: blur(0);
+  margin-top: 20px;
   .header-ar {
     font-size: 25px;
     font-weight: 500;
@@ -734,8 +739,8 @@ export default {
       transform-origin: left top;
     }
   }
-  .lyric-text {
-    width: 400px;
+  #lyric-text {
+    width: 480px;
     height: 520px;
     margin-left: 200px;
     text-align: center;
@@ -746,9 +751,13 @@ export default {
     color: #F8F8FF;
     background-color: rgba(0, 0, 0, 0.3);
     position: relative;
-    .activetext {
-      color: #f00;
-      transform: scale(1.2);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    // // 隐藏滚动条
+    scrollbar-width: none; /* firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+    &::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
     }
   }
 }
