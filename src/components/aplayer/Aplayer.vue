@@ -130,7 +130,12 @@
             />
           </div>
           <div id="lyric-text">
-            <p :id="item.time" v-for="(item, index) in lyric" :key="index.id">
+            <p
+              :id="item.time"
+              v-for="(item, index) in lyric"
+              :key="index.id"
+              :class="{ activetxt: getActive(item, index) }"
+            >
               {{ item.lyc }}
             </p>
           </div>
@@ -231,8 +236,16 @@ export default {
       getLyric(this.songId).then((res) => {
         // console.log(res);
         const lyric = [];
-        const lycArr = res.data.lrc.lyric.split("\n"); //拆分为数组
-        lycArr.forEach((item) => {
+        const lycArr1 = res.data.lrc.lyric.split("\n"); //拆分为数组
+        const lycArr2 = lycArr1.filter((n) => {
+          //去空行
+          if (n == null || n == "") {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        lycArr2.forEach((item) => {
           const con = item.split("]");
           const lyc = con[1];
           // console.log(lyc);
@@ -246,6 +259,7 @@ export default {
           });
         });
         this.lyric = lyric;
+        // console.log(this.lyric);
       });
     },
     // 歌曲时长处理函数
@@ -335,6 +349,7 @@ export default {
     },
     // 上一首
     prev() {
+      document.getElementById("lyric-text").scrollTop = 0
       if (this.$store.state.songDetail.length) {
         this.index--;
         this.timer = setInterval(this.progress, 1000);
@@ -354,6 +369,7 @@ export default {
     },
     // // 下一首
     next() {
+      document.getElementById("lyric-text").scrollTop = 0
       // 判断是否是随机播放
       if (this.playType == 2) {
         this.index = Math.floor(
@@ -381,35 +397,28 @@ export default {
     playTypeClick() {
       this.playType = this.playType + 1 > 2 ? 0 : this.playType + 1;
     },
+    getActive(item, index) {
+      // 设置当前歌词动态颜色
+      if (index == this.lyric.length - 1) {
+        index = 0
+      }
+      return this.currentTime > item.time && this.currentTime < this.lyric[index + 1].time
+    },
     // 进度条
     progress() {
       // 根据当前的运动时间求运动点：
       // 当前的运动时间 / 总时间 = 当前的运动点 / 进度条总长
       // 当前时间
       this.currentTime = this.audio.currentTime;
-      // 歌词联动效果
+      // 歌词滚动效果
       const cur = parseInt(this.currentTime);
       if (document.getElementById(cur)) {
         if (document.getElementById(cur).offsetTop > 240) {
           document.getElementById("lyric-text").scrollTop =
             document.getElementById(cur).offsetTop - 240;
         }
-        // document
-        //   .getElementById(this.i)
-        //   .setAttribute("style", "color: #F8F8FF; transform: scale(1);");
-        // this.i = cur;
-        document
-          .getElementById(cur)
-          .setAttribute(
-            "style",
-            "color: #8A2BE2; transform: scale(1.3);transition: transform .5s linear;"
-          );
         this.audio.addEventListener("ended", function () {
-          document
-            .getElementById(cur)
-            .setAttribute("style", "color: #F8F8FF; transform: scale(1);");
-          document.getElementById("lyric-text").scrollTop =
-            0 - document.getElementById(cur).offsetTop;
+          document.getElementById("lyric-text").scrollTop = 0
         });
       }
       // 歌曲总时间
@@ -472,6 +481,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.activetxt {
+  color: #8A2BE2;
+  transform: scale(1.3);
+  transition: transform 0.5s linear;
+}
 .aplayer {
   display: flex;
   justify-content: space-between;
