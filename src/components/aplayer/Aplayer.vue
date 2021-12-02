@@ -9,7 +9,7 @@
         </span>
       </div>
       <div class="left-detail">
-        <div>{{ songDetail.name }}</div>
+        <div class="left-detail-name">{{ songDetail.name }}</div>
         <div class="ar">
           <span v-for="item in songDetail.ar" :key="item"
             >{{ item.name }} &nbsp;</span
@@ -481,11 +481,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.activetxt {
-  color: #8A2BE2;
-  transform: scale(1.3);
-  transition: transform 0.5s linear;
-}
 .aplayer {
   display: flex;
   justify-content: space-between;
@@ -580,10 +575,14 @@ export default {
     background-color: rgba(0, 0, 0, 0.3);
   }
 }
-.aplayer-left,
-.left-detail {
+.aplayer-left {
   line-height: 20px;
+  overflow: hidden;
+}
+.left-detail-name {
+  width: 170px;
   white-space: nowrap;
+  text-overflow: ellipsis;
   overflow: hidden;
 }
 .ar {
@@ -670,6 +669,7 @@ export default {
   bottom: 70px;
   z-index: 99;
   overflow: hidden;
+  user-select: none;
 }
 .lyric-box {
   // background: linear-gradient(to top, #d0b691, #8b9ead);
@@ -723,6 +723,7 @@ export default {
   .mid-img {
     position: relative;
     margin-top: 60px;
+    user-select: none;
     &:hover .img-bg0 {
       transform: scale(1.1);
     }
@@ -761,9 +762,12 @@ export default {
     font-size: 14px;
     line-height: 40px;
     border-radius: 5px;
-    box-shadow: 0 0 200px 5px rgba(0, 0, 0, 0.2);
-    color: #F8F8FF;
-    background-color: rgba(0, 0, 0, 0.3);
+    // color: #F8F8FF;
+    // background-color: rgba(0, 0, 0, 0.3);
+    // box-shadow: 0 0 200px 5px rgba(0, 0, 0, 0.2);
+    color: #696969;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 200px 5px rgba(255, 255, 255, 0.2);
     position: relative;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -773,6 +777,11 @@ export default {
     &::-webkit-scrollbar {
       display: none; /* Chrome Safari */
     }
+  }
+  .activetxt {
+    color: #8A2BE2;
+    transform: scale(1.3);
+    transition: transform 0.5s linear;
   }
 }
 @keyframes animat {
