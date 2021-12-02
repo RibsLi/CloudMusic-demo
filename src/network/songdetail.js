@@ -9,6 +9,17 @@ export function getPlaylistDetail(id) {
     }
   })
 }
+// 获取我喜欢的歌单详情 必须带cookie
+export function getPlaylistDetailCookie(id, cookie) {
+  return request({
+    url: "/playlist/detail",
+    method: "post",
+    data: {
+      id,
+      cookie
+    }
+  })
+}
 //获取所有歌曲列表
 export function getSongDetail(...id) {
   return request({

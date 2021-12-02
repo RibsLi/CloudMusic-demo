@@ -12,15 +12,27 @@
       v-if="!isShow"
       @click="playMusic"
     ></span>
-    <div class="name">{{ list.name }}</div>
+    <div class="name">{{ list.name || list.title }}</div>
     <div class="author">
-      <span
-        class="singer"
-        v-for="item in list.artists"
-        :key="item"
-        @click="singerClick(item.id)"
-      >
-        {{ item.name }} &nbsp;
+      <span v-if="list.artists">
+        <span
+          class="singer"
+          v-for="item in list.artists"
+          :key="item"
+          @click="singerClick(item.id)"
+        >
+          {{ item.name }} &nbsp;
+        </span>
+      </span>
+      <span v-if="list.vid">
+        <span
+          class="singer"
+          v-for="item in list.creator"
+          :key="item"
+          @click="singerClick(item.userId)"
+        >
+          {{ item.userName }} &nbsp;
+        </span>
       </span>
     </div>
   </div>
@@ -59,12 +71,13 @@ export default {
         this.list.picUrl ||
         this.list.coverImgUrl ||
         this.list.cover ||
-        this.list.imgurl
+        this.list.imgurl ||
+        this.list.coverUrl
       );
     },
     isShow() {
       return (
-        this.list.type == 5 || this.list.mark == 0 || this.list.subed == false
+        this.list.type == 5 || this.list.mark == 0 || this.list.subed == false ||this.list.vid
       );
     },
   },
@@ -153,7 +166,7 @@ export default {
         this.$router.push({
           path: "/mvDetail",
           query: {
-            id: this.list.id,
+            id: this.list.id || this.list.vid,
           },
         });
       } else if (this.list.albumSize) {

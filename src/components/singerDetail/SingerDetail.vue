@@ -7,7 +7,6 @@
       <!-- 歌单列表 -->
       <el-tab-pane label="专辑" name="album">
         <album-table :albumList="albumList"/>
-        <!-- <album :albumList="albumList" :topSong="topSong"/> -->
       </el-tab-pane>
       <el-tab-pane label="MV" name="mv">
         <div v-if="mvs.length">

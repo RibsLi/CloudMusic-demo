@@ -27,8 +27,9 @@
     </div>
     <!-- 登录 -->
     <div class="bar-right">
-      <img :src="$store.state.profile.avatarUrl" alt="" v-if="$store.state.profile.avatarUrl">
-      <span class="login-user">{{$store.state.profile.nickname ? $store.state.profile.nickname : '未登录'}}</span>
+      <img src="~assets/images/1.jpg" alt="" v-if="!userImg()">
+      <img :src="userImg()" alt="" v-else>
+      <span class="login-user">{{userName()}}</span>
       <el-button type="primary" size="mini" @click="loginClick">登录</el-button>
       <el-button type="danger" size="mini" @click="logoutClick">退出</el-button>
       <el-dialog v-model="dialogVisible" width="30%" @close="resetForm">
@@ -38,6 +39,7 @@
             <qrcode-vue :value="qrurl" :size="200" level="H" class="qr-code" />
           </div>
           <div class="qr-hint">使用 <span>网易云音乐APP</span> 扫码登录</div>
+          <div class="qr-hint">ps：建议使用其他登录方式，扫码登录额外调用了加密算法，会炒鸡慢 ！</div>
         </div>
         <div v-show="isAccount">
           <el-form ref="loginForm" :model="loginForm" :rules="rules">
@@ -132,7 +134,6 @@ export default {
       isMobile: true,
       isEmail: false,
       timer: '',
-      profile: {},
       // 验证规则
       rules: {
         mobile: [
@@ -164,11 +165,15 @@ export default {
     QrcodeVue,
   },
   computed : {
-    userInfo() {
-      return this.profile.avatarUrl ? this.profile.avatarUrl : 'this.$store.state.songDetail[0].al.picUrl'
-    }
+    
   },
   methods: {
+    userImg() {
+      return window.sessionStorage.getItem('avatarUrl')
+    },
+    userName() {
+      return window.sessionStorage.getItem('nickname') ? window.sessionStorage.getItem('nickname') : '未登录'
+    },
     logoClick() {
       this.$router.push("/discovery");
     },
@@ -190,12 +195,20 @@ export default {
     },
     //退出登录
     logoutClick() {
-      logout().then(res => {
-        if (res.data.code === 200) {
-          this.$store.commit('logoutInfo')
-          return this.$message.success('退出成功')
-        }
+      this.$confirm("真的要走了吗 ？", {
+        confirmButtonText: "狠心离开",
+        cancelButtonText: "再留一会",
+        type: "warning",
       })
+        .then(() => {
+          logout().then(res => {
+            if (res.data.code === 200) {
+              window.sessionStorage.clear();
+              return this.$message.success('退出成功')
+            }
+          })
+        })
+        .catch(() => {});
     },
     // 获取二维码key
     getQrKey() {
@@ -220,8 +233,11 @@ export default {
         // console.log(res);
         if (res.data.code === 803) {
           clearInterval(this.timer);
-          this.$store.commit('loginInfo', res.data.profile)
-          // this.profile = res.data.profile
+          window.sessionStorage.setItem('cookie', res.data.cookie)
+          window.sessionStorage.setItem('token', res.data.token)
+          window.sessionStorage.setItem('avatarUrl', res.data.profile.avatarUrl)
+          window.sessionStorage.setItem('nickname', res.data.profile.nickname)
+          window.sessionStorage.setItem('userId', res.data.profile.userId)
           this.dialogVisible =false
           return this.$message.success(res.data.message)
         }
@@ -238,8 +254,11 @@ export default {
           loginMobile(this.loginForm.mobile, this.loginForm.password).then((res) => {
             // console.log(res);
             if (res.data.code !== 200) return this.$message.error('登录失败')
-            this.$store.commit('loginInfo', res.data.profile)
-            // this.profile = res.data.profile
+            window.sessionStorage.setItem('cookie', res.data.cookie)
+            window.sessionStorage.setItem('token', res.data.token)
+            window.sessionStorage.setItem('avatarUrl', res.data.profile.avatarUrl)
+            window.sessionStorage.setItem('nickname', res.data.profile.nickname)
+            window.sessionStorage.setItem('userId', res.data.profile.userId)
             this.dialogVisible =false
             return this.$message.success('登录成功')
           });
@@ -247,8 +266,11 @@ export default {
           loginEmail(this.loginForm.email, this.loginForm.password).then((res) => {
             // console.log(res);
             if (res.data.code !== 200) return this.$message.error('登录失败')
-            this.$store.commit('loginInfo', res.data.profile)
-            // this.profile = res.data.profile
+            window.sessionStorage.setItem('cookie', res.data.cookie)
+            window.sessionStorage.setItem('token', res.data.token)
+            window.sessionStorage.setItem('avatarUrl', res.data.profile.avatarUrl)
+            window.sessionStorage.setItem('nickname', res.data.profile.nickname)
+            window.sessionStorage.setItem('userId', res.data.profile.userId)
             this.dialogVisible =false
             return this.$message.success('登录成功')
           });
