@@ -28,7 +28,7 @@ export default {
   methods: {
     imgClick(item) {
       // console.log('---');
-      if (item.typeTitle == '歌单') {
+      if (item.typeTitle == '歌单' || item.typeTitle == '歌单推荐') {
         this.$router.push({
           path: "/songDetail",
           query: {
@@ -44,7 +44,7 @@ export default {
           },
         });
       }
-      else if(item.typeTitle == '热门单曲' || item.typeTitle == '新歌首发') {
+      else if(item.typeTitle == '热门单曲' || item.typeTitle == '新歌首发' || item.typeTitle == '热歌推荐') {
         getSongDetail(item.targetId).then(res => {
           // console.log(res);
           this.$store.commit("addSongDetail", res.data.songs)

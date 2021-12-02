@@ -28,8 +28,19 @@ export function getCheck(key) {
     }
   })
 }
+// 手机登录
+export function loginMobile(phone, password) {
+  return request({
+    url: "/login/cellphone",
+    method: "post",
+    data: {
+      phone,
+      password
+    }
+  })
+}
 // 邮箱登录
-export function login(email, password) {
+export function loginEmail(email, password) {
   return request({
     url: "/login",
     method: "post",
@@ -37,5 +48,11 @@ export function login(email, password) {
       email,
       password
     }
+  })
+}
+// 退出登录
+export function logout() {
+  return request({
+    url: "/logout"
   })
 }

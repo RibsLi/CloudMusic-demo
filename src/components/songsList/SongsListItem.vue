@@ -1,16 +1,25 @@
 <template>
   <div class="slide-item">
-    <img :src="imgUrl" alt=""  @click="itemClick" />
+    <img :src="imgUrl" alt="" @click="itemClick" />
     <div class="play-count" v-if="list.playCount ? true : false">
       <span class="count">
         <i class="el-icon-headset"></i>
-        {{playCount}}
+        {{ playCount }}
       </span>
     </div>
-    <span class="iconfont icon-bofang1 play" v-if="!isShow" @click="playMusic"></span>
+    <span
+      class="iconfont icon-bofang1 play"
+      v-if="!isShow"
+      @click="playMusic"
+    ></span>
     <div class="name">{{ list.name }}</div>
     <div class="author">
-      <span class="singer" v-for="item in list.artists" :key="item" @click="singerClick(item.id)">
+      <span
+        class="singer"
+        v-for="item in list.artists"
+        :key="item"
+        @click="singerClick(item.id)"
+      >
         {{ item.name }} &nbsp;
       </span>
     </div>
@@ -19,7 +28,7 @@
 
 <script>
 import { getPlaylistDetail, getSongDetail } from "network/songdetail";
-import { getAlbumContent } from "network/singer"
+import { getAlbumContent } from "network/singer";
 export default {
   name: "SongsListItem",
   props: {
@@ -35,8 +44,8 @@ export default {
       trackIds: [],
       tableData: [],
       albumIds: [],
-      albumData: []
-    }
+      albumData: [],
+    };
   },
   computed: {
     playCount() {
@@ -45,11 +54,19 @@ export default {
       return (count / 10000).toFixed(1) + "万";
     },
     imgUrl() {
-      return this.list.img1v1Url || this.list.picUrl || this.list.coverImgUrl || this.list.cover || this.list.imgurl
+      return (
+        this.list.img1v1Url ||
+        this.list.picUrl ||
+        this.list.coverImgUrl ||
+        this.list.cover ||
+        this.list.imgurl
+      );
     },
     isShow() {
-      return this.list.type == 5 || this.list.mark == 0 || this.list.subed == false
-    }
+      return (
+        this.list.type == 5 || this.list.mark == 0 || this.list.subed == false
+      );
+    },
   },
   methods: {
     // 获取歌单详情
@@ -67,7 +84,7 @@ export default {
     },
     // 获取专辑内容
     getAlbumContent() {
-      getAlbumContent(this.list.id).then(res => {
+      getAlbumContent(this.list.id).then((res) => {
         // console.log(res);
         res.data.songs.forEach((item) => {
           this.albumIds.push(item.id);
@@ -76,47 +93,45 @@ export default {
           // console.log(res);
           this.albumData.push(...res.data.songs);
         });
-      })
+      });
     },
     playMusic() {
-      if(this.list.albumSize) {
+      if (this.list.albumSize) {
         this.$router.push({
           path: "/singerDetail",
           query: {
             id: this.list.id,
           },
         });
-      }
-      else if (this.list.type == 'Single' || this.list.type == '专辑') {
+      } else if (this.list.type == "Single" || this.list.type == "专辑") {
         // console.log(this.list);
         // this.getAlbumContent()
         // this.$store.commit("addSongDetail", this.albumData)
 
-        getAlbumContent(this.list.id).then(res => {
+        getAlbumContent(this.list.id).then((res) => {
           // console.log(res);
-          const albumIds = []
+          const albumIds = [];
           res.data.songs.forEach((item) => {
             albumIds.push(item.id);
           });
           getSongDetail(albumIds).then((res) => {
             // console.log(res);
-            this.$store.commit("subSongDetail", res.data.songs)
+            this.$store.commit("subSongDetail", res.data.songs);
           });
-        })
-      }
-      else if (!this.isShow) {
+        });
+      } else if (!this.isShow) {
         // this.getPlaylistDetail()
         // this.$store.commit("addSongDetail", this.tableData)
 
         getPlaylistDetail(this.list.id).then((res) => {
           // console.log(res);
-          const trackIds = []
+          const trackIds = [];
           res.data.playlist.trackIds.forEach((item) => {
             trackIds.push(item.id);
           });
           getSongDetail(trackIds).then((res) => {
             // console.log(res);
-            this.$store.commit("subSongDetail", res.data.songs)
+            this.$store.commit("subSongDetail", res.data.songs);
           });
         });
       }
@@ -126,7 +141,7 @@ export default {
       this.$router.push({
         path: "/singerDetail",
         query: {
-          id
+          id,
         },
       });
     },
@@ -141,24 +156,21 @@ export default {
             id: this.list.id,
           },
         });
-      }
-      else if(this.list.albumSize) {
+      } else if (this.list.albumSize) {
         this.$router.push({
           path: "/singerDetail",
           query: {
             id: this.list.id,
           },
         });
-      }
-      else if(this.list.type == 'Single' || this.list.type == '专辑') {
+      } else if (this.list.type == "Single" || this.list.type == "专辑") {
         this.$router.push({
           path: "/albumDetail",
           query: {
             id: this.list.id,
           },
         });
-      }
-      else {
+      } else {
         this.$router.push({
           path: "/songDetail",
           query: {
@@ -166,7 +178,7 @@ export default {
           },
         });
       }
-    }
+    },
   },
 };
 </script>
@@ -225,8 +237,7 @@ img {
 .name {
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
+  white-space: nowrap;
   overflow: hidden;
   font-size: 14px;
   line-height: 16px;
@@ -235,6 +246,9 @@ img {
   font-size: 13px;
   color: #aaa;
   margin-top: 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .singer {
   cursor: pointer;

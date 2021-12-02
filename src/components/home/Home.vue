@@ -106,9 +106,11 @@ export default {
 .el-header {
   padding: 0;
   border-bottom: 2px solid #ff0000;
+  min-width: 1040px;
 }
 .el-footer {
   padding: 0;
+  min-width: 1040px;
 }
 // .el-input {
 // --el-input-border-radius: 5px;

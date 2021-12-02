@@ -28,6 +28,8 @@ export default createStore({
     ],
     serachData: [],
     keywords: {},
+    // 登录的用户信息
+    profile: ''
   },
   mutations,
   actions,

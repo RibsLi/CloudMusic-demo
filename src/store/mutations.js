@@ -18,6 +18,14 @@ export default {
   },
   keywords(state,payload) {
     state.keywords = payload
+  },
+  // 登录的用户信息
+  loginInfo(state, payload) {
+    state.profile = payload
+  },
+  // 退出登录时清除用户信息
+  logoutInfo(state) {
+    state.profile = ''
   }
   // addSong(state, payload) {
   //   if(payload.length > 1) {

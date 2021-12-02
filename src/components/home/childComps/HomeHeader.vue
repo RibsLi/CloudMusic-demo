@@ -27,9 +27,11 @@
     </div>
     <!-- 登录 -->
     <div class="bar-right">
+      <img :src="$store.state.profile.avatarUrl" alt="" v-if="$store.state.profile.avatarUrl">
+      <span class="login-user">{{$store.state.profile.nickname ? $store.state.profile.nickname : '未登录'}}</span>
       <el-button type="primary" size="mini" @click="loginClick">登录</el-button>
-      <el-dialog v-model="dialogVisible" width="30%">
-        <!-- <login/> -->
+      <el-button type="danger" size="mini" @click="logoutClick">退出</el-button>
+      <el-dialog v-model="dialogVisible" width="30%" @close="resetForm">
         <div class="qr-title">{{ title }}</div>
         <div v-show="isQr">
           <div class="qr-box">
@@ -110,7 +112,7 @@
 <script>
 import InputDetail from "components/input/InputDetail";
 import QrcodeVue from "qrcode.vue";
-import { getQrKey, getQrCreate, getCheck } from "network/login";
+import { getQrKey, getQrCreate, getCheck, loginMobile, loginEmail, logout } from "network/login";
 export default {
   name: "HomeHeader",
   data() {
@@ -120,16 +122,17 @@ export default {
       qrimg: "",
       qrurl: "",
       loginForm: {
-        mobile: 18888888888,
-        email: "admin@163.com",
-        password: "123456",
+        mobile: "",
+        email: "",
+        password: "",
       },
       title: "扫码登录",
       isQr: true,
       isAccount: false,
       isMobile: true,
       isEmail: false,
-      cookie: "",
+      timer: '',
+      profile: {},
       // 验证规则
       rules: {
         mobile: [
@@ -160,6 +163,11 @@ export default {
     InputDetail,
     QrcodeVue,
   },
+  computed : {
+    userInfo() {
+      return this.profile.avatarUrl ? this.profile.avatarUrl : 'this.$store.state.songDetail[0].al.picUrl'
+    }
+  },
   methods: {
     logoClick() {
       this.$router.push("/discovery");
@@ -172,13 +180,22 @@ export default {
     },
     loginClick() {
       this.dialogVisible = true;
-      this.getQrKey();
-      setTimeout(() => {
-        this.getQrCreate();
-      }, 500);
-      setTimeout(() => {
-        this.getCheck();
-      }, 10000);
+      if (this.isQr) {
+        this.getQrKey();
+        setTimeout(() => {
+          this.getQrCreate();
+        }, 500);
+        this.timer = setInterval(this.getCheck, 1000)
+      }
+    },
+    //退出登录
+    logoutClick() {
+      logout().then(res => {
+        if (res.data.code === 200) {
+          this.$store.commit('logoutInfo')
+          return this.$message.success('退出成功')
+        }
+      })
     },
     // 获取二维码key
     getQrKey() {
@@ -200,45 +217,48 @@ export default {
     // 800 为二维码过期,801 为等待扫码,802 为待确认,803 为授权登录成功(803 状态码下会返回 cookies)
     getCheck() {
       getCheck(this.unikey).then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.code === 803) {
-          this.cookie = res.data.cookie;
-          window.sessionStorage.setItem("cookie", res.data.cookie);
+          clearInterval(this.timer);
+          this.$store.commit('loginInfo', res.data.profile)
+          // this.profile = res.data.profile
+          this.dialogVisible =false
+          return this.$message.success(res.data.message)
+        }
+        else if (res.data.code === 800) {
+          clearInterval(this.timer);
+          return this.$message.error(res.data.message)
         }
       });
     },
     submitForm() {
-      // this.$refs.loginForm.validate((valid) => {
-      //   if (valid) {
-      //     // 登录请求
-      //     login(this.loginForm.email, this.loginForm.password).then(
-      //       (res) => {
-      //         // console.log(res);
-      //         if (res.data.meta.status !== 200)
-      //           return this.$message({
-      //             message: "登陆失败",
-      //             type: "error",
-      //             duration: 1000,
-      //           });
-      //         this.$message({
-      //           message: "登陆成功",
-      //           type: "success",
-      //           duration: 1000,
-      //         });
-      //         // 保存token到window.sessionStorage中
-      //         window.sessionStorage.setItem("token", res.data.data.token);
-      //         this.dialogVisible = false;
-      //       }
-      //     );
-      //   } else {
-      //     return false;
-      //   }
-      // });
+      this.$refs.loginForm.validate((valid) => {
+        if (valid && this.isMobile) {
+          // 登录请求
+          loginMobile(this.loginForm.mobile, this.loginForm.password).then((res) => {
+            // console.log(res);
+            if (res.data.code !== 200) return this.$message.error('登录失败')
+            this.$store.commit('loginInfo', res.data.profile)
+            // this.profile = res.data.profile
+            this.dialogVisible =false
+            return this.$message.success('登录成功')
+          });
+        } else if (valid && this.isEmail) {
+          loginEmail(this.loginForm.email, this.loginForm.password).then((res) => {
+            // console.log(res);
+            if (res.data.code !== 200) return this.$message.error('登录失败')
+            this.$store.commit('loginInfo', res.data.profile)
+            // this.profile = res.data.profile
+            this.dialogVisible =false
+            return this.$message.success('登录成功')
+          });
+        }
+      });
     },
-
     // 重置事件
     resetForm() {
       this.$refs.loginForm.resetFields();
+      clearInterval(this.timer);
     },
     // 切换登录方式
     qrClick() {
@@ -249,6 +269,7 @@ export default {
       setTimeout(() => {
         this.getQrCreate();
       }, 500);
+      this.timer = setInterval(this.getCheck, 1000)
     },
     mobileClick() {
       this.title = "手机登录";
@@ -256,6 +277,7 @@ export default {
       this.isMobile = true;
       this.isQr = false;
       this.isEmail = false;
+      clearInterval(this.timer);
     },
     emailClick() {
       this.title = "邮箱登录";
@@ -263,7 +285,8 @@ export default {
       this.isEmail = true;
       this.isQr = false;
       this.isMobile = false;
-    },
+      clearInterval(this.timer);
+    }
   },
 };
 </script>
@@ -282,9 +305,6 @@ export default {
   .bar-left {
     display: flex;
   }
-  .bar-right {
-    margin-right: 50px;
-  }
   .logo {
     margin: 0 22px;
     cursor: pointer;
@@ -296,6 +316,26 @@ export default {
     margin: auto 30px;
     width: 300px;
     position: relative;
+  }
+  .bar-right {
+    margin-right: 10px;
+    img {
+      width: 40px;
+      height: 40px;
+      vertical-align: middle;
+      border-radius: 50%;
+      user-select: none;
+    }
+    .login-user {
+      display: inline-block;
+      width: 100px;
+      margin:  0 10px;
+      color: #fff;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      vertical-align: middle;
+    }
   }
 }
 .btn-form {
