@@ -18,7 +18,10 @@
         <div class="comment-time">
           <div>{{ dateInfo(item.time) }}</div>
           <div>
-            <i class="iconfont icon-z-like">&nbsp;{{ item.likedCount }}</i>
+            <span>
+              <span class="iconfont icon-z-like" :class="{comlike: item.liked}" @click="comLikeClick(item.commentId)"></span>
+              {{ item.likedCount }}
+            </span>
             <i class="iconfont icon-fenxiang1"></i>
             <i class="iconfont icon-daohangpingjia"></i>
           </div>
@@ -50,6 +53,10 @@ export default {
       const data = new Date(date);
       return formatDate(data, "yyyy-MM-dd hh:mm");
     },
+    // 评论点赞
+    comLikeClick(cid) {
+      this.$emit('commentLike', cid)
+    }
   },
 };
 </script>
@@ -95,9 +102,16 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        span {
+          cursor: pointer;
+        }
         i {
           font-size: 14px;
           margin: 0 10px;
+          cursor: pointer;
+        }
+        .comlike {
+          color: #ff0000;
         }
       }
     }

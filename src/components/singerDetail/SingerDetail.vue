@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <!-- 详情头部 -->
-    <detail-header :artist="artist"/>
+    <detail-header :artist="artist" @collectClick="collectClick"/>
     <!-- tabs标签页 -->
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 歌单列表 -->
@@ -44,6 +44,7 @@ import AlbumTable from "./childComps/AlbumTable";
 import { SongsList, SongsListItem } from "components/songsList";
 // import Album from "./childComps/Album";
 import { getArtistDetail, getAlbum, getArtistMV, getArtistDesc, getSimiArtist } from "network/singer"
+import { getArtistSub } from "network/user"
 export default {
   name: "SingerDetail",
   data() {
@@ -56,6 +57,11 @@ export default {
       mvs: [],
       introduction: [],
       artists: [],
+      artistsParams: {
+        id: this.$route.query.id,
+        t: 1,
+        cookie: window.sessionStorage.getItem('cookie'),
+      }
 
     }
   },
@@ -95,7 +101,7 @@ export default {
     // 获取歌手详情
     getArtistDetail() {
       getArtistDetail(this.id).then(res => {
-        // console.log(res);
+        console.log(res);
         this.artist = res.data.data.artist
       })
     },
@@ -164,6 +170,15 @@ export default {
         this.artists = res.data.artists
       })
       this.activeName = "album"
+    },
+    // 收藏歌手
+    collectClick() {
+      getArtistSub(this.artistsParams).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          return this.$message.success('收藏成功')
+        }
+      })
     }
   },
 }

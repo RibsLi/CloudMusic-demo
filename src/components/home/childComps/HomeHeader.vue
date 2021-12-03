@@ -27,9 +27,11 @@
     </div>
     <!-- 登录 -->
     <div class="bar-right">
-      <img src="~assets/images/1.jpg" alt="" v-if="!userImg()">
-      <img :src="userImg()" alt="" v-else>
-      <span class="login-user">{{userName()}}</span>
+      <div class="user-info" @click="userInfoClick">
+        <img src="~assets/images/1.jpg" alt="" v-if="!userImg()">
+        <img :src="userImg()" alt="" v-else>
+        <span class="login-user">{{userName()}}</span>
+      </div>
       <el-button type="primary" size="mini" @click="loginClick">登录</el-button>
       <el-button type="danger" size="mini" @click="logoutClick">退出</el-button>
       <el-dialog v-model="dialogVisible" width="30%" @close="resetForm">
@@ -210,6 +212,10 @@ export default {
         })
         .catch(() => {});
     },
+    // 用户信息点击事件
+    userInfoClick() {
+      this.$router.push('/mySongs')
+    },
     // 获取二维码key
     getQrKey() {
       getQrKey().then((res) => {
@@ -341,6 +347,10 @@ export default {
   }
   .bar-right {
     margin-right: 10px;
+    .user-info {
+      display: inline-block;
+      cursor: pointer;
+    }
     img {
       width: 40px;
       height: 40px;

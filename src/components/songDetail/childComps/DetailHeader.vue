@@ -23,7 +23,7 @@
             @click="playMusic"
           ></el-button>
         </el-button-group>
-        <el-button round size="small" icon="el-icon-folder-add">收藏</el-button>
+        <el-button round size="small" icon="el-icon-folder-add" @click="collectClick">收藏</el-button>
         <el-button round size="small" icon="el-icon-share">分享</el-button>
         <el-button round size="small" icon="el-icon-download"
           >下载全部</el-button
@@ -88,6 +88,10 @@ export default {
     playMusic() {
       this.$emit('songsClick')
     },
+    // 收藏歌单
+    collectClick() {
+      this.$emit('collectClick')
+    }
   },
 };
 </script>

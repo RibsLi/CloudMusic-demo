@@ -1,17 +1,17 @@
 <template>
   <div class="mv">
-    <detail-header :mvUrl="mvUrl" :mvDetail="mvDetail" :cover="cover"/>
+    <detail-header :mvUrl="mvUrl" :mvDetail="mvDetail" :cover="cover" @collectClick="collectClick"/>
     <!-- 输入框 -->
     <el-input
       maxlength="140"
       show-word-limit
       resize="none"
-      v-model="textarea"
+      v-model="submitInfo.content"
       :autosize="{ minRows: 3, maxRows: 3 }"
       type="textarea"
       placeholder="请输入内容"
     />
-    <el-button round size="mini">评论</el-button>
+    <el-button round size="mini" @click="submitClick">评论</el-button>
     <div class="clearfix"></div>
     <!-- 精彩评论 -->
     <comment :comments="hotComments" :title="hotComments.length ? '精彩评论 ' + '(' + hotComments.length + ')' : ''" v-show="comParams.offset == 0" />
@@ -35,6 +35,7 @@ import DetailHeader from "./childComps/DetailHeader"
 import Comment from "./childComps/Comment";
 import { getMVUrl, getMVDetail, getComment, getHotComment } from "network/mv";
 import { getArtistDetail } from "network/singer";
+import { submitComment, getMVSub } from "network/user"
 export default {
   name: "MVDetail",
   data() {
@@ -43,7 +44,6 @@ export default {
       mvUrl: "",
       mvDetail: {},
       cover: "",
-      textarea: "",
       comParams: {
         id: this.$route.query.id,
         limit: 20,
@@ -53,7 +53,19 @@ export default {
       },
       hotComments: [],
       comments: [],
-      comTotal: 0
+      comTotal: 0,
+      submitInfo: {
+        id: this.$route.query.id,
+        t: 1,
+        type: 1,
+        content: '',
+        cookie: window.sessionStorage.getItem('cookie'),
+      },
+      mvSub: {
+        mvid: this.$route.query.id,
+        t: 1,
+        cookie: window.sessionStorage.getItem('cookie'),
+      }
     };
   },
   components: {
@@ -106,6 +118,27 @@ export default {
       this.comParams.pagenum = newPage
       this.comParams.offset = (newPage - 1) * this.comParams.limit;
       this.getComment();
+    },
+    // 提交评论信息
+    submitClick() {
+      if (!this.submitInfo.content) return this.$message.warning('先填写一些评论吧')
+      submitComment(this.submitInfo).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          this.getComment();
+          this.submitInfo.content = ''
+          return this.$message.success('评论成功')
+        }
+      })
+    },
+    // 收藏mv
+    collectClick() {
+      getMVSub(this.mvSub).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          return this.$message.success('收藏成功')
+        }
+      })
     }
   },
 };

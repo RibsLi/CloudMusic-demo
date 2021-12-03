@@ -16,12 +16,12 @@
           maxlength="140"
           show-word-limit
           resize="none"
-          v-model="textarea"
+          v-model="submitInfo.content"
           :autosize="{ minRows: 3, maxRows: 3 }"
           type="textarea"
           placeholder="请输入内容"
         />
-        <el-button round size="mini">评论</el-button>
+        <el-button round size="mini" @click="submitClick">评论</el-button>
         <div class="clearfix"></div>
         <!-- 精彩评论 -->
         <comment :comments="hotComments" :title="hotComments.length ? '精彩评论 ' + '(' + hotComments.length + ')' : ''" v-show="comment.offset == 0" />
@@ -65,6 +65,7 @@ import {
   getHotComment,
   getSubscribers,
 } from "network/songdetail";
+import { submitComment } from "network/user"
 import DetailHeader from "./childComps/DetailHeader";
 import TableData from "./childComps/TableData";
 import Comment from "./childComps/Comment";
@@ -74,7 +75,6 @@ export default {
   name: "MyLike",
   data() {
     return {
-      textarea: "",
       id: "",
       cookie: window.sessionStorage.getItem('cookie'),
       playlist: {},
@@ -96,6 +96,13 @@ export default {
       comTotal: 0,
       subTotal: 0,
       songsUrl: [],
+      submitInfo: {
+        id: this.$route.query.id,
+        t: 1,
+        type: 2,
+        content: '',
+        cookie: window.sessionStorage.getItem('cookie'),
+      },
     };
   },
   components: {
@@ -172,6 +179,18 @@ export default {
       this.comment.pagenum = newPage
       this.comment.offset = (newPage - 1) * this.comment.limit;
       this.getSubscribers();
+    },
+    // 提交评论信息
+    submitClick() {
+      if (!this.submitInfo.content) return this.$message.warning('先填写一些评论吧')
+      submitComment(this.submitInfo).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          this.getComment();
+          this.submitInfo.content = ''
+          return this.$message.success('评论成功')
+        }
+      })
     },
     songsClick() {
       // this.$store.commit("addSongId", this.trackIds)

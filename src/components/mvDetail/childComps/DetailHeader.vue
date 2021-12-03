@@ -25,7 +25,7 @@
             <i class="iconfont icon-z-like"></i>
             赞
           </el-button>
-          <el-button round size="mini">
+          <el-button round size="mini" @click="collectClick">
             <i class="iconfont icon-24gl-folderPlus"></i>
             收藏 ({{ mvDetail.subCount }})
           </el-button>
@@ -78,6 +78,10 @@ export default {
     backClick() {
       this.$router.back();
     },
+    // 收藏mv
+    collectClick() {
+      this.$emit('collectClick')
+    }
   },
 }
 </script>

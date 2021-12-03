@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <!-- 详情头部 -->
-    <detail-header :playlist="playlist" :creator="creator" @songsClick="songsClick" />
+    <detail-header :playlist="playlist" :creator="creator" @songsClick="songsClick" @collectClick="collectClick" />
     <!-- tabs标签页 -->
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 歌单列表 -->
@@ -16,18 +16,18 @@
           maxlength="140"
           show-word-limit
           resize="none"
-          v-model="textarea"
+          v-model="submitInfo.content"
           :autosize="{ minRows: 3, maxRows: 3 }"
           type="textarea"
           placeholder="请输入内容"
         />
-        <el-button round size="mini">评论</el-button>
+        <el-button round size="mini" @click="submitClick">评论</el-button>
         <div class="clearfix"></div>
         <!-- 精彩评论 -->
         <comment :comments="hotComments" :title="hotComments.length ? '精彩评论 ' + '(' + hotComments.length + ')' : ''" v-show="comment.offset == 0" />
         <!-- <comment :comments="hotComments" :title="hotComments.length ? '精彩评论' : ''" v-show="comment.offset == 0" /> -->
         <!-- 最新评论 -->
-        <comment :comments="comments" :title="comments.length ? '最新评论 ' + '('+ comTotal + ')' : ''" />
+        <comment :comments="comments" :title="comments.length ? '最新评论 ' + '('+ comTotal + ')' : ''" @commentLike="commentLike" />
         <!-- <comment :comments="comments" title="最新评论" /> -->
         <el-pagination
           background
@@ -66,6 +66,7 @@ import {
   getSubscribers,
   // getSongURL
 } from "network/songdetail";
+import { submitComment, commentLike, getPlaylistSub } from "network/user"
 import DetailHeader from "./childComps/DetailHeader";
 import TableData from "./childComps/TableData";
 import Comment from "./childComps/Comment";
@@ -88,7 +89,7 @@ export default {
         limit: 20,
         offset: 0,
         parentCommentId: '',
-        pagenum: 1
+        pagenum: 1,
       },
       comments: [],
       hotComments: [],
@@ -96,6 +97,25 @@ export default {
       comTotal: 0,
       subTotal: 0,
       songsUrl: [],
+      submitInfo: {
+        id: this.$route.query.id,
+        t: 1,
+        type: 2,
+        content: '',
+        cookie: window.sessionStorage.getItem('cookie'),
+      },
+      likeParams: {
+        id: this.$route.query.id,
+        t: 1,
+        type: 2,
+        cid: '',
+        cookie: window.sessionStorage.getItem('cookie'),
+      },
+      playlistSubParams: {
+        id: this.$route.query.id,
+        t: 1,
+        cookie: window.sessionStorage.getItem('cookie'),
+      }
     };
   },
   components: {
@@ -173,6 +193,31 @@ export default {
       this.comment.offset = (newPage - 1) * this.comment.limit;
       this.getSubscribers();
     },
+    // 提交评论信息
+    submitClick() {
+      if (!this.submitInfo.content) return this.$message.warning('先填写一些评论吧')
+      submitComment(this.submitInfo).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          this.getHotComment();
+          this.getComment();
+          this.submitInfo.content = ''
+          return this.$message.success('评论成功')
+        }
+      })
+    },
+    // 评论点赞
+    commentLike(cid) {
+      this.likeParams.cid = cid
+      commentLike(this.likeParams).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          this.getHotComment();
+          this.getComment();
+          return this.$message.success('点赞成功')
+        }
+      })
+    },
     songsClick() {
       // this.$store.commit("addSongId", this.trackIds)
       this.$store.commit("subSongDetail", this.tableData)
@@ -187,6 +232,15 @@ export default {
       getSongDetail(id).then(res => {
         // console.log(res);
         this.$store.commit("addSongDetail", res.data.songs)
+      })
+    },
+    // 收藏歌单
+    collectClick() {
+      getPlaylistSub(this.playlistSubParams).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          return this.$message.success('收藏成功')
+        }
       })
     }
   },

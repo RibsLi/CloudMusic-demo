@@ -66,3 +66,46 @@ export function getMvSub(cookie) {
     }
   })
 }
+// 发送/删除评论 后台更新结果很慢
+export function submitComment(params) {
+  return request({
+    url: "/comment",
+    // method: "post",
+    params
+  })
+}
+// 给评论点赞 后台更新结果很慢 只做了歌单的点赞
+export function commentLike(params) {
+  return request({
+    url: "/comment/like",
+    params
+  })
+}
+// 收藏/取消收藏歌单
+export function getPlaylistSub(params) {
+  return request({
+    url: "/playlist/subscribe",
+    params
+  })
+}
+// 收藏/取消收藏 MV
+export function getMVSub(params) {
+  return request({
+    url: "/mv/sub",
+    params
+  })
+}
+// 收藏/取消收藏专辑
+export function getAlbSub(params) {
+  return request({
+    url: "/album/sub",
+    params
+  })
+}
+// 收藏/取消收藏歌手
+export function getArtistSub(params) {
+  return request({
+    url: "/artist/sub",
+    params
+  })
+}

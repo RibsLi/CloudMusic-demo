@@ -4,7 +4,7 @@
     <div class="detail-info">
       <h3>{{ artist.name }}</h3>
       <div class="btn-box">
-        <el-button round size="small" icon="el-icon-folder-add">收藏</el-button>
+        <el-button round size="small" icon="el-icon-folder-add" @click="collectClick">收藏</el-button>
         <el-button round size="small" icon="el-icon-user">个人主页</el-button>
       </div>
       <div class="tag">
@@ -34,7 +34,10 @@ export default {
     }
   },
   methods: {
-    
+    // 收藏歌手
+    collectClick() {
+      this.$emit('collectClick')
+    }
   },
 };
 </script>

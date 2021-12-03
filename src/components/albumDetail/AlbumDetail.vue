@@ -1,7 +1,7 @@
 <template>
   <div class="album-detail">
     <!-- 详情头部 -->
-    <detail-header :album="album" :artist="artist" @songsClick="songsClick" />
+    <detail-header :album="album" :artist="artist" @songsClick="songsClick" @collectClick="collectClick" />
     <!-- tabs标签页 -->
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 歌单列表 -->
@@ -14,12 +14,12 @@
           maxlength="140"
           show-word-limit
           resize="none"
-          v-model="textarea"
+          v-model="submitInfo.content"
           :autosize="{ minRows: 3, maxRows: 3 }"
           type="textarea"
           placeholder="请输入内容"
         />
-        <el-button round size="mini">评论</el-button>
+        <el-button round size="mini" @click="submitClick">评论</el-button>
         <div class="clearfix"></div>
         <!-- 精彩评论 -->
         <comment :comments="hotComments" :title="hotComments.length ? '精彩评论 ' + '(' + hotComments.length + ')' : ''" v-show="comment.offset == 0" />
@@ -52,6 +52,7 @@ import AlbumTable from "./childComps/AlbumTable";
 import Comment from "./childComps/Comment";
 import { getAlbumContent, getAlbumComment } from "network/singer"
 import { getHotComment, getSongDetail } from "network/songdetail";
+import { submitComment, getAlbSub } from "network/user"
 export default {
   name: "AlbumDetail",
   data() {
@@ -61,7 +62,6 @@ export default {
       artist: {},
       songs: [],
       activeName: 'list',
-      textarea: '',
       comment: {
         id: this.$route.query.id,
         type: 3,
@@ -72,7 +72,19 @@ export default {
       },
       comments: [],
       hotComments: [],
-      comTotal: 0
+      comTotal: 0,
+      submitInfo: {
+        id: this.$route.query.id,
+        t: 1,
+        type: 3,
+        content: '',
+        cookie: window.sessionStorage.getItem('cookie'),
+      },
+      albumSub: {
+        id: this.$route.query.id,
+        t: 1,
+        cookie: window.sessionStorage.getItem('cookie'),
+      }
     }
   },
   components: {
@@ -128,6 +140,27 @@ export default {
       getSongDetail(id).then(res => {
         // console.log(res);
         this.$store.commit("addSongDetail", res.data.songs)
+      })
+    },
+    // 提交评论信息
+    submitClick() {
+      if (!this.submitInfo.content) return this.$message.warning('先填写一些评论吧')
+      submitComment(this.submitInfo).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          this.getAlbumComment();
+          this.submitInfo.content = ''
+          return this.$message.success('评论成功')
+        }
+      })
+    },
+    // 收藏专辑
+    collectClick() {
+      getAlbSub(this.albumSub).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          return this.$message.success('收藏成功')
+        }
       })
     }
   },
