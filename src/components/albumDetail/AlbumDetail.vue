@@ -6,7 +6,7 @@
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 歌单列表 -->
       <el-tab-pane label="歌曲列表" name="list">
-        <album-table :songs="songs" @songClick="songClick"/>
+        <album-table :songs="songs" @songClick="songClick" @likeMusic="likeMusic"/>
       </el-tab-pane>
       <el-tab-pane label="评论" name="comment">
         <!-- 输入框 -->
@@ -52,7 +52,7 @@ import AlbumTable from "./childComps/AlbumTable";
 import Comment from "./childComps/Comment";
 import { getAlbumContent, getAlbumComment } from "network/singer"
 import { getHotComment, getSongDetail } from "network/songdetail";
-import { submitComment, getAlbSub } from "network/user"
+import { submitComment, getAlbSub, getLikeMusic } from "network/user"
 export default {
   name: "AlbumDetail",
   data() {
@@ -83,6 +83,11 @@ export default {
       albumSub: {
         id: this.$route.query.id,
         t: 1,
+        cookie: window.sessionStorage.getItem('cookie'),
+      },
+      likeMusicParams: {
+        id: '',
+        like: true,
         cookie: window.sessionStorage.getItem('cookie'),
       }
     }
@@ -160,6 +165,17 @@ export default {
         // console.log(res);
         if (res.data.code === 200) {
           return this.$message.success('收藏成功')
+        }
+      })
+    },
+    // 喜欢音乐
+    likeMusic(id) {
+      // console.log(id);
+      this.likeMusicParams.id = id
+      getLikeMusic(this.likeMusicParams).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          return this.$message.success('加入喜欢音乐列表成功')
         }
       })
     }

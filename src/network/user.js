@@ -109,3 +109,18 @@ export function getArtistSub(params) {
     params
   })
 }
+// 新建歌单
+export function getCreate(params) {
+  return request({
+    url: "/playlist/create",
+    // method: "post",
+    params
+  })
+}
+// 喜欢音乐
+export function getLikeMusic(params) {
+  return request({
+    url: "/like",
+    params
+  })
+}

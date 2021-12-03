@@ -2,6 +2,7 @@
   <div class="my-songs">
     <div class="hint" v-if="!userId">您还没有登录哦，先去登录吧</div>
     <div class="hint" v-else-if="!uPlaylist.length">还没有歌单哦，快去收藏你喜欢的歌单吧</div>
+    <el-button type="primary" size="small" @click="creatClick">创建歌单</el-button>
     <div class="like-songs" v-for="item in likeSongs" :key="item">
       <img :src="item.coverImgUrl" alt="" @click="itemClick(item.id)" />
       <span
@@ -13,12 +14,37 @@
     <songs-list>
       <songs-list-item v-for="item in uPlaylist" :key="item" :list="item" />
     </songs-list>
+    <!-- 创建歌单对话框 -->
+    <el-dialog
+      v-model="playlistDialog"
+      width="50%"
+      @close="resetForm"
+    >
+      <!-- 对话框内容 -->
+      <el-form
+        ref="createPlaylist"
+        :model="createPlaylist"
+        :rules="rules"
+        status-icon
+      >
+        <el-form-item label="歌单名" prop="name">
+          <el-input v-model="createPlaylist.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <!-- 对话框底部按钮 -->
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="playlistDialog = false">取消</el-button>
+          <el-button type="primary" @click="submitForm">确认</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { SongsList, SongsListItem } from "components/songsList";
-import { getUserPlaylist } from "network/user";
+import { getUserPlaylist, getCreate } from "network/user";
 import {
   getPlaylistDetailCookie,
   getSongDetail,
@@ -34,6 +60,18 @@ export default {
       pagenum: 1,
       likeSongs: [],
       uPlaylist: [],
+      createPlaylist: {
+        name: '',
+        cookie: window.sessionStorage.getItem('cookie'),
+      },
+      playlistDialog: false,
+      rules: {
+        name: [{
+          required: true,
+          message: "请输入歌单名",
+          trigger: "blur",
+        }]
+      }
     };
   },
   components: {
@@ -88,6 +126,29 @@ export default {
           this.$store.commit("subSongDetail", res.data.songs);
         });
       });
+    },
+    // 新建歌单
+    creatClick() {
+      this.playlistDialog = true
+    },
+    // 新建歌单提交事件
+    submitForm() {
+      this.$refs.createPlaylist.validate((valid) => {
+        if (valid) {
+          getCreate(this.createPlaylist).then((res) => {
+            // console.log(res);
+            if (res.data.code === 200) {
+              this.playlistDialog = false
+              this.getUserPlaylist();
+              return this.$message.success("用户添加成功");
+            }
+          });
+        }
+      });
+    },
+    // 新建歌单重置事件
+    resetForm() {
+      this.$refs.createPlaylist.resetFields();
     }
   },
 };
@@ -108,7 +169,7 @@ export default {
 }
 .like-songs {
   width: 200px;
-  margin: 5px 0 10px;
+  margin: 15px 0 10px;
   position: relative;
   &:hover .play-like {
     color: #ff0000;

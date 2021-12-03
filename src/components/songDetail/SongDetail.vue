@@ -6,7 +6,7 @@
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 歌单列表 -->
       <el-tab-pane :label="'歌曲列表' + '('+ tableData.length + ')'" name="list">
-        <table-data :tableData="tableData" @songClick="songClick"/>
+        <table-data :tableData="tableData" @songClick="songClick" @likeMusic="likeMusic"/>
       </el-tab-pane>
       <!-- 评论 -->
       <!-- <el-tab-pane :label="'评论 ' + '('+ comTotal + ')'" name="comment"> -->
@@ -66,7 +66,7 @@ import {
   getSubscribers,
   // getSongURL
 } from "network/songdetail";
-import { submitComment, commentLike, getPlaylistSub } from "network/user"
+import { submitComment, commentLike, getPlaylistSub, getLikeMusic } from "network/user"
 import DetailHeader from "./childComps/DetailHeader";
 import TableData from "./childComps/TableData";
 import Comment from "./childComps/Comment";
@@ -114,6 +114,11 @@ export default {
       playlistSubParams: {
         id: this.$route.query.id,
         t: 1,
+        cookie: window.sessionStorage.getItem('cookie'),
+      },
+      likeMusicParams: {
+        id: '',
+        like: true,
         cookie: window.sessionStorage.getItem('cookie'),
       }
     };
@@ -240,6 +245,17 @@ export default {
         // console.log(res);
         if (res.data.code === 200) {
           return this.$message.success('收藏成功')
+        }
+      })
+    },
+    // 喜欢音乐
+    likeMusic(id) {
+      // console.log(id);
+      this.likeMusicParams.id = id
+      getLikeMusic(this.likeMusicParams).then(res => {
+        // console.log(res);
+        if (res.data.code === 200) {
+          return this.$message.success('加入喜欢音乐列表成功')
         }
       })
     }

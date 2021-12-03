@@ -15,8 +15,10 @@
       align="center"
     />
     <el-table-column prop="" label="操作" width="80">
-      <i class="iconfont icon-shoucang"></i>
-      <i class="iconfont icon-xiazai"></i>
+      <template v-slot:default="scope">
+        <i class="iconfont icon-shoucang" @click="likeMusic(scope.row.id)"></i>
+        <i class="iconfont icon-xiazai"></i>
+      </template>
     </el-table-column>
     <el-table-column prop="name" label="标题" sortable :show-overflow-tooltip="true">
       <template v-slot:default="scope">
@@ -86,6 +88,9 @@ export default {
           id
         },
       })
+    },
+    likeMusic(id) {
+      this.$emit('likeMusic', id)
     }
   },
 };
