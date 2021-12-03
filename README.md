@@ -76,3 +76,5 @@ vue3全家桶仿造易云音乐，使用了一小部分element-plus。功能可�
 ![18](https://user-images.githubusercontent.com/90769279/144597412-6d98222d-4258-46d3-9493-04c78dce1f0b.png)
 
 ![19](https://user-images.githubusercontent.com/90769279/144597415-59ba6f77-fc33-49f9-b0d3-b328218e3577.png)
+
+![20](https://user-images.githubusercontent.com/90769279/144599493-834f0c61-338f-4b91-a52d-d046b3b80754.png)
