@@ -18,6 +18,7 @@ const MVDetail = () => import("components/mvDetail/MVDetail")
 const AlbumDetail = () => import("components/albumDetail/AlbumDetail")
 const SearchDetail = () => import("components/searchDetail/SearchDetail")
 const MyLike = () => import("components/myLike/MyLike")
+const Profile = () => import("views/profile/Profile")
 
 
 const routes = [
@@ -47,6 +48,7 @@ const routes = [
       { path: "/albumDetail", component: AlbumDetail },
       { path: "/searchDetail", component: SearchDetail },
       { path: "/myLike", component: MyLike },
+      { path: "/profile", component: Profile },
     ],
   },
 ];

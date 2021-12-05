@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1638649365949') format('truetype');
+  src: url('iconfont.ttf?t=1638699303460') format('truetype');
 }
 
 .iconfont {
@@ -157,5 +157,33 @@
 
 .icon-logo-dark1-copy:before {
   content: "\e600";
+}
+
+.icon-github:before {
+  content: "\e628";
+}
+
+.icon-csdn:before {
+  content: "\e638";
+}
+
+.icon-guanyu:before {
+  content: "\e658";
+}
+
+.icon-GitHub:before {
+  content: "\e508";
+}
+
+.icon-github1:before {
+  content: "\ea0b";
+}
+
+.icon-boke:before {
+  content: "\e70e";
+}
+
+.icon-gitee:before {
+  content: "\e62c";
 }
 

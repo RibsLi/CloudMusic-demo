@@ -263,6 +263,55 @@
       "font_class": "logo-dark1-copy",
       "unicode": "e600",
       "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "1381385",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "4546550",
+      "name": "csdn",
+      "font_class": "csdn",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "9540063",
+      "name": "关于",
+      "font_class": "guanyu",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "10531659",
+      "name": "GitHub",
+      "font_class": "GitHub",
+      "unicode": "e508",
+      "unicode_decimal": 58632
+    },
+    {
+      "icon_id": "11983543",
+      "name": "github",
+      "font_class": "github1",
+      "unicode": "ea0b",
+      "unicode_decimal": 59915
+    },
+    {
+      "icon_id": "12304121",
+      "name": "博客",
+      "font_class": "boke",
+      "unicode": "e70e",
+      "unicode_decimal": 59150
+    },
+    {
+      "icon_id": "26038883",
+      "name": "gitee",
+      "font_class": "gitee",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
     }
   ]
 }

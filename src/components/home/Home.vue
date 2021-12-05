@@ -65,6 +65,7 @@ export default {
         { title: "热门歌手", path: "/singer" },
         { title: "我的歌单", path: "/mySongs" },
         { title: "我的收藏", path: "/myCollect" },
+        { title: "关于我的", path: "/profile" },
       ],
       icon: [
         "icon-logo-dark1-copy",
@@ -75,6 +76,7 @@ export default {
         "icon-geshou",
         "icon-dingdan",
         "icon-shoucang",
+        "icon-guanyu",
       ],
       isToggle: false,
       isActive: "",
