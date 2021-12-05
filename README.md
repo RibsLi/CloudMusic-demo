@@ -42,6 +42,7 @@ vue3全家桶仿造易云音乐，使用了一小部分element-plus。功能可�
   ### 详情页：
     详情页写了歌单、专辑、mv、歌手、视频详情，用户详情暂时没有加入
     详情页还加入了收藏、评论、点赞，由于后台反馈太慢了，所以只做了歌单的点赞
+  ### 简单适配移动端
   ![1](https://user-images.githubusercontent.com/90769279/144597359-8583a389-93fd-4d29-bd11-f868ba3c2e70.png)
  
 ![2](https://user-images.githubusercontent.com/90769279/144597368-eb6fa7da-645f-4dd0-a673-484119d71dec.png)
@@ -81,3 +82,12 @@ vue3全家桶仿造易云音乐，使用了一小部分element-plus。功能可�
 ![19](https://user-images.githubusercontent.com/90769279/144597415-59ba6f77-fc33-49f9-b0d3-b328218e3577.png)
 
 ![20](https://user-images.githubusercontent.com/90769279/144599493-834f0c61-338f-4b91-a52d-d046b3b80754.png)
+
+![1](https://user-images.githubusercontent.com/90769279/144729652-a88dfdf9-fdaa-4866-8b50-365964b7fbd1.png)
+![2](https://user-images.githubusercontent.com/90769279/144729653-8cfeaa10-0b5c-4771-8fd7-e0795be69c90.png)
+![3](https://user-images.githubusercontent.com/90769279/144729654-47f80f13-5299-472a-9f65-6734e1c455df.png)
+![4](https://user-images.githubusercontent.com/90769279/144729655-7b3782e0-b67d-4da9-90e0-7680acda1043.png)
+![5](https://user-images.githubusercontent.com/90769279/144729656-14d2266b-ac9b-40fc-9c37-acddf9a7cd14.png)
+![6](https://user-images.githubusercontent.com/90769279/144729657-63c2f927-8229-4961-a4a1-2dac323db9c4.png)
+![7](https://user-images.githubusercontent.com/90769279/144729658-8b93f253-2ab3-40e8-ba2e-6e7bd493f305.png)
+![8](https://user-images.githubusercontent.com/90769279/144729659-eaa94fdc-f2eb-470a-98c8-263f3b626fcb.png)
