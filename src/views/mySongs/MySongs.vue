@@ -2,7 +2,7 @@
   <div class="my-songs">
     <div class="hint" v-if="!userId">您还没有登录哦，先去登录吧</div>
     <div class="hint" v-else-if="!uPlaylist.length">还没有歌单哦，快去收藏你喜欢的歌单吧</div>
-    <el-button type="primary" size="small" @click="creatClick">创建歌单</el-button>
+    <el-button type="primary" size="small" @click="creatClick" v-if="userId">创建歌单</el-button>
     <div class="like-songs" v-for="item in likeSongs" :key="item">
       <img :src="item.coverImgUrl" alt="" @click="itemClick(item.id)" />
       <span
@@ -17,7 +17,7 @@
     <!-- 创建歌单对话框 -->
     <el-dialog
       v-model="playlistDialog"
-      width="50%"
+      :width="350"
       @close="resetForm"
     >
       <!-- 对话框内容 -->
