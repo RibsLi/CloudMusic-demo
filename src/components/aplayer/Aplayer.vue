@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="aplayer-center">
-      <audio :src="songURL" id="audio"></audio>
+      <audio :src="songURL" id="audio" autoplay></audio>
       <div class="audio-icons">
         <span @click="playTypeClick">
           <span
