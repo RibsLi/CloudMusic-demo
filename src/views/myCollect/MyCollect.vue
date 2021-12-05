@@ -104,4 +104,9 @@ export default {
   margin-top: 0;
   border-top: none
 }
+@media screen and (max-width: 414px) {
+  .slide-item {
+    width: 100%;
+  }
+}
 </style>

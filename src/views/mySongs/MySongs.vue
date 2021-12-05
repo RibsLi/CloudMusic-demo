@@ -190,12 +190,24 @@ export default {
     cursor: pointer;
   }
   .name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  font-size: 14px;
-  line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 16px;
+  }
 }
+@media screen and (max-width: 414px) {
+  .like-songs {
+    width: 160px;
+    img {
+      height: 160px;
+    }
+    .play-like {
+      top: 120px;
+      right: 10px;
+    }
+  }
 }
 </style>

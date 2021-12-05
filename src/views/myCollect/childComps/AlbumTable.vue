@@ -25,14 +25,13 @@
     <el-table-column prop="artists" label="歌手" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
         <span class="singer" @click="singerClick(scope.row.artists[0].id)">{{scope.row.artists[0].name}}</span>
-        
       </template>
     </el-table-column>
-    <el-table-column prop="publishTime" label="收藏时间" width="150">
+    <!-- <el-table-column prop="publishTime" label="收藏时间" width="150">
       <template v-slot:default="scope">
         收藏时间：{{dateInfo(scope.row.subTime)}}
       </template>
-    </el-table-column>
+    </el-table-column> -->
   </el-table>
 </template>
 

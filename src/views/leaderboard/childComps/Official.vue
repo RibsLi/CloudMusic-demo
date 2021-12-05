@@ -1,29 +1,31 @@
 <template>
   <div class="official">
     <div class="title">官方榜</div>
-    <div class="lea-box" v-for="(item, index) in toplist" :key="index">
-      <div class="lea-left">
-        <img :src="item.coverImgUrl" alt="" @click="allClick(item.id)" />
-        <span class="updata">{{ item.updateFrequency }}</span>
-        <span class="iconfont icon-bofang1 play" @click="playMusic(item.id)"></span>
-      </div>
-      <div class="lea-right">
-        <ul>
-          <li v-for="(item, index) in topSong[index]" :key="index" @dblclick="dblclick(item.id)">
-            <span class="singer" @click="dblclick(item.id)">
-              <i class="index" :style="index < 3 ? 'color: #ff0000' : ''">{{
-                index + 1
-              }}</i>
-              {{ item.name }}
-              <i class="alia">{{ item.alia[0] }}</i>
-            </span>
-            <span>
-              <span class="singer" v-for="item in item.ar" :key="item" @click="singerClick(item.id)">{{ item.name }} &nbsp;</span>
-            </span>
-          </li>
-        </ul>
-        <div class="all" @click="allClick(item.id)">
-          查看全部 <i class="el-icon-arrow-right"></i>
+    <div class="lea-out">
+      <div class="lea-box" v-for="(item, index) in toplist" :key="index">
+        <div class="lea-left">
+          <img :src="item.coverImgUrl" alt="" @click="allClick(item.id)" />
+          <span class="updata">{{ item.updateFrequency }}</span>
+          <span class="iconfont icon-bofang1 play" @click="playMusic(item.id)"></span>
+        </div>
+        <div class="lea-right">
+          <ul>
+            <li v-for="(item, index) in topSong[index]" :key="index" @dblclick="dblclick(item.id)">
+              <span class="singer" @click="dblclick(item.id)">
+                <i class="index" :style="index < 3 ? 'color: #ff0000' : ''">{{
+                  index + 1
+                }}</i>
+                {{ item.name }}
+                <i class="alia">{{ item.alia[0] }}</i>
+              </span>
+              <span>
+                <span class="singer" v-for="item in item.ar" :key="item" @click="singerClick(item.id)">{{ item.name }} &nbsp;</span>
+              </span>
+            </li>
+          </ul>
+          <div class="all" @click="allClick(item.id)">
+            查看全部 <i class="el-icon-arrow-right"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -153,6 +155,34 @@ export default {
   cursor: pointer;
   &:hover {
     color: #409eff;
+  }
+}
+@media screen and (max-width: 414px) {
+  .lea-out {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .lea-box {
+    .lea-left {
+      img {
+        width: 160px;
+        height: 160px;
+        margin-right: 0;
+      }
+      .updata {
+        left: 80px;
+        bottom: 30px;
+      }
+      .play {
+        left: 80px;
+        top: 80px;
+        font-size: 40px;
+      }
+    }
+    .lea-right {
+      display: none;
+    }
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="banners">
-    <el-carousel type="card" height="280px" v-if="banners.length>0">
+    <el-carousel type="card" height="240px" v-if="banners.length>0" :autoplay="false">
       <el-carousel-item v-for="(item, index) in banners" :key="index">
         <span class="title" :style="{ backgroundColor: item.titleColor }">
           {{ item.typeTitle }}
@@ -55,7 +55,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .el-carousel__item a img {
   width: 100%;
   height: 100%;
@@ -72,5 +72,16 @@ export default {
   padding: 5px 10px;
   text-align: center;
   border-radius: 16px 0 16px 0;
+}
+@media screen and (max-width: 414px) {
+  .banners {
+    .el-carousel__item{
+      width: 272px;
+      left: -48px;
+    }
+    .el-carousel{
+      --el-carousel-indicator-width: 25px;
+    }
+  }
 }
 </style>

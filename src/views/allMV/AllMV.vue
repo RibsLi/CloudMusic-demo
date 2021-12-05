@@ -43,6 +43,7 @@
       layout="prev, pager, next"
       :total="mvParams.total"
       @current-change="comCurrentChange"
+      :pager-count="5"
     ></el-pagination>
   </div>
 </template>
@@ -134,5 +135,10 @@ export default {
   background-color: rgba(255, 0, 0, 0.7);
   // border: 1px solid #eee;
   color: #fff !important;
+}
+@media screen and (max-width: 414px) {
+  .slide-item {
+    width: 100%;
+  }
 }
 </style>

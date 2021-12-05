@@ -269,4 +269,16 @@ img {
     color: #409eff;
   }
 }
+@media screen and (max-width: 414px) {
+  .slide-item {
+    width: 48%;
+  }
+  img {
+    height: 160px;
+  }
+  .play {
+    top: 120px;
+    right: 10px;
+  }
+}
 </style>

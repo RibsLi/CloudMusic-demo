@@ -8,26 +8,28 @@
           <img :src="creator.avatarUrl" alt="" />
           <span class="user">{{ creator.nickname }}</span>
         </span>
-        <span>{{ dateInfo(playlist.createTime) }} 创建</span>
+        <span class="creat-time">{{ dateInfo(playlist.createTime) }} 创建</span>
       </div>
       <div class="btn-box">
         <el-button-group>
-          <el-button type="primary" round size="small" icon="el-icon-video-play" @click="playMusic"
+          <el-button type="primary" round size="mini" icon="el-icon-video-play" @click="playMusic"
             >播放全部</el-button
           >
           <el-button
             type="primary"
             round
-            size="small"
+            size="mini"
             icon="el-icon-plus"
             @click="playMusic"
           ></el-button>
         </el-button-group>
-        <el-button round size="small" icon="el-icon-folder-add" @click="collectClick">收藏</el-button>
-        <el-button round size="small" icon="el-icon-share">分享</el-button>
-        <el-button round size="small" icon="el-icon-download"
-          >下载全部</el-button
-        >
+        <div class="btn-box1">
+          <el-button round size="mini" icon="el-icon-folder-add" @click="collectClick">收藏</el-button>
+          <el-button round size="mini" icon="el-icon-share">分享</el-button>
+          <el-button round size="mini" icon="el-icon-download"
+            >下载全部</el-button
+          >
+        </div>
       </div>
       <div class="tag">
         <div class="tag-item">
@@ -133,6 +135,10 @@ export default {
 }
 .btn-box {
   margin: 6px 0;
+  .btn-box1 {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 .tag {
   line-height: 25px;
@@ -146,6 +152,50 @@ export default {
       color: #409eff;
       cursor: pointer;
     }
+  }
+}
+@media screen and (max-width: 414px) {
+  .detail-header {
+    height: 160px;
+    img {
+      width: 160px;
+      height: 160px;
+      margin-right: 10px;
+    }
+  }
+  .detail-info {
+    h3 {
+      width: 165px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      overflow:hidden;
+      /*! autoprefixer: off */
+      -webkit-box-orient: vertical;
+    }
+  }
+  .create-user {
+    img {
+      width: 35px;
+      height: 35px;
+    }
+    .creat-time {
+      display: none;
+    }
+  }
+  .btn-box {
+    .btn-box1 {
+      display: none;
+    }
+  }
+  .user {
+    display: inline-block;
+    width: 110px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: middle;
   }
 }
 </style>

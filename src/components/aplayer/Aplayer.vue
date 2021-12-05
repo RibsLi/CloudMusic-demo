@@ -1,6 +1,6 @@
 <template>
   <div class="aplayer">
-    <div class="aplayer-left">
+    <div id="aplayer-left">
       <div class="left-img">
         <img :src="picUrl" alt="" />
         <span @click="imgClick">
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="aplayer-center">
-      <audio :src="songURL" id="audio" autoplay></audio>
+      <audio :src="songURL" id="audio"></audio>
       <div class="audio-icons">
         <span @click="playTypeClick">
           <span
@@ -55,15 +55,11 @@
       </div>
     </div>
     <div class="aplayer-right">
-      <span class="iconfont icon-bofangliebiao" @click="drawer = true"></span>
-      <el-drawer
-        v-model="drawer"
-        :show-close="false"
-        :with-header="false"
-        size="500px"
-      >
+      <span class="iconfont icon-bofangliebiao" @click="drawerClick"></span>
+      <div class="drawer-cover" v-show="drawer" @click="drawer=false"></div>
+      <div class="drawer-box" v-show="drawer">
         <div class="drawer-header">
-          <h3>当前播放</h3>
+          <h4>当前播放</h4>
           <div class="header-info">
             <div>总 {{ $store.state.songDetail.length }} 首</div>
             <div>
@@ -94,7 +90,7 @@
             </li>
           </ul>
         </el-scrollbar>
-      </el-drawer>
+      </div>
     </div>
     <div class="lyc-bg" v-show="isLyc">
       <div class="lyric-box">
@@ -224,6 +220,10 @@ export default {
     },
   },
   methods: {
+    // 播放列表的显示隐藏
+    drawerClick() {
+      this.drawer = !this.drawer
+    },
     // 获取音乐url
     getSongURL() {
       getSongURL(this.songId).then((res) => {
@@ -434,7 +434,9 @@ export default {
       this.audio.addEventListener("ended", this.next);
       // console.log(totalTime);
       // 获取进度条总长 - 小滑块的宽度
-      const totalX = document.getElementById("pro-bar").offsetWidth - 10;
+      const dotW = document.getElementById("bar-dot").offsetWidth
+      const aplayerW = document.getElementById("aplayer-left").offsetWidth
+      const totalX = document.getElementById("pro-bar").offsetWidth - dotW;
       // console.log(totalX);
       // 获取当前进度
       const proX = (this.currentTime / totalTime) * totalX;
@@ -449,9 +451,9 @@ export default {
       document.getElementById("bar-dot").onmousedown = () => {
         document.onmousemove = (e) => {
           // this.audio.pause();
-          const mouseX = e.clientX - 10;
+          const mouseX = e.clientX - dotW*2;
           // console.log(mouseX);
-          const barX = document.getElementById("pro-bar").offsetLeft + 230 + 10;
+          const barX = document.getElementById("pro-bar").offsetLeft + aplayerW + dotW;
           // console.log(barX);
           // 拖拽距离
           const dotX = mouseX - barX;
@@ -471,7 +473,7 @@ export default {
       };
       document.getElementById("pro-bar").onmousedown = (e) => {
         const proX = e.clientX;
-        const barX = document.getElementById("pro-bar").offsetLeft + 230 + 20;
+        const barX = document.getElementById("pro-bar").offsetLeft + aplayerW + 20;
         document.getElementById("bar-line").style.width = proX - barX + "px";
         this.audio.currentTime = ((proX - barX) / totalX) * totalTime;
       };
@@ -490,7 +492,7 @@ export default {
   height: 70px;
   box-shadow: 0 -1px 1px #aaa;
   user-select: none;
-  .aplayer-left,
+  #aplayer-left,
   .aplayer-right {
     display: flex;
     align-items: center;
@@ -534,7 +536,7 @@ export default {
           background-color: #409eff;
         }
         #bar-dot {
-          width: 10px;
+          width: 5px;
           height: 3px;
           background-color: #409eff;
           border-radius: 3px;
@@ -548,7 +550,7 @@ export default {
     }
   }
 }
-.aplayer-left .left-img {
+#aplayer-left .left-img {
   position: relative;
   &:hover {
     .img-icon {
@@ -575,7 +577,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.3);
   }
 }
-.aplayer-left {
+#aplayer-left {
   line-height: 20px;
   overflow: hidden;
 }
@@ -595,6 +597,26 @@ export default {
   &:hover {
     color: #409eff;
   }
+}
+.drawer-cover {
+  position: absolute;
+  top: 0;
+  bottom: 70px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+.drawer-box {
+  position: absolute;
+  top: 0;
+  bottom: 70px;
+  right: 0;
+  width: 460px;
+  padding: 10px;
+  overflow: hidden;
+  z-index: 100;
+  background-color: #fff;
+  box-shadow: -1px 0 1px #ddd;
 }
 .drawer-header {
   .header-info {
@@ -620,7 +642,7 @@ export default {
   font-size: 14px;
   height: 30px;
   line-height: 30px;
-  padding: 0 10px;
+  padding: 0 5px;
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
@@ -740,14 +762,12 @@ export default {
       left: -50px;
       width: 350px;
       height: 350px;
-      outline: 13px solid #E6E6FA;
-      outline-offset: -5px;
     }
     .img-bg2 {
       position: absolute;
       width: 150px;
       height: 200px;
-      top: -160px;
+      top: -150px;
       left: 90px;
       border-radius: 0;
       transition: transform 0.5s;
@@ -797,5 +817,62 @@ export default {
 }
 .active1 {
   transform: rotate(-20deg);
+}
+
+@media screen and (max-width: 414px) {
+  .aplayer {
+    #aplayer-left {
+      width: 50px;
+      .left-detail {
+        display: none;
+      }
+    }
+    .aplayer-right {
+      width: 50px;
+      justify-content: center;
+      .drawer-box {
+        width: 260px;
+        .songs-list {
+          .songs-name {
+            width: 120px;
+          }
+          .songs-singer {
+            width: 60px;
+          }
+          .songs-time {
+            width: 50px;
+          }
+        }
+      }
+    }
+    .aplayer-center {
+      span {
+        margin: 0 10px;
+      }
+    }
+    .lyc-bg {
+      .header-close {
+        display: none;
+      }
+    }
+    .mid-img {
+      display: none;
+    }
+    #lyric-text {
+      margin-left: 0;
+      width: 96vw;
+      height: 80vh;
+    }
+    .lyric-header {
+      margin-top: 0;
+      .header-ar {
+        font-size: 20px;
+      }
+    }
+    .lyric-middle {
+      margin-top: 0;
+    }
+  }
+  
 }
 </style>

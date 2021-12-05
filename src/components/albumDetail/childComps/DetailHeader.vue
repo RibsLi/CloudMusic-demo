@@ -5,22 +5,24 @@
       <h3>{{ album.name }}</h3>
       <div class="btn-box">
         <el-button-group>
-          <el-button type="primary" round size="small" icon="el-icon-video-play" @click="playMusic"
+          <el-button type="primary" round size="mini" icon="el-icon-video-play" @click="playMusic"
             >播放全部</el-button
           >
           <el-button
             type="primary"
             round
-            size="small"
+            size="mini"
             icon="el-icon-plus"
             @click="playMusic"
           ></el-button>
         </el-button-group>
-        <el-button round size="small" icon="el-icon-folder-add" @click="collectClick">收藏</el-button>
-        <el-button round size="small" icon="el-icon-share">分享</el-button>
-        <el-button round size="small" icon="el-icon-download"
-          >下载全部</el-button
-        >
+        <div class="btn-box1">
+          <el-button round size="mini" icon="el-icon-folder-add" @click="collectClick">收藏</el-button>
+          <el-button round size="mini" icon="el-icon-share">分享</el-button>
+          <el-button round size="mini" icon="el-icon-download"
+            >下载全部</el-button
+          >
+        </div>
       </div>
       <div class="tag">
         <div>歌手：<span>{{artist.name}}</span></div>
@@ -92,6 +94,10 @@ export default {
 }
 .btn-box {
   margin: 20px 0;
+  .btn-box1 {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 .tag {
   line-height: 25px;
@@ -101,6 +107,23 @@ export default {
     color: #409eff;
     cursor: pointer;
   }
-  
+}
+@media screen and (max-width: 414px) {
+  .detail-header {
+    height: 160px;
+    img {
+      width: 160px;
+      height: 160px;
+      margin-right: 10px;
+    }
+    .el-button {
+      padding: 5px 8px;
+    }
+    .btn-box {
+      .btn-box1 {
+        display: none;
+      }
+    }
+  }
 }
 </style>

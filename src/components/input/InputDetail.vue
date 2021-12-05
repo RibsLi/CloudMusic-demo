@@ -318,4 +318,10 @@ export default {
 .iconfont {
   margin-right: 5px;
 }
+@media screen and (max-width: 414px) {
+  .input-query {
+    // width: 300px;
+    left: -36px;
+  }
+}
 </style>

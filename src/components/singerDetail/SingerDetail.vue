@@ -223,4 +223,15 @@ export default {
 .el-tabs {
   margin-top: 15px;
 }
+@media screen and (max-width: 414px) {
+  .slide-item {
+    width: 100%;
+  }
+  .simi-item {
+    img {
+      width: 160px;
+      height: 160px;
+    }
+  }
+}
 </style>

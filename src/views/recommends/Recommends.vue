@@ -18,7 +18,7 @@
       <!-- 歌单分类列表对话框 -->
       <el-popover placement="bottom-start" :width="800" trigger="hover">
         <template #reference>
-          <el-button round size="small"
+          <el-button round size="mini"
             >全部歌单<i class="el-icon-arrow-right"></i
           ></el-button>
         </template>
@@ -123,6 +123,7 @@
       layout="prev, pager, next"
       :total="total"
       @current-change="comCurrentChange"
+      :pager-count="5"
     ></el-pagination>
   </div>
 </template>
@@ -247,9 +248,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.el-button {
-  margin: 20px 0 16px;
-}
 .recommends {
   position: relative;
   .rec-header {
@@ -305,8 +303,10 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
   .cate-ul {
     display: flex;
+    flex-wrap: wrap;
     font-size: 14px;
     li {
       margin: 0 5px;
@@ -365,5 +365,20 @@ export default {
 .slide {
   margin-top: 0;
   border-top: 0;
+}
+@media screen and (max-width: 414px) {
+  .cate-box {
+    .cate-ul {
+      margin-left: 10px;
+      li {
+        padding: 3px 8px;
+        margin: 0;
+        text-align: center;
+      }
+    }
+    .el-button {
+      padding: 5px 8px;
+    }
+  }
 }
 </style>

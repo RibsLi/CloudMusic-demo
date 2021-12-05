@@ -47,6 +47,7 @@
       layout="prev, pager, next"
       :total="singerParams.total"
       @current-change="comCurrentChange"
+      :pager-count="5"
     ></el-pagination>
   </div>
 </template>
@@ -152,5 +153,17 @@ export default {
   background-color: rgba(255, 0, 0, 0.7);
   // border: 1px solid #eee;
   color: #fff !important;
+}
+@media screen and (max-width: 414px) {
+  .cate-list {
+    font-size: 12px;
+    span {
+      width: 48px;
+      margin: 0;
+    }
+    .filter {
+      min-width: 36px;
+    }
+  }
 }
 </style>

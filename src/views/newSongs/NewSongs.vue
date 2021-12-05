@@ -26,7 +26,7 @@
         <el-button type="primary" size="mini" round icon="el-icon-video-play" @click="playMusic"
           >播放全部</el-button
         >
-        <el-button size="mini" round icon="el-icon-folder-add"
+        <el-button size="mini" round icon="el-icon-folder-add" class="btn"
           >收藏全部</el-button
         >
       </div>
@@ -161,6 +161,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
+  margin-top: 10px;
   .cate-left {
     display: flex;
     li {
@@ -176,6 +177,20 @@ export default {
       background-color: rgba(255, 0, 0, 0.7);
       border-radius: 10px;
       color: #fff !important;
+    }
+  }
+}
+@media screen and (max-width: 414px) {
+  .cate {
+    .cate-left {
+      li {
+        padding: 3px 8px;
+        margin: 0;
+        text-align: center;
+      }
+    }
+    .btn {
+      display: none;
     }
   }
 }

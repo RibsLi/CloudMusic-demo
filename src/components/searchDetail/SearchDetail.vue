@@ -172,4 +172,9 @@ export default {
   margin-top: 0px;
   border-top: 0;
 }
+@media screen and (max-width: 414px) {
+  .slide-item {
+    width: 100%;
+  }
+}
 </style>

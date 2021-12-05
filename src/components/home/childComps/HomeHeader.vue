@@ -1,6 +1,7 @@
 <template>
   <div class="top-bar">
     <div class="bar-left">
+      <span class="iconfont icon-liebiao top-menu" @click="menuClick"></span>
       <div class="logo" @click="logoClick">
         <img src="~assets/images/logo.png" alt="" />
       </div>
@@ -32,9 +33,9 @@
         <img :src="userImg()" alt="" v-else>
         <span class="login-user">{{userName()}}</span>
       </div>
-      <el-button type="primary" size="mini" @click="loginClick">登录</el-button>
-      <el-button type="danger" size="mini" @click="logoutClick">退出</el-button>
-      <el-dialog v-model="dialogVisible" width="30%" @close="resetForm">
+      <el-button type="primary" size="mini" v-if="!userImg()" @click="loginClick">登录</el-button>
+      <el-button type="danger" size="mini" @click="logoutClick" v-else>退出</el-button>
+      <el-dialog v-model="dialogVisible" :width="350" @close="resetForm">
         <div class="qr-title">{{ title }}</div>
         <div v-show="isQr">
           <div class="qr-box">
@@ -195,6 +196,10 @@ export default {
         this.timer = setInterval(this.getCheck, 1000)
       }
     },
+    // 菜单显示
+    menuClick() {
+      this.$emit("showMenu")
+    },
     //退出登录
     logoutClick() {
       this.$confirm("真的要走了吗 ？", {
@@ -333,6 +338,12 @@ export default {
   .bar-left {
     display: flex;
   }
+  .top-menu {
+    display: none;
+    margin-left: 10px;
+    font-size: 30px;
+    color: #fff;
+  }
   .logo {
     margin: 0 22px;
     cursor: pointer;
@@ -401,5 +412,31 @@ export default {
   width: 240px;
   margin: 0 auto;
   margin-top: 50px;
+}
+@media screen and (max-width: 414px) {
+  .top-bar {
+    .top-menu {
+      display: block;
+    }
+    .logo, .box-icon {
+      display: none;
+    }
+    .search {
+      width: 130px;
+      margin: auto 10px;
+    }
+    .bar-right {
+      img {
+        width: 30px;
+        height: 30px;
+      }
+      .login-user {
+        width: 70px;
+      }
+      .el-button {
+        padding: 5px 8px;
+      }
+    }
+  }
 }
 </style>

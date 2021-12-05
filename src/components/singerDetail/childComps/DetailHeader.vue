@@ -4,8 +4,8 @@
     <div class="detail-info">
       <h3>{{ artist.name }}</h3>
       <div class="btn-box">
-        <el-button round size="small" icon="el-icon-folder-add" @click="collectClick">收藏</el-button>
-        <el-button round size="small" icon="el-icon-user">个人主页</el-button>
+        <el-button round size="mini" icon="el-icon-folder-add" @click="collectClick">收藏</el-button>
+        <el-button round size="mini" icon="el-icon-user">个人主页</el-button>
       </div>
       <div class="tag">
         <span>单曲数：{{artist.musicSize}}</span>
@@ -63,6 +63,19 @@ export default {
   color: rgb(94, 91, 91);
   span {
     margin-right: 20px;
+  }
+}
+@media screen and (max-width: 414px) {
+  .detail-header {
+    height: 160px;
+    img {
+      width: 160px;
+      height: 160px;
+      margin-right: 10px;
+    }
+    .el-button {
+      padding: 5px 8px;
+    }
   }
 }
 </style>

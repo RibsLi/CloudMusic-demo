@@ -1,10 +1,10 @@
 <template>
   <el-container>
     <el-header>
-      <home-header />
+      <home-header @showMenu="showMenu"/>
     </el-header>
     <el-container>
-      <el-aside :width="isToggle ? '64px' : '150px'">
+      <el-aside :width="isToggle ? '64px' : '130px'" v-show="isMenu">
         <div class="toggle" @click="toggleClick">
           <div v-show="!isToggle" class="is-toggle">
             <i class="el-icon-arrow-left"></i>
@@ -39,11 +39,13 @@
       </el-aside>
       <el-main>
         <router-view />
+        <div class="menu-cover" @click="showMenu" v-show="isCover"></div>
       </el-main>
     </el-container>
     <el-footer height="70px">
       <aplayer />
     </el-footer>
+    
   </el-container>
 </template>
 
@@ -76,6 +78,8 @@ export default {
       ],
       isToggle: false,
       isActive: "",
+      isMenu: true,
+      isCover: true
     };
   },
   components: {
@@ -95,6 +99,11 @@ export default {
     saveStateClick(activePath) {
       window.sessionStorage.setItem("activePath", activePath);
     },
+    // 显示菜单
+    showMenu() {
+      this.isMenu = !this.isMenu
+      this.isCover = !this.isCover
+    }
   },
 };
 </script>
@@ -102,6 +111,7 @@ export default {
 <style lang="less" scoped>
 .el-container {
   height: 100vh;
+  overflow: hidden;
 }
 .el-header {
   padding: 0;
@@ -119,7 +129,6 @@ export default {
   font-size: 16px;
 }
 .el-aside {
-  // margin-top: 2px;
   background-color: #3a3d44;
   .toggle {
     background-color: #67676b;
@@ -148,6 +157,15 @@ export default {
   height: 85vh;
   overflow-y: scroll;
 }
+.menu-cover {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 9;
+}
 .is-toggle i:nth-child(1) {
   animation: animat 1s linear 0.3s infinite;
 }
@@ -174,4 +192,23 @@ export default {
 .no-toggle i:nth-child(3) {
   animation: animat 1s linear 0.3s infinite;
 }
+
+@media screen and (max-width: 414px) {
+  .el-aside {
+    // display: none;
+    position: absolute;
+    left: 0;
+    top: 60px;
+    bottom: 70px;
+    z-index: 10;
+  }
+  .el-header, .el-main, .el-footer {
+    min-width: 375px;
+    max-width: 414px;
+  }
+  .menu-cover {
+    display: block;
+  }
+}
+
 </style>

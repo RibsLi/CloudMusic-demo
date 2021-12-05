@@ -166,4 +166,16 @@ export default {
 .title {
   cursor: pointer;
 }
+@media screen and (max-width: 414px) {
+  .slide-item {
+    width: 100%;
+  }
+  .cate-left {
+    li {
+      line-height: 25px;
+      margin: 0;
+      padding: 0 8px;
+    }
+  }
+}
 </style>

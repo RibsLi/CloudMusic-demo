@@ -26,6 +26,7 @@
       layout="prev, pager, next"
       :total="comTotal"
       @current-change="comCurrentChange"
+      :pager-count="5"
     ></el-pagination>
   </div>
 </template>

@@ -143,4 +143,23 @@ export default {
   text-indent: 28px;
   line-height: 30px;
 }
+@media screen and (max-width: 414px) {
+  .detail-left {
+    .video-box video {
+      height: 188px;
+    }
+    .author {
+      height: 50px;
+        img {
+          width: 50px;
+          height: 50px;
+        }
+    }
+    .btn {
+      .el-button {
+        margin: 5px;
+      }
+    }
+  }
+}
 </style>

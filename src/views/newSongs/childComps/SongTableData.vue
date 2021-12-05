@@ -14,6 +14,7 @@
       label=" "
       header-align="center"
       align="center"
+      width="40"
     />
     <el-table-column prop="name" label="标题" :show-overflow-tooltip="true">
       <template v-slot:default="scope">
@@ -37,7 +38,7 @@
         </span>
       </template>
     </el-table-column>
-    <el-table-column prop="duration" label="时间" width="100">
+    <el-table-column prop="duration" label="时间" width="55">
       <template v-slot:default="scope">
         {{ playTime(scope.row.duration) }}
       </template>

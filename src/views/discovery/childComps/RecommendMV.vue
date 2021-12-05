@@ -45,4 +45,9 @@ export default {
 .slide-item {
   width: 415px;
 }
+@media screen and (max-width: 414px) {
+  .slide-item {
+    width: 100%;
+  }
+}
 </style>

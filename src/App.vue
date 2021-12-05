@@ -7,7 +7,7 @@
 <style lang="less">
 .el-pagination {
   position: relative;
-  bottom: 0;
+  bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
   display: inline-block;
