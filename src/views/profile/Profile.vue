@@ -3,12 +3,13 @@
     <div class="top-info">
       <p>Welcome</p>
       <p>谢谢你长的那么好看还来看我</p>
-      <p>源码在<a href="https://github.com"> Github </a>都能找到</p>
+      <p>源码都在我的<a href="https://github.com/RibsLi"> Github </a></p>
     </div>
     <div class="pro-span">
-      <span><a href="https://github.com/RibsLi/CloudMusic-demo">网易云音乐源码</a></span>
-      <span><a href="https://github.com/RibsLi/SuperMall-demo">coderwhy的蘑菇街源码</a></span>
-      <span><a href="https://github.com/RibsLi/vue-Admin-demo">电商后台管理系统源码</a></span>
+      <div class="pro-nav">个人项目推荐</div>
+      <span><a href="https://github.com/RibsLi/CloudMusic-demo">网易云音乐</a></span>
+      <span><a href="https://github.com/RibsLi/SuperMall-demo">coderwhy的蘑菇街</a></span>
+      <span><a href="https://github.com/RibsLi/vue-Admin-demo">电商后台管理系统</a></span>
     </div>
     <ul class="pro-ul">
       <li>
@@ -68,6 +69,10 @@ export default {
     }
   }
   .pro-span {
+    .pro-nav {
+      font-weight: 600;
+      line-height: 30px;
+    }
     span {
       margin: 0 10px;
       line-height: 30px;

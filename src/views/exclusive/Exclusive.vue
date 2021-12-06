@@ -13,6 +13,7 @@
       layout="prev, pager, next"
       :total="1000"
       @current-change="comCurrentChange"
+      :pager-count="5"
     ></el-pagination>
   </div>
 </template>
@@ -64,5 +65,10 @@ export default {
 .slide {
   margin-top: 0;
   border-top: 0;
+}
+@media screen and (max-width: 414px) {
+  .slide-item {
+    width: 100%;
+  }
 }
 </style>
