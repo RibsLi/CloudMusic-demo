@@ -1,6 +1,6 @@
 <template>
   <div class="banners">
-    <el-carousel type="card" height="240px" v-if="banners.length>0" :autoplay="false">
+    <el-carousel type="card" height="240px" v-if="banners.length>0">
       <el-carousel-item v-for="(item, index) in banners" :key="index">
         <span class="title" :style="{ backgroundColor: item.titleColor }">
           {{ item.typeTitle }}
