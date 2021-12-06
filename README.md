@@ -1,28 +1,3 @@
-# cloudmusic2.0
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
 vue3全家桶仿造易云音乐，使用了一小部分element-plus。功能可以说是目前做的比较全的了。脚手架是4.x的
 
 小菜鸡花了半个月自己写的，还有很多问题处理的不好，还望大牛们不吝赐教
