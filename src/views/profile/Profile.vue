@@ -9,7 +9,7 @@
       <div class="pro-nav">个人项目推荐</div>
       <span><a href="https://github.com/RibsLi/CloudMusic-demo">网易云音乐</a></span>
       <span><a href="https://github.com/RibsLi/SuperMall-demo">coderwhy的蘑菇街</a></span>
-      <span><a href="https://github.com/RibsLi/vue-Admin-demo">电商后台管理系统</a></span>
+      <span><a href="https://www.istage.xyz">电商后台管理系统</a></span>
     </div>
     <ul class="pro-ul">
       <li>
